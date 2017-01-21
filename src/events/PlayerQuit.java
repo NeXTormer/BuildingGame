@@ -7,9 +7,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import game.Game;
 
 public class PlayerQuit implements Listener {
-	
-	int peter;
-	
+		
 	private Game game;
 	
 	public PlayerQuit(Game game)
