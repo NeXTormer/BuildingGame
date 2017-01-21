@@ -8,7 +8,7 @@ import game.Game;
 
 public class PlayerJoin implements Listener
 {
-
+	//dies ist ein test
 	private Game game;
 	
 	public PlayerJoin(Game game)
