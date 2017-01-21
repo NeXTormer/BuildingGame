@@ -21,6 +21,7 @@ public class Main extends JavaPlugin {
 		playerquitevent = new PlayerQuit(game);
 		System.out.println("peter rendl");
 		
+		System.out.println("peter");
 		pluginmanager.registerEvents(playerjoinevent, this);
 		pluginmanager.registerEvents(playerquitevent, this);
 	}

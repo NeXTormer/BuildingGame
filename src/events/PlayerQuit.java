@@ -8,6 +8,7 @@ import game.Game;
 
 public class PlayerQuit implements Listener {
 	
+	int peter;
 	
 	private Game game;
 	
