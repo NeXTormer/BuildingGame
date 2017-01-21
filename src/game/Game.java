@@ -10,7 +10,7 @@ public class Game {
 	public static String prefix = "§1§ll§r§9 BuildingGame§1§l>> §r§7";
 	
 	private List<Player> players = new ArrayList<>();
-	
+	public boolean inProgress = true;
 	
 	public Game()
 	{
@@ -18,9 +18,17 @@ public class Game {
 	}
 	
 	
-	public void start()
+	public void start(Player p)
 	{
-		
+		if((players.size() >= 2) && players.size() <=16)
+		{
+			inProgress = true;
+		//voting	
+		}
+		else
+		{
+			p.sendMessage(prefix + "Ungueltige Spieleranzahl (2 - 16 Spieler)");
+		}
 	}
 	
 	public void addPlayer(Player p)
@@ -31,6 +39,10 @@ public class Game {
 		}
 		else
 		{
+			if(inProgress)
+			{
+				p.kickPlayer(prefix + "Das Spiel laeuft bereits");
+			}
 			players.add(p);
 			p.sendMessage(prefix + "Du bist dem Spiel beigetreten");
 		}
