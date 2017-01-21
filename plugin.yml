@@ -1,0 +1,12 @@
+name: BuildingGame
+version: 1.0
+author: NeXTormer, GameZter
+description: Building Game
+
+
+main: Main
+
+commands:
+  pvp:
+    description: PvP Command!
+    usage: /pvp <args> <args> 
