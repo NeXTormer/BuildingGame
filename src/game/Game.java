@@ -24,7 +24,7 @@ import static org.bukkit.Bukkit.getScheduler;
 
 public class Game {
 	
-	public static String prefix = "Â§1Â§llÂ§rÂ§9 BuildingGameÂ§1Â§l>> Â§rÂ§7";
+	public static String prefix = "§1§ll§r§9 BuildingGame§1§l>> §r§7";
 
 	public Plugin plugin;
 
@@ -50,6 +50,7 @@ public class Game {
 	public FileConfiguration themesCfg = YamlConfiguration.loadConfiguration(themesFile);
 
 	public Location lobbyLocation;
+	public int max;
 
 
 	private	int voteTimer = 10;
@@ -128,10 +129,28 @@ public class Game {
 
 		buildingTime = 60 * 5;
 
+		scoreboard = Bukkit.getServer().getScoreboardManager().getNewScoreboard();
+		bgObjective = scoreboard.registerNewObjective("BuildingGame", "dummy");
+		bgObjective.setDisplayName("§9    - BuildingGame -    ");
+		bgObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+		Score score2 = bgObjective.getScore("§6Thema:");
+		score2.setScore(6);
+		Score score3 = bgObjective.getScore("§7" + finalTheme);
+		score3.setScore(5);
+		Score score4 = bgObjective.getScore(" ");
+		score4.setScore(4);
+		Score score5 = bgObjective.getScore("§6Zeit:");
+		score5.setScore(3);
+		timeScore = bgObjective.getScore("");
+		timeScore.setScore(2);
+		
+
+		
 		for (int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
 			p.teleport(plotSpawns[i].getSpawnLocation());
-			p.sendMessage(prefix + "Das Thema ist Â§6" + finalTheme);
+			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme +"§r§7 ("+max+" Stimme(n))");
 			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
 			p.setGameMode(GameMode.CREATIVE);
 			p.setFlying(true);
@@ -140,22 +159,7 @@ public class Game {
 		}
 
 
-		scoreboard = Bukkit.getServer().getScoreboardManager().getNewScoreboard();
-		bgObjective = scoreboard.registerNewObjective("BuildingGame", "dummy");
-		bgObjective.setDisplayName("Â§9    - BuildingGame -    ");
-		bgObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
-
-		Score score2 = bgObjective.getScore("Â§6Thema:");
-		score2.setScore(6);
-		Score score3 = bgObjective.getScore("Â§7" + finalTheme);
-		score3.setScore(5);
-		Score score4 = bgObjective.getScore(" ");
-		score4.setScore(4);
-		Score score5 = bgObjective.getScore("Â§6Zeit:");
-		score5.setScore(3);
-		timeScore = bgObjective.getScore("Â§7");
-		timeScore.setScore(2);
-
+		
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
@@ -277,12 +281,12 @@ public class Game {
 	{
 		themes = themesCfg.getList("themes");
 		votes = new int[themes.size()];
-		votingInventory = Bukkit.createInventory(null, 36, "Â§6Â§lThemen");
+		votingInventory = Bukkit.createInventory(null, 36, "§6§lThemen");
 		for(int i = 0; i < themes.size(); i++)
 		{
 			ItemStack is = new ItemStack(Material.PAPER);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName("Â§7" + themes.get(i));
+			im.setDisplayName("§7" + themes.get(i));
 //			List<String> lore = new ArrayList<>();
 //			lore.add("");
 //			im.setLore(lore);
@@ -295,7 +299,7 @@ public class Game {
 
 	private String calculateFinalTheme()
 	{
-		int max = 0;
+		max = 0;
 		int maxindex = 42;
 		for(int i = 0; i < themes.size(); i++)
 		{
@@ -314,17 +318,19 @@ public class Game {
 
 	private void updateScoreboard()
 	{
+		System.out.println(currentBuildingtime);
+		scoreboard.resetScores(currentBuildingtime);
 		buildingTime--;
 		if(buildingTime < 0)
 		{
 
 
 		}
-
-		scoreboard.resetScores(currentBuildingtime);
-		currentBuildingtime = (buildingTime / 60) + ":" + buildingTime % 60;
-		timeScore = bgObjective.getScore("Â§7" + currentBuildingtime);
+		currentBuildingtime = "§7" + buildingTime / 60 + ":" + buildingTime % 60;
+		System.out.println(currentBuildingtime);
+		timeScore = bgObjective.getScore(currentBuildingtime);
 		timeScore.setScore(2);
+
 
 	}
 
