@@ -110,3 +110,4 @@ local.properties
 # Code Recommenders
 .recommenders/
 *.class
+.idea/workspace.xml
