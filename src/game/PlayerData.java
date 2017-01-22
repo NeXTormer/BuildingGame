@@ -6,7 +6,6 @@ package game;
 public class PlayerData {
 
     public int plotnumber = Integer.MAX_VALUE;
-    public boolean hasVoted = false;
 
 
 
