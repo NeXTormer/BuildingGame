@@ -30,7 +30,7 @@ public class BGCommand implements CommandExecutor {
 				}
 				if(args[0].equalsIgnoreCase("debug"))
 				{
-					p.sendMessage(game.playerplots.toString());
+					p.sendMessage(game.playerdata.toString());
 					p.sendMessage(game.gamestate.toString());
 				}
 				if(args[0].equalsIgnoreCase("mode"))

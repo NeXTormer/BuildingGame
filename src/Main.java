@@ -1,3 +1,4 @@
+import events.ChestEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,21 +17,25 @@ public class Main extends JavaPlugin {
 	PlayerJoin playerjoinevent;
 	PlayerQuit playerquitevent;
 	BlockEvents blockevents;
+	ChestEvents chestevents;
 	
 	BGCommand bgcommand;
 	
 	public void onEnable()
 	{
-		game = new Game();
+		game = new Game(this);
 		playerjoinevent = new PlayerJoin(game);
 		playerquitevent = new PlayerQuit(game);
 		blockevents = new BlockEvents(game);
+		chestevents = new ChestEvents(game);
+
 		bgcommand = new BGCommand(game);
 		
 		pluginmanager.registerEvents(playerjoinevent, this);
 		pluginmanager.registerEvents(playerquitevent, this);
 		pluginmanager.registerEvents(blockevents, this);
-		
+		pluginmanager.registerEvents(chestevents, this);
+
 		getCommand("bg").setExecutor(bgcommand);
 		
 	}

@@ -1,10 +1,16 @@
 package game;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,56 +22,77 @@ import java.util.Map;
 public class Game {
 	
 	public static String prefix = "§1§ll§r§9 BuildingGame§1§l>> §r§7";
-	
+
+	public Plugin plugin;
+
 	public List<Player> players = new ArrayList<>();
 	
 	public Plot[] plotSpawns = new Plot[16];
-	
 
-	public Map<String, Integer> playerplots = new HashMap<>();
+	public Map<Player, PlayerData> playerdata = new HashMap<>();
 	
 	public boolean inProgress = false;
 	public boolean globalBuildMode = false;
 	public GameState gamestate = GameState.LOBBY;
-	
+	public Inventory votingInventory;
+
 	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
 	public FileConfiguration locationCfg = YamlConfiguration.loadConfiguration(locationsFile);
-	
-	
+
+	public File themesFile = new File("plugins/BuildingGame", "themes.yml");
+	public FileConfiguration themesCfg = YamlConfiguration.loadConfiguration(themesFile);
+
 	public Location lobbyLocation;
-	
-	public Game()
+
+
+	private	int voteTimer = 10;
+
+
+	public Game(Plugin plugin)
 	{
 		lobbyLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
 		loadLocations();
 		setConfigDefaults();
 		loadPlots();
-		
+		loadBuildThemes();
+		this.plugin = plugin;
 	}
 	
 	
-	public void start(Player p)
-	{
-		if((players.size() >= 2) && players.size() <=16)
-		{
+	public void start(Player p) {
+		if ((players.size() >= 2) && players.size() <= 16) {
 			inProgress = true;
-			//voting	
-			gamestate = GameState.VOTING;
-			
-			gamestate = GameState.BUILDING;
-			for(int i = 0; i < players.size(); i++)
-			{
-				players.get(i).teleport(plotSpawns[i].getSpawnLocation());
-				players.get(i).playSound(p.getLocation(), "random.levelup", 1.0f, 1.0f);
 
-			}
-		}
-		else
-		{
+			startVoting();
+
+		} else {
 			p.sendMessage(prefix + "Ungueltige Spieleranzahl (2 - 16 Spieler)");
 		}
 	}
-	
+
+	private void startVoting()
+	{
+		gamestate = GameState.VOTING;
+		for(Player p : players)
+		{
+			p.setGameMode(GameMode.ADVENTURE);
+			p.openInventory(votingInventory);
+
+
+		}
+	}
+
+	private void startBuilding()
+	{
+
+		gamestate = GameState.BUILDING;
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).teleport(plotSpawns[i].getSpawnLocation());
+			players.get(i).playSound(players.get(i).getLocation(), "random.levelup", 1.0f, 1.0f);
+
+		}
+	}
+
 	public void addPlayer(Player p)
 	{
 		if(players.contains(p))
@@ -81,6 +108,7 @@ public class Game {
 			else
 			{
 				players.add(p);
+				playerdata.put(p, new PlayerData());
 				p.sendMessage(prefix + "Du bist dem Spiel beigetreten");
 				p.teleport(lobbyLocation);
 			}
@@ -172,6 +200,28 @@ public class Game {
 		
 		
 	}
+
+	private void loadBuildThemes()
+	{
+		List<?> themes;
+		themes = themesCfg.getList("themes");
+
+		votingInventory = Bukkit.createInventory(null, 36, "§6§lThemen");
+		for(int i = 0; i < themes.size(); i++)
+		{
+			ItemStack is = new ItemStack(Material.PAPER);
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName("§7" + (String) themes.get(i));
+//			List<String> lore = new ArrayList<>();
+//			lore.add("");
+//			im.setLore(lore);
+
+			is.setItemMeta(im);
+
+			votingInventory.addItem(is);
+		}
+	}
+
 	
 
 }

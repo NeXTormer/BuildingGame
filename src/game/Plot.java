@@ -1,15 +1,17 @@
 package game;
 
-import java.awt.Rectangle;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.awt.*;
+
 public class Plot {
 
-	Location originLocation = new Location(Bukkit.getWorld("BuildingGame"), 1, 1, 1);
-	Location spawnLocation = new Location(Bukkit.getWorld("BuildingGame"), 1, 1, 1);
+	public Location originLocation = new Location(Bukkit.getWorld("BuildingGame"), 1, 1, 1);
+	public Location spawnLocation = new Location(Bukkit.getWorld("BuildingGame"), 1, 1, 1);
+
+	//public Player p;
 
 	public Plot(double x, double y, double z)
 	{
