@@ -23,6 +23,11 @@ public class ChestEvents implements Listener {
         if(game.gamestate == GameState.VOTING)
         {
             e.setCancelled(true);
+            if(e.getInventory().getTitle().equals(game.votingInventory.getTitle())) {
+                if (e.getRawSlot() > game.themes.size() - 1) return;
+                game.votes[e.getRawSlot()]++;
+                e.getWhoClicked().closeInventory();
+            }
         }
     }
 

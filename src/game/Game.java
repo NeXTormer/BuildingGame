@@ -1,9 +1,6 @@
 package game;
 
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -18,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.bukkit.Bukkit.getScheduler;
 
 public class Game {
 	
@@ -35,6 +34,10 @@ public class Game {
 	public boolean globalBuildMode = false;
 	public GameState gamestate = GameState.LOBBY;
 	public Inventory votingInventory;
+	public int[] votes;
+	public List<?> themes;
+
+
 
 	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
 	public FileConfiguration locationCfg = YamlConfiguration.loadConfiguration(locationsFile);
@@ -46,6 +49,7 @@ public class Game {
 
 
 	private	int voteTimer = 10;
+	
 
 
 	public Game(Plugin plugin)
@@ -60,7 +64,8 @@ public class Game {
 	
 	
 	public void start(Player p) {
-		if ((players.size() >= 2) && players.size() <= 16) {
+		if(inProgress) return;
+		if ((players.size() >= 1) && players.size() <= 16) {
 			inProgress = true;
 
 			startVoting();
@@ -77,18 +82,46 @@ public class Game {
 		{
 			p.setGameMode(GameMode.ADVENTURE);
 			p.openInventory(votingInventory);
-
-
+			p.setLevel(10);
 		}
+
+		final int votingTimerTask;
+		votingTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+			@Override
+			public void run() {
+				for(Player p : players)
+				{
+					p.setLevel(p.getLevel() - 1);
+					if(p.getLevel() <= 3)
+					{
+						p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1.0f, 1.0f);
+					}
+				}
+			}
+		}, 0, 20);
+
+		getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			@Override
+			public void run() {
+				Bukkit.getScheduler().cancelTask(votingTimerTask);
+				startBuilding();
+			}
+		}, 20 * 10);
+
+
 	}
 
 	private void startBuilding()
 	{
-
+		String finalTheme = calculateFinalTheme();
 		gamestate = GameState.BUILDING;
 		for (int i = 0; i < players.size(); i++) {
-			players.get(i).teleport(plotSpawns[i].getSpawnLocation());
-			players.get(i).playSound(players.get(i).getLocation(), "random.levelup", 1.0f, 1.0f);
+			Player p = players.get(i);
+			p.teleport(plotSpawns[i].getSpawnLocation());
+			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme);
+			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+			p.setGameMode(GameMode.CREATIVE);
+			p.setFlying(true);
 
 		}
 	}
@@ -203,15 +236,14 @@ public class Game {
 
 	private void loadBuildThemes()
 	{
-		List<?> themes;
 		themes = themesCfg.getList("themes");
-
+		votes = new int[themes.size()];
 		votingInventory = Bukkit.createInventory(null, 36, "§6§lThemen");
 		for(int i = 0; i < themes.size(); i++)
 		{
 			ItemStack is = new ItemStack(Material.PAPER);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName("§7" + (String) themes.get(i));
+			im.setDisplayName("§7" + themes.get(i));
 //			List<String> lore = new ArrayList<>();
 //			lore.add("");
 //			im.setLore(lore);
@@ -220,6 +252,25 @@ public class Game {
 
 			votingInventory.addItem(is);
 		}
+	}
+
+	private String calculateFinalTheme()
+	{
+		int max = 0;
+		int maxindex = 42;
+		for(int i = 0; i < themes.size(); i++)
+		{
+			if(votes[i] > max) {
+				max = votes[i];
+				maxindex = i;
+			}
+		}
+		return (String) themes.get(maxindex);
+	}
+
+	private void cancelScheduler(int id)
+	{
+		Bukkit.getScheduler().cancelTask(id);
 	}
 
 	
