@@ -1,0 +1,12 @@
+name: BuildingGame
+version: 1.0
+author: NeXTormer, GameZter
+description: Building Game
+
+
+main: Main
+
+commands:
+  bg:
+    description: Standard BuildingGame Befehl
+    usage: /bg <args> <args> 

@@ -1,11 +1,10 @@
 package commands;
 
+import game.Game;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import game.Game;
 
 public class BGCommand implements CommandExecutor {
 	
@@ -34,6 +33,12 @@ public class BGCommand implements CommandExecutor {
 					p.sendMessage(game.playerplots.toString());
 					p.sendMessage(game.gamestate.toString());
 				}
+				if(args[0].equalsIgnoreCase("mode"))
+				{
+					game.globalBuildMode = !game.globalBuildMode;
+					p.sendMessage(game.prefix + "Der Globale Baumodus wurde §6" + (game.globalBuildMode ? "aktiviert" : "deaktiviert"));
+				}
+
 			}
 			else if(args.length == 2)
 			{
@@ -47,7 +52,7 @@ public class BGCommand implements CommandExecutor {
 		}
 		
 		
-		return false;
+		return true;
 	}
 
 

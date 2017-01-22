@@ -1,23 +1,21 @@
 package game;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Statistic;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 public class Game {
 	
-	public static String prefix = "§1§ll§r§9 BuildingGame§1§l>> §r§7";
+	public static String prefix = "Â§1Â§llÂ§rÂ§9 BuildingGameÂ§1Â§l>> Â§rÂ§7";
 	
 	public List<Player> players = new ArrayList<>();
 	
@@ -57,8 +55,9 @@ public class Game {
 			gamestate = GameState.BUILDING;
 			for(int i = 0; i < players.size(); i++)
 			{
-				playerplots.put(p.getUniqueId().toString(), i); //not working
 				players.get(i).teleport(plotSpawns[i].getSpawnLocation());
+				players.get(i).playSound(p.getLocation(), "random.levelup", 1.0f, 1.0f);
+
 			}
 		}
 		else
