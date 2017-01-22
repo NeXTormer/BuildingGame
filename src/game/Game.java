@@ -52,8 +52,8 @@ public class Game {
 	public Location lobbyLocation;
 	public int max;
 
-
 	private	int voteTimer = 10;
+	private int buildingTimerScheduler;
 	private Scoreboard scoreboard;
 	private Objective bgObjective;
 	private Score timeScore;
@@ -149,6 +149,7 @@ public class Game {
 		
 		for (int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
+			plotSpawns[i].setOwner(p);
 			p.teleport(plotSpawns[i].getSpawnLocation());
 			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme +"§r§7 ("+max+" Stimme(n))");
 			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
@@ -160,13 +161,14 @@ public class Game {
 
 
 		
-
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+		final int buildingTimerTask;
+		buildingTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
 			public void run() {
 				updateScoreboard();
 			}
 		}, 0, 20);
+		buildingTimerScheduler = buildingTimerTask;
 	}
 
 	public void addPlayer(Player p)
@@ -323,15 +325,26 @@ public class Game {
 		buildingTime--;
 		if(buildingTime < 0)
 		{
-
-
+			gamestate = gamestate.GRADING;
+			startGrading();
 		}
-		currentBuildingtime = "§7" + buildingTime / 60 + ":" + buildingTime % 60;
+		currentBuildingtime = "§7§l" + buildingTime / 60 + ":" + buildingTime % 60;
 		System.out.println(currentBuildingtime);
 		timeScore = bgObjective.getScore(currentBuildingtime);
 		timeScore.setScore(2);
 
 
+	}
+	
+	private void startGrading()
+	{
+		Bukkit.getScheduler().cancelTask(buildingTimerScheduler);
+		 
+	}
+	
+	private void gradePlot(int id)
+	{
+		
 	}
 
 	

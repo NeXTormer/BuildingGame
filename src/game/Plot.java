@@ -10,8 +10,9 @@ public class Plot {
 
 	public Location originLocation = new Location(Bukkit.getWorld("BuildingGame"), 1, 1, 1);
 	public Location spawnLocation = new Location(Bukkit.getWorld("BuildingGame"), 1, 1, 1);
+	
 
-	//public Player p;
+	public Player p;
 
 	public Plot(double x, double y, double z)
 	{
@@ -48,8 +49,15 @@ public class Plot {
 	
 	public Player getOwner()
 	{
-		return null;
+		return p;
 	}
+	
+	public void setOwner(Player player)
+	{
+		this.p = player;
+	}
+	
+	
 	
 	
 }
