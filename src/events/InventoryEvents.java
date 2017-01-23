@@ -34,11 +34,12 @@ public class InventoryEvents implements Listener {
         }
         else if (game.gamestate == GameState.GRADING)
         {
+            e.setCancelled(true);
         	if(e.getInventory().getName().equals(game.gradingInventories.get(p))) //if the clicked inventory is a grading inventory
         	{
         		if(true)//check which item has been clicked and set the rating per plot accordingly
         		{
-        			game.plotSpawns[game.gradingCurrentPlotId].addGradeCreativity(1111);
+        			game.plotSpawns[game.gradingCurrentPlotId].addGradeCreativity(1111); //add modularity
         		}
         		
         	}
