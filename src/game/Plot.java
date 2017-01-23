@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Plot {
 
@@ -14,7 +15,14 @@ public class Plot {
 
 	public Player p;
 	
-	private int gradeCreativity, gradeLooking, gradeFitting;
+	private int finalGradeCreativity;
+	private int finalGradeLook;
+	private int finalGradeFitting;
+	
+	private ArrayList<Integer> gradesCreativity = new ArrayList<>();
+	private ArrayList<Integer> gradesLook= new ArrayList<>();
+	private ArrayList<Integer> gradesFitting = new ArrayList<>();
+	
 
 	public Plot(double x, double y, double z)
 	{
@@ -59,30 +67,57 @@ public class Plot {
 		this.p = player;
 	}
 
-	public int getGradeCreativity() {
-		return gradeCreativity;
-	}
-
-	public void setGradeCreativity(int gradeCreativity) {
-		this.gradeCreativity = gradeCreativity;
-	}
-
-	public int getGradeLooking() {
-		return gradeLooking;
-	}
-
-	public void setGradeLooking(int gradeLooking) {
-		this.gradeLooking = gradeLooking;
-	}
-
-	public int getGradeFitting() {
-		return gradeFitting;
-	}
-
-	public void setGradeFitting(int gradeFitting) {
-		this.gradeFitting = gradeFitting;
+	public void addGradeCreativity(int g)
+	{
+		gradesCreativity.add(g);
 	}
 	
+	public void addGradeFitting(int g)
+	{
+		gradesFitting.add(g);
+	}
+	
+	public void addGradeLook(int g)
+	{
+		gradesLook.add(g);
+	}
+	
+	public void calculateFinalGrade()
+	{
+		finalGradeCreativity = 0;
+		finalGradeLook = 0;
+		finalGradeFitting = 0;
+		
+		for(int i : gradesCreativity)
+		{
+				finalGradeCreativity += i;
+		}
+		
+		for(int i : gradesLook)
+		{
+				finalGradeLook += i;
+		}
+		
+		for(int i : gradesFitting)
+		{
+				finalGradeFitting += i;
+		}	
+	}
+	
+	public int getFinalCreativityGrade()
+	{
+		return finalGradeCreativity;
+	}
+	
+	public int getFinalFittingGrade()
+	{
+		return finalGradeFitting;
+	}
+	
+	public int getFinalLookGrade()
+	{
+		return finalGradeLook;
+	}
 	
 	
 	

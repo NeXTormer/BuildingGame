@@ -2,6 +2,8 @@ package events;
 
 import game.Game;
 import game.GameState;
+
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -20,6 +22,7 @@ public class InventoryEvents implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
+    	Player p = (Player) e.getWhoClicked();
         if(game.gamestate == GameState.VOTING)
         {
             e.setCancelled(true);
@@ -28,6 +31,17 @@ public class InventoryEvents implements Listener {
                 game.votes[e.getRawSlot()]++;
                 e.getWhoClicked().closeInventory();
             }
+        }
+        else if (game.gamestate == GameState.GRADING)
+        {
+        	if(e.getInventory().getName().equals(game.gradingInventories.get(p))) //if the clicked inventory is a grading inventory
+        	{
+        		if(true)//check which item has been clicked and set the rating per plot accordingly
+        		{
+        			game.plotSpawns[game.gradingCurrentPlotId].setGradeCreativity(1111);
+        		}
+        		
+        	}
         }
     }
 

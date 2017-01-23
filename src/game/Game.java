@@ -42,9 +42,9 @@ public class Game {
 	
 	public boolean inProgress = false;
 	public boolean globalBuildMode = false;
-	public GameState gamestate = GameState.LOBBY;
-	public Inventory votingInventory;
-	public int[] votes;
+	public GameState gamestate = GameState.LOBBY; //default gamestate
+	public Inventory votingInventory; //voting inventory preset
+	public int[] votes; //theme votes
 	public List<?> themes;
 	public Map<OfflinePlayer, Score> buildingScoreboard = new HashMap<>();
 	public Map<Player, Inventory> gradingInventories = new HashMap<>();
@@ -57,7 +57,8 @@ public class Game {
 	public FileConfiguration themesCfg = YamlConfiguration.loadConfiguration(themesFile);
 
 	public Location lobbyLocation;
-	public int max;
+	public int max; //max number of votes in VOTING phase
+	public int gradingCurrentPlotId; //current plot id which is in the grading progress (GameState.GRADING)
 
 	private	int voteTimer = 10;
 	private int buildingTimerScheduler;
@@ -372,7 +373,8 @@ public class Game {
 		while(it.hasNext())
 		{
 			Map.Entry<Player, Inventory> entry = (Map.Entry<Player, Inventory>) it.next();
-			Inventory i = entry.getValue();\
+			Inventory i = entry.getValue();
+			
 			
 			//fill inventory
 		}
