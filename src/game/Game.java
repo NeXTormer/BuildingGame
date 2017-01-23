@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -363,6 +364,20 @@ public class Game {
 	{
 		
 		
+	}
+	
+	private void resetVotingInterfaces()
+	{
+		Iterator it = gradingInventories.entrySet().iterator();
+		while(it.hasNext())
+		{
+			Map.Entry<Player, Inventory> entry = (Map.Entry<Player, Inventory>) it.next();
+			Inventory i = entry.getValue();\
+			
+			//fill inventory
+		}
+
+	
 	}
 
 	

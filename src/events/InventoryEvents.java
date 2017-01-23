@@ -9,10 +9,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 /**
  * Created by Iris on 22-Jan-17.
  */
-public class ChestEvents implements Listener {
+public class InventoryEvents implements Listener {
 
     private Game game;
-    public ChestEvents(Game game)
+    public InventoryEvents(Game game)
     {
         this.game = game;
     }

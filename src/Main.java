@@ -1,4 +1,4 @@
-import events.ChestEvents;
+import events.InventoryEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,7 +17,7 @@ public class Main extends JavaPlugin {
 	PlayerJoin playerjoinevent;
 	PlayerQuit playerquitevent;
 	BlockEvents blockevents;
-	ChestEvents chestevents;
+	InventoryEvents chestevents;
 	
 	BGCommand bgcommand;
 	
@@ -27,7 +27,7 @@ public class Main extends JavaPlugin {
 		playerjoinevent = new PlayerJoin(game);
 		playerquitevent = new PlayerQuit(game);
 		blockevents = new BlockEvents(game);
-		chestevents = new ChestEvents(game);
+		chestevents = new InventoryEvents(game);
 
 		bgcommand = new BGCommand(game);
 		
