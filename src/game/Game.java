@@ -394,13 +394,7 @@ public class Game {
 		while(it.hasNext())
 		{
 			Map.Entry<Player, Inventory> entry = (Map.Entry<Player, Inventory>) it.next();
-<<<<<<< HEAD
 			Inventory i = entry.getValue();
-			
-=======
-			
-			Inventory i = entry.getValue();
->>>>>>> origin/master
 			
 			//fill inventory
 			i.setItem(10, optikIS);
