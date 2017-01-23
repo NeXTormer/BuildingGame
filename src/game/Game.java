@@ -372,7 +372,7 @@ public class Game {
 		while(it.hasNext())
 		{
 			Map.Entry<Player, Inventory> entry = (Map.Entry<Player, Inventory>) it.next();
-			Inventory i = entry.getValue();\
+			Inventory i = entry.getValue();
 			
 			//fill inventory
 		}
