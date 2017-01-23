@@ -46,6 +46,7 @@ public class Game {
 	public int[] votes;
 	public List<?> themes;
 	public Map<OfflinePlayer, Score> buildingScoreboard = new HashMap<>();
+	public Map<Player, Inventory> gradingInventories = new HashMap<>();
 
 
 	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
