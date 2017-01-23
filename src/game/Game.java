@@ -368,16 +368,90 @@ public class Game {
 	
 	private void resetVotingInterfaces()
 	{
+		//Create Items
+		ItemStack optikIS = createItemStack(Material.DIAMOND, "§6Optik", "§7Bewerte, wie gut das Gebaute aussieht");
+		ItemStack stimmigkeitIS = createItemStack(Material.SIGN, "§6Stimmigkeit", "§7Bewerten, ob das Gebaute zum Thema passt");
+		ItemStack kreativitaetIS = createItemStack(Material.EMERALD, "§6Kreativitaet", "§7Bewerte, wie Kreativ das Gebaute umgesetzt wurde");
+		ItemStack sehrGutGIS = createItemStackColor(Material.STAINED_GLASS, 1, (short) 13, "§2Sehr Gut", "");
+		ItemStack gutGIS = createItemStackColor(Material.STAINED_GLASS, 1,(short) 5, "§aGut", "");
+		ItemStack mittelGIS = createItemStackColor(Material.STAINED_GLASS, 1,(short) 4, "§eMittel", "");
+		ItemStack schlechtGIS = createItemStackColor(Material.STAINED_GLASS, 1, (short)1, "§6Schlecht", "");
+		ItemStack sehrSchlechtGIS = createItemStackColor(Material.STAINED_GLASS, 1, (short)14, "§4Sehr Schlecht", "");
+		ItemStack nichtBewertetGIS = createItemStackColor(Material.STAINED_GLASS, 1, (short)0, "§fNicht bewertet", "");
+		ItemStack bewertungAbschliessenIS = createItemStack(Material.EMERALD_BLOCK, "§2Bewertung abschliessen", "");
+		
+		ItemStack sehrGutCIS = createItemStackColor(Material.STAINED_CLAY, 1, (short) 13, "§2Sehr Gut", "");
+		ItemStack gutCIS = createItemStackColor(Material.STAINED_CLAY, 1,(short) 5, "§aGut", "");
+		ItemStack mittelCIS = createItemStackColor(Material.STAINED_CLAY, 1,(short) 4, "§eMittel", "");
+		ItemStack schlechtCIS = createItemStackColor(Material.STAINED_CLAY, 1, (short)1, "§6Schlecht", "");
+		ItemStack sehrSchlechtCIS = createItemStackColor(Material.STAINED_CLAY, 1, (short)14, "§4Sehr Schlecht", "");
+		ItemStack nichtBewertetCIS = createItemStackColor(Material.STAINED_CLAY, 1, (short)0, "§fNicht bewertet", "");
+		
+		
+		
 		Iterator it = gradingInventories.entrySet().iterator();
 		while(it.hasNext())
 		{
 			Map.Entry<Player, Inventory> entry = (Map.Entry<Player, Inventory>) it.next();
+			
 			Inventory i = entry.getValue();
 			
 			//fill inventory
+			i.setItem(10, optikIS);
+			i.setItem(11, sehrGutGIS);
+			i.setItem(12, gutGIS);
+			i.setItem(13, mittelGIS);
+			i.setItem(14, schlechtGIS);
+			i.setItem(15, sehrSchlechtGIS);
+			i.setItem(16, nichtBewertetGIS);
+			
+			i.setItem(19, kreativitaetIS);
+			i.setItem(20, sehrGutGIS);
+			i.setItem(21, gutGIS);
+			i.setItem(22, mittelGIS);
+			i.setItem(23, schlechtGIS);
+			i.setItem(24, sehrSchlechtGIS);
+			i.setItem(25, nichtBewertetGIS);
+			
+			i.setItem(28, stimmigkeitIS);
+			i.setItem(29, sehrGutGIS);
+			i.setItem(30, gutGIS);
+			i.setItem(31, mittelGIS);
+			i.setItem(32, schlechtGIS);
+			i.setItem(33, sehrSchlechtGIS);
+			i.setItem(34, nichtBewertetGIS);
+			
+			i.setItem(48, bewertungAbschliessenIS);
+			i.setItem(49, bewertungAbschliessenIS);
+			i.setItem(50, bewertungAbschliessenIS);
+			
+			
 		}
 
 	
+	}
+	
+	private ItemStack createItemStack(Material material, String name, String lore)
+	{
+		ItemStack is = new ItemStack(material);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName(name);
+		List<String> loreText = new ArrayList<>();
+		loreText.add(lore);
+		im.setLore(loreText);
+		is.setItemMeta(im);
+		return is;
+	}
+	private ItemStack createItemStackColor(Material material, int amount, short damage, String name, String lore)
+	{
+		ItemStack is = new ItemStack(material, amount, damage);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName(name);
+		List<String> loreText = new ArrayList<>();
+		loreText.add(lore);
+		im.setLore(loreText);
+		is.setItemMeta(im);
+		return is;
 	}
 
 	
