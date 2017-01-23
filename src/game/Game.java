@@ -1,6 +1,20 @@
 package game;
 
-import org.bukkit.*;
+import static org.bukkit.Bukkit.getScheduler;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -12,15 +26,6 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.bukkit.Bukkit.getScheduler;
 
 public class Game {
 	
@@ -339,11 +344,23 @@ public class Game {
 	private void startGrading()
 	{
 		Bukkit.getScheduler().cancelTask(buildingTimerScheduler);
+		ItemStack is = new ItemStack(Material.PRISMARINE_SHARD);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName("§6§lBewerten");
+		List<String> lore = new ArrayList<>();
+		lore.add("§7Rechtsklicke um das Plot zu bewerten");
+		im.setLore(lore);
+		is.setItemMeta(im);
+		for(Player p : players)
+		{
+			p.getInventory().setItem(4, is);
+		}
 		 
 	}
 	
 	private void gradePlot(int id)
 	{
+		
 		
 	}
 
