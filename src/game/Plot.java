@@ -13,6 +13,8 @@ public class Plot {
 	
 
 	public Player p;
+	
+	private int gradeCreativity, gradeLooking, gradeFitting;
 
 	public Plot(double x, double y, double z)
 	{
@@ -56,6 +58,32 @@ public class Plot {
 	{
 		this.p = player;
 	}
+
+	public int getGradeCreativity() {
+		return gradeCreativity;
+	}
+
+	public void setGradeCreativity(int gradeCreativity) {
+		this.gradeCreativity = gradeCreativity;
+	}
+
+	public int getGradeLooking() {
+		return gradeLooking;
+	}
+
+	public void setGradeLooking(int gradeLooking) {
+		this.gradeLooking = gradeLooking;
+	}
+
+	public int getGradeFitting() {
+		return gradeFitting;
+	}
+
+	public void setGradeFitting(int gradeFitting) {
+		this.gradeFitting = gradeFitting;
+	}
+	
+	
 	
 	
 	
