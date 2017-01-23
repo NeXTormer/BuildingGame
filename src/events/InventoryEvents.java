@@ -38,7 +38,7 @@ public class InventoryEvents implements Listener {
         	{
         		if(true)//check which item has been clicked and set the rating per plot accordingly
         		{
-        			game.plotSpawns[game.gradingCurrentPlotId].setGradeCreativity(1111);
+        			game.plotSpawns[game.gradingCurrentPlotId].addGradeCreativity(1111);
         		}
         		
         	}
