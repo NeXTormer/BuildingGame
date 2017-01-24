@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -343,6 +344,7 @@ public class Game {
 		}
 		if(buildingTime <= 0)
 		{
+			
 			gamestate = gamestate.GRADING;
 			startGrading();
 		}
@@ -362,6 +364,17 @@ public class Game {
 	
 	private void startGrading()
 	{
+		Iterator<Entry<Player, VotingInventory>> it = gradingInventories.entrySet().iterator();
+		while(it.hasNext())
+		{
+			Entry<Player, VotingInventory> entry = it.next();
+			
+			
+			
+			entry.getValue().resetInventory();
+		}
+		
+		
 		Bukkit.getScheduler().cancelTask(buildingTimerScheduler);
 		ItemStack is = new ItemStack(Material.PRISMARINE_SHARD);
 		ItemMeta im = is.getItemMeta();

@@ -38,7 +38,7 @@ public class InventoryEvents implements Listener {
         else if (game.gamestate == GameState.GRADING)
         {
             e.setCancelled(true);
-        	if(e.getInventory().getName().equals(game.gradingInventories.get(p).inv.getName())) //if the clicked inventory is a grading inventory
+        	//9if(e.getInventory().getName().equals(game.gradingInventories.get(p).inv.getName())) //if the clicked inventory is a grading inventory
         	{
         		if(e.getRawSlot() == 59 || e.getRawSlot() == 58 || e.getRawSlot() == 57)
         		{
