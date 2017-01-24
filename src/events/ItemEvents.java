@@ -35,7 +35,7 @@ public class ItemEvents implements Listener {
 				{
 					Player p = e.getPlayer();
 					p.closeInventory();
-					p.openInventory(game.gradingInventories.get(p));
+					p.openInventory(game.gradingInventories.get(p).inv);
 				}
 			}
 		}
