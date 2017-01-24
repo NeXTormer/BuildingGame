@@ -30,7 +30,7 @@ public class InventoryEvents implements Listener {
             if(e.getInventory().getTitle().equals(game.votingInventory.getTitle())) {
                 if (e.getRawSlot() > game.themes.size() - 1) return;
                 game.votes[e.getRawSlot()]++;
-                p.sendMessage(game.prefix + "Du hast fuer das Thema §6§l" + game.themes.get(e.getRawSlot()) + "§r§7 abgestimmt");
+                p.sendMessage(game.playerprefix + "Du hast fuer das Thema §6§l" + game.themes.get(e.getRawSlot()) + "§r§7 abgestimmt");
                 p.playSound(p.getLocation(), Sound.BURP, 1, 1);
                 e.getWhoClicked().closeInventory();
             }
@@ -43,7 +43,7 @@ public class InventoryEvents implements Listener {
         		if(e.getRawSlot() == 59 || e.getRawSlot() == 58 || e.getRawSlot() == 57)
         		{
         			p.closeInventory();
-        			p.sendMessage(game.prefix + "Deine Bewertung wurde gespeichert");
+        			p.sendMessage(game.playerprefix + "Deine Bewertung wurde gespeichert");
         			return;
         		}
         		

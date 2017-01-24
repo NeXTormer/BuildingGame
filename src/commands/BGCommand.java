@@ -39,6 +39,7 @@ public class BGCommand implements CommandExecutor {
 					game.globalBuildMode = !game.globalBuildMode;
 					p.sendMessage(game.prefix + "Der Globale Baumodus wurde §6" + (game.globalBuildMode ? "aktiviert" : "deaktiviert"));
 				}
+				
 
 			}
 			else if(args.length == 2)
@@ -46,6 +47,11 @@ public class BGCommand implements CommandExecutor {
 				if(args[0].equalsIgnoreCase("tp"))
 				{
 					p.teleport(game.plotSpawns[Integer.valueOf(args[1])].getSpawnLocation());
+					return true;
+				}
+				if(args[0].equalsIgnoreCase("setTime"))
+				{
+					game.buildingTime = Integer.valueOf(args[1]);
 					return true;
 				}
 			}

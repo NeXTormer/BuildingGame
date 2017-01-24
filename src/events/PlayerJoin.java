@@ -18,6 +18,7 @@ public class PlayerJoin implements Listener
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e)
     {
+    	//e.getPlayer().getInventory().clear();
     	game.addPlayer(e.getPlayer());
     }
 

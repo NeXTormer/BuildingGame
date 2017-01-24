@@ -31,6 +31,7 @@ import org.bukkit.scoreboard.Scoreboard;
 public class Game {
 	
 	public static String prefix = "§1§ll§r§9 BuildingGame§1§l>> §r§7";
+	public static String playerprefix = "§2§ll§r§a BuildingGame§2>> §r§7";
 
 	public Plugin plugin;
 
@@ -65,7 +66,7 @@ public class Game {
 	private Scoreboard scoreboard;
 	private Objective bgObjective;
 	private Score timeScore;
-	private int buildingTime;
+	public int buildingTime = 60 * 5;
 	private String currentBuildingtime = "";
 	private String finalTheme;
 
@@ -134,9 +135,6 @@ public class Game {
 		finalTheme = calculateFinalTheme();
 		gamestate = GameState.BUILDING;
 
-
-		buildingTime = 60 * 5;
-
 		scoreboard = Bukkit.getServer().getScoreboardManager().getNewScoreboard();
 		bgObjective = scoreboard.registerNewObjective("BuildingGame", "dummy");
 		bgObjective.setDisplayName("§9    - BuildingGame -    ");
@@ -157,10 +155,18 @@ public class Game {
 		
 		for (int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
+			p.setLevel(buildingTime);
 			plotSpawns[i].setOwner(p);
 			p.teleport(plotSpawns[i].getSpawnLocation());
 			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme +"§r§7 ("+max+" Stimme(n))");
-            p.sendTitle("§7Thema: §6§l" + finalTheme, "§7Noch §65 §7Minuten verbleiben");
+			if(buildingTime%60>9)
+			{
+				p.sendTitle("§7Thema: §6§l" + finalTheme, "§7Noch §6 "+(buildingTime / 60 + ":" + buildingTime % 60)+" §7Minuten verbleiben");
+			}
+			else
+			{
+				p.sendTitle("§7Thema: §6§l" + finalTheme, "§7Noch §6 "+(buildingTime / 60 + ":0" + buildingTime % 60)+" §7Minuten verbleiben");
+			}
 			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
 			p.setGameMode(GameMode.CREATIVE);
 			p.setFlying(true);
@@ -329,16 +335,25 @@ public class Game {
 
 	private void updateScoreboard()
 	{
-		System.out.println(currentBuildingtime);
 		scoreboard.resetScores(currentBuildingtime);
 		buildingTime--;
-		if(buildingTime < 0)
+		for(Player p : players)
+		{
+			if(buildingTime<=10) p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1.0f, 1.0f);
+		}
+		if(buildingTime <= 0)
 		{
 			gamestate = gamestate.GRADING;
 			startGrading();
 		}
-		currentBuildingtime = "§7§l" + buildingTime / 60 + ":" + buildingTime % 60;
-		System.out.println(currentBuildingtime);
+		if(buildingTime%60>9)
+		{
+			currentBuildingtime = "§7§l" + buildingTime / 60 + ":" + buildingTime % 60;
+		} 
+		else
+		{
+			currentBuildingtime = "§7§l" + buildingTime / 60 + ":0" + buildingTime % 60;
+		}
 		timeScore = bgObjective.getScore(currentBuildingtime);
 		timeScore.setScore(2);
 
@@ -357,6 +372,7 @@ public class Game {
 		is.setItemMeta(im);
 		for(Player p : players)
 		{
+			p.getInventory().clear();
 			p.getInventory().setItem(4, is);
 		}
 		
