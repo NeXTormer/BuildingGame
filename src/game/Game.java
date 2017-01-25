@@ -60,7 +60,7 @@ public class Game {
 	public Map<Player, VotingInventory> gradingInventories = new HashMap<>();
 
 	public int gradingNameRevealTime = 5;
-	public int buildingTime = 60 * 5;
+	public int buildingTime = 13;
 
 	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
 	public FileConfiguration locationCfg = YamlConfiguration.loadConfiguration(locationsFile);

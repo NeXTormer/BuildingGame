@@ -31,7 +31,7 @@ public class ItemEvents implements Listener {
 		{
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
 			{
-				if(e.getMaterial().equals(Material.PRISMARINE_SHARD))
+				//if(e.getMaterial().equals(Material.PRISMARINE_SHARD))
 				{
 					Player p = e.getPlayer();
 					p.closeInventory();
