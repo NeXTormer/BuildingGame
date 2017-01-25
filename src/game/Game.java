@@ -29,6 +29,12 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
+import game.EndReason;
+import game.GameState;
+import game.PlayerData;
+import game.Plot;
+import game.VotingInventory;
+
 public class Game {
 	
 	public static String prefix = "§1§ll§r§9 BuildingGame§1§l>> §r§7";
@@ -389,6 +395,7 @@ public class Game {
 			entry.getValue().resetInventory();
 		}
 		
+		scoreboard.resetScores("§70:00");
 		scoreboard.resetScores(currentBuildingtime);
 		scoreboard.resetScores("§6Zeit:");
 		Score scoreErbauer = bgObjective.getScore("§6Erbauer:");

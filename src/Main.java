@@ -47,7 +47,7 @@ public class Main extends JavaPlugin {
 	public void onDisable()
 	{
 		String worldName = (String) game.locationCfg.get("locations.lobby.world");
-		Bukkit.unloadWorld(worldName, false);
+		//Bukkit.unloadWorld(worldName, false);
 		File worldFile = new File(worldName);
 		worldFile.delete();
 		File srcDir = new File("backupWorld");
@@ -58,6 +58,10 @@ public class Main extends JavaPlugin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		File uiDat = new
+		File(worldName+"/uid.dat");
+		uiDat.delete();
+		System.out.println("[BuildingGame] Disabled");
 	}
 	
 	

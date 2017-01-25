@@ -24,26 +24,28 @@ public class BlockEvents implements Listener {
 	public void onBlockBreak(BlockBreakEvent e)
 	{
 		Player p = e.getPlayer();
-		if(game.gamestate == GameState.BUILDING)
+		if(!game.globalBuildMode)
 		{
-			Location blocklocation = e.getBlock().getLocation();
-			blocklocation.setY(1);
-			if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE)
+			if(game.gamestate == GameState.BUILDING)
 			{
-				if(e.getBlock().getType() == Material.SPONGE)
+				Location blocklocation = e.getBlock().getLocation();
+				blocklocation.setY(1);
+				if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE)
 				{
-					if(e.getBlock().getLocation().getY() == 1) e.setCancelled(true);
+					if(e.getBlock().getType() == Material.SPONGE)
+					{
+						if(e.getBlock().getLocation().getY() == 1) e.setCancelled(true);
+					}
 				}
+				else
+				{
+					e.setCancelled(true);
+				}
+	
 			}
-			else
-			{
+			else{
 				e.setCancelled(true);
 			}
-
-		}
-		else
-		{
-			if(!game.globalBuildMode) e.setCancelled(true);
 		}
 		
 	}
@@ -52,35 +54,36 @@ public class BlockEvents implements Listener {
 	public void onBlockPlace(BlockPlaceEvent e)
 	{
 		Player p = e.getPlayer();
-		if(game.gamestate == GameState.BUILDING)
+		if(!game.globalBuildMode)
 		{
-			Location blocklocation = e.getBlock().getLocation();
-			blocklocation.setY(1);
-			if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE)
+			if(game.gamestate == GameState.BUILDING)
 			{
-				if(e.getBlock().getType() == Material.SPONGE)
+				Location blocklocation = e.getBlock().getLocation();
+				blocklocation.setY(1);
+				if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE)
 				{
-					if(e.getBlock().getLocation().getY() == 1) e.setCancelled(true);
+					if(e.getBlock().getType() == Material.SPONGE)
+					{
+						if(e.getBlock().getLocation().getY() == 1) e.setCancelled(true);
+					}
+				}
+				else
+				{
+					e.setCancelled(true);
 				}
 			}
 			else
 			{
 				e.setCancelled(true);
 			}
-
-		}
-		else
-		{
-			if(!game.globalBuildMode) e.setCancelled(true);
-		}
-		if(e.getBlock().getType().equals(Material.MONSTER_EGG) || e.getBlock().getType().equals(Material.MONSTER_EGGS))
-		{
-			e.setCancelled(true);
-		}
-		
-		
+			if(e.getBlock().getType().equals(Material.MONSTER_EGG) || e.getBlock().getType().equals(Material.MONSTER_EGGS))
+			{
+				e.setCancelled(true);
+			}
+		}	
 	}
 	
+	@EventHandler
 	public void onWaterSpread(BlockFromToEvent e)
 	{
 		if(game.gamestate == GameState.BUILDING)

@@ -2,8 +2,8 @@ package events;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
@@ -23,17 +23,20 @@ public class EnvironmentalEvents implements Listener{
     	e.setCancelled(true);
     }
     
+    @EventHandler
     public void onVehicleEnter(VehicleEnterEvent e)
     {
     	e.setCancelled(true);
     }
     
+    @EventHandler
     public void onRedstone(BlockRedstoneEvent e)
     {
     	e.setNewCurrent(0);
     }
     
-    public void onExplode(BlockExplodeEvent e)
+    @EventHandler
+    public void onExplode(EntityExplodeEvent e)
     {
     	e.setCancelled(true);
     }
