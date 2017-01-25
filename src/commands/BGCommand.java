@@ -46,7 +46,7 @@ public class BGCommand implements CommandExecutor {
 			{
 				if(args[0].equalsIgnoreCase("tp"))
 				{
-					p.teleport(game.plotSpawns[Integer.valueOf(args[1])].getSpawnLocation());
+					p.teleport(game.plotArray[Integer.valueOf(args[1])].getSpawnLocation());
 					return true;
 				}
 				if(args[0].equalsIgnoreCase("setTime"))

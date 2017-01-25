@@ -33,12 +33,14 @@ public class Game {
 	
 	public static String prefix = "§1§ll§r§9 BuildingGame§1§l>> §r§7";
 	public static String playerprefix = "§2§ll§r§a BuildingGame§2>> §r§7";
+	public static int secondsToGrade = 15;
+	public static int MAX_PLAYERS = 16;
 
 	public Plugin plugin;
 
 	public List<Player> players = new ArrayList<>();
 	
-	public Plot[] plotSpawns = new Plot[16];
+	public Plot[] plotArray = new Plot[16];
 
 	public Map<Player, PlayerData> playerdata = new HashMap<>();
 	
@@ -51,6 +53,8 @@ public class Game {
 	public Map<OfflinePlayer, Score> buildingScoreboard = new HashMap<>();
 	public Map<Player, VotingInventory> gradingInventories = new HashMap<>();
 
+	public int gradingNameRevealTime = 5;
+	public int buildingTime = 60 * 5;
 
 	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
 	public FileConfiguration locationCfg = YamlConfiguration.loadConfiguration(locationsFile);
@@ -63,13 +67,14 @@ public class Game {
 	public int gradingCurrentPlotId; //current plot id which is in the grading progress (GameState.GRADING)
 
 	private	int voteTimer = 10;
+	private int gradeTimer = 0;
 	private int buildingTimerScheduler;
 	private Scoreboard scoreboard;
-	private Objective bgObjective;
 	private Score timeScore;
-	public int buildingTime = 60 * 5;
+	private Objective bgObjective;
 	private String currentBuildingtime = "";
 	private String finalTheme;
+	private int currentPlotInGradingProcess = 1000;
 
 
 	public Game(Plugin plugin)
@@ -80,6 +85,7 @@ public class Game {
 		loadPlots();
 		loadBuildThemes();
 		this.plugin = plugin;
+		
 	}
 	
 	
@@ -157,8 +163,8 @@ public class Game {
 		for (int i = 0; i < players.size(); i++) {
 			Player p = players.get(i);
 			p.setLevel(buildingTime);
-			plotSpawns[i].setOwner(p);
-			p.teleport(plotSpawns[i].getSpawnLocation());
+			plotArray[i].setOwner(p);
+			p.teleport(plotArray[i].getSpawnLocation());
 			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme +"§r§7 ("+max+" Stimme(n))");
 			if(buildingTime%60>9)
 			{
@@ -213,6 +219,13 @@ public class Game {
 	{
 		if(players.contains(p))
 		{
+			for(int i = 0; i < players.size(); i++)
+			{
+				if(players.get(i).getName() == p.getName()) //check which index in the arraylist the player is
+				{
+					plotArray[i].ownerLeft = true; //if the player leaves the plot will know that he has left and will not be graded
+				}
+			}
 			players.remove(p);
 		}
 		else
@@ -286,8 +299,8 @@ public class Game {
 		{
 			for(int z = 0; z < 4; z++)
 			{
-				plotSpawns[z * 4 + x] = new Plot(new Location(origin.getWorld(), origin.getX() - 43 * x, origin.getY(), origin.getZ() + 43 * z));
-				plotSpawns[z * 4 + x].setSpawnLocation(new Location(originSpawn.getWorld(), originSpawn.getX() - 43 * x, originSpawn.getY(), originSpawn.getZ() + 43 * z)); 
+				plotArray[z * 4 + x] = new Plot(new Location(origin.getWorld(), origin.getX() - 43 * x, origin.getY(), origin.getZ() + 43 * z));
+				plotArray[z * 4 + x].setSpawnLocation(new Location(originSpawn.getWorld(), originSpawn.getX() - 43 * x, originSpawn.getY(), originSpawn.getZ() + 43 * z)); 
 			}
 		}
 		
@@ -305,10 +318,6 @@ public class Game {
 			ItemStack is = new ItemStack(Material.PAPER);
 			ItemMeta im = is.getItemMeta();
 			im.setDisplayName("§7" + themes.get(i));
-//			List<String> lore = new ArrayList<>();
-//			lore.add("");
-//			im.setLore(lore);
-
 			is.setItemMeta(im);
 
 			votingInventory.addItem(is);
@@ -346,7 +355,7 @@ public class Game {
 		{
 			
 			gamestate = gamestate.GRADING;
-			startGrading();
+			startGradingProcess();
 		}
 		if(buildingTime%60>9)
 		{
@@ -362,15 +371,21 @@ public class Game {
 
 	}
 	
-	private void startGrading()
+	private void startGradingProcess()
 	{
+		//TODO: check if there are any players  left
+		gradePlot(0);
+		 
+	}
+	
+	private void gradePlot(int id)
+	{
+		
+		currentPlotInGradingProcess = id;
 		Iterator<Entry<Player, VotingInventory>> it = gradingInventories.entrySet().iterator();
 		while(it.hasNext())
 		{
 			Entry<Player, VotingInventory> entry = it.next();
-			
-			
-			
 			entry.getValue().resetInventory();
 		}
 		
@@ -379,10 +394,8 @@ public class Game {
 		Score scoreErbauer = bgObjective.getScore("§6Erbauer:");
 		scoreErbauer.setScore(3);
 		
-		Score scoreK = bgObjective.getScore("§7§kPeterRendl");
-		scoreK.setScore(2);
-		
 		Bukkit.getScheduler().cancelTask(buildingTimerScheduler);
+		
 		ItemStack is = new ItemStack(Material.PRISMARINE_SHARD);
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName("§6§lBewerten");
@@ -396,14 +409,77 @@ public class Game {
 			p.getInventory().clear();
 			p.getInventory().setItem(4, is);
 		}
+
+		Score scoreK = bgObjective.getScore("§7§kPeterRendl");
+		scoreK.setScore(2);
 		
-		 
+		int schedulerid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				if(timer() > secondsToGrade - 3)
+				{
+					//playsound
+				}
+				//update scoreboard grade time				
+			}
+		}, 0, 20);
+		
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				Bukkit.getServer().getScheduler().cancelTask(schedulerid);
+				
+				//reveal name
+				//remove prismarine shard
+				
+			}
+		}, 20 * secondsToGrade);
+		
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				if((!plotArray[id + 1].ownerLeft))
+				{
+					if(id + 1 > players.size())
+					{
+						//there are no plots availible, change to GameState.END
+						endGame(EndReason.NORMAL_END);
+					}
+				
+					//resume with next plot
+					gradePlot(id + 1);
+				}
+				else
+				{
+					endGame(EndReason.PLAYER_LEFT);
+					//player left
+				}
+			}
+		}, 20 * gradingNameRevealTime);
+		
+		
 	}
 	
-	private void gradePlot(int id)
+	private void endGame(EndReason reason)
 	{
-		
-		
+		//TODO: Calculate Winner
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * add one to gradeTimer
+	 * @return
+	 */
+	private int timer()
+	{
+		return gradeTimer++;
 	}
 	
 	

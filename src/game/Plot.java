@@ -19,6 +19,8 @@ public class Plot {
 	private int finalGradeLook;
 	private int finalGradeFitting;
 	
+	public boolean ownerLeft = false;
+	
 	private ArrayList<Integer> gradesCreativity = new ArrayList<>();
 	private ArrayList<Integer> gradesLook= new ArrayList<>();
 	private ArrayList<Integer> gradesFitting = new ArrayList<>();
