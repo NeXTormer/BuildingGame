@@ -1,10 +1,14 @@
-import events.InventoryEvents;
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import commands.BGCommand;
 import events.BlockEvents;
+import events.InventoryEvents;
 import events.PlayerJoin;
 import events.PlayerQuit;
 import game.Game;
@@ -42,7 +46,18 @@ public class Main extends JavaPlugin {
 	
 	public void onDisable()
 	{
-		
+		String worldName = (String) game.locationCfg.get("locations.lobby.world");
+		Bukkit.unloadWorld(worldName, false);
+		File worldFile = new File(worldName);
+		worldFile.delete();
+		File srcDir = new File("backupWorld");
+		File destDir = new File(worldName);
+		try {
+			FileUtils.copyDirectory(srcDir, destDir);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
