@@ -22,7 +22,7 @@ public class ItemEvents implements Listener {
 	@EventHandler
 	public void playerDropItemEvent(PlayerDropItemEvent e)
 	{
-		e.setCancelled(true);
+		if(!game.globalBuildMode) e.setCancelled(true);
 	}
 	
 	public void playerInteractEvent(PlayerInteractEvent e)

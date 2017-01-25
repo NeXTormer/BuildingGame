@@ -1,13 +1,15 @@
 package events;
 
-import game.Game;
-import game.GameState;
-
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
+import game.Game;
+import game.GameState;
 
 /**
  * Created by Iris on 22-Jan-17.
@@ -53,6 +55,14 @@ public class InventoryEvents implements Listener {
         		}
         		
         	}
+        }
+        if(e.getCurrentItem().getType().equals(Material.ENDER_PEARL))
+        {
+        	e.setCancelled(true);
+        }
+        if(e.getCurrentItem().getType().equals(Material.MONSTER_EGG) || e.getCurrentItem().getType().equals(Material.MONSTER_EGGS) || e.getCurrentItem().getType().equals(Material.MOB_SPAWNER))
+        {
+        	e.setCancelled(true);
         }
     }
 
