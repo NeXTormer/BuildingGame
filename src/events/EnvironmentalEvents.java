@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
@@ -42,5 +43,11 @@ public class EnvironmentalEvents implements Listener{
     {
     	e.setCancelled(true);
     }
+    
+    @EventHandler
+    public void onSummon(EntitySpawnEvent e)
+    {
+    	e.setCancelled(true);
+    } 
 
 }

@@ -72,7 +72,7 @@ public class Game {
 	public int max; //max number of votes in VOTING phase
 	public int gradingCurrentPlotId; //current plot id which is in the grading progress (GameState.GRADING)
 
-	private	int voteTimer = 10;
+	public	int voteTimer = 10;
 	private int gradeTimer = 0;
 	private int buildingTimerScheduler;
 	private Scoreboard scoreboard;
@@ -114,7 +114,7 @@ public class Game {
 		{
 			p.setGameMode(GameMode.ADVENTURE);
 			p.openInventory(votingInventory);
-			p.setLevel(10);
+			p.setLevel(voteTimer);
 		}
 
 		final int votingTimerTask;
@@ -138,7 +138,7 @@ public class Game {
 				Bukkit.getScheduler().cancelTask(votingTimerTask);
 				startBuilding();
 			}
-		}, 20 * 10);
+		}, 20 * voteTimer);
 
 
 	}
@@ -363,16 +363,18 @@ public class Game {
 			gamestate = gamestate.GRADING;
 			startGradingProcess();
 		}
-		if(buildingTime%60>9)
-		{
-			currentBuildingtime = "§7§l" + buildingTime / 60 + ":" + buildingTime % 60;
-		} 
-		else
-		{
-			currentBuildingtime = "§7§l" + buildingTime / 60 + ":0" + buildingTime % 60;
+		else{
+			if(buildingTime%60>9)
+			{
+				currentBuildingtime = "§7§l" + buildingTime / 60 + ":" + buildingTime % 60;
+			} 
+			else
+			{
+				currentBuildingtime = "§7§l" + buildingTime / 60 + ":0" + buildingTime % 60;
+			}
+			timeScore = bgObjective.getScore(currentBuildingtime);
+			timeScore.setScore(2);
 		}
-		timeScore = bgObjective.getScore(currentBuildingtime);
-		timeScore.setScore(2);
 
 
 	}
@@ -412,6 +414,7 @@ public class Game {
 		is.setItemMeta(im);
 		for(Player p : players)
 		{
+			p.getActivePotionEffects().clear();
 			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
 			p.getInventory().clear();
 			p.getInventory().setItem(4, is);

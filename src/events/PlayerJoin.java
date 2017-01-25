@@ -20,6 +20,9 @@ public class PlayerJoin implements Listener
     {
     	//e.getPlayer().getInventory().clear();
     	game.addPlayer(e.getPlayer());
+    	e.getPlayer().setFlySpeed(0.2f);
+    	e.getPlayer().setWalkSpeed(0.1f);
+    	e.getPlayer().setSaturation(10);
     }
 
 

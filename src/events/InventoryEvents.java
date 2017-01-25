@@ -56,13 +56,5 @@ public class InventoryEvents implements Listener {
         		
         	}
         }
-        if(e.getCurrentItem().getType().equals(Material.ENDER_PEARL))
-        {
-        	e.setCancelled(true);
-        }
-        if(e.getCurrentItem().getType().equals(Material.MONSTER_EGG) || e.getCurrentItem().getType().equals(Material.MONSTER_EGGS) || e.getCurrentItem().getType().equals(Material.MOB_SPAWNER))
-        {
-        	e.setCancelled(true);
-        }
     }
 }

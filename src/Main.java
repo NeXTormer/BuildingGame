@@ -8,8 +8,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import commands.BGCommand;
 import events.BlockEvents;
+import events.EnvironmentalEvents;
 import events.InventoryEvents;
 import events.ItemEvents;
+
+import events.PlayerEvents;
+
 import events.PlayerJoin;
 import events.PlayerQuit;
 import game.Game;
@@ -23,6 +27,11 @@ public class Main extends JavaPlugin {
 	PlayerQuit playerquitevent;
 	BlockEvents blockevents;
 	InventoryEvents chestevents;
+	EnvironmentalEvents environmentalevents;
+	ItemEvents itemevents;
+	PlayerEvents playerevents;
+	
+	
 	
 	
 	BGCommand bgcommand;
@@ -34,6 +43,9 @@ public class Main extends JavaPlugin {
 		playerquitevent = new PlayerQuit(game);
 		blockevents = new BlockEvents(game);
 		chestevents = new InventoryEvents(game);
+		environmentalevents = new EnvironmentalEvents(game);
+		itemevents = new ItemEvents(game);
+		playerevents = new PlayerEvents(game);
 
 		bgcommand = new BGCommand(game);
 		
@@ -41,6 +53,10 @@ public class Main extends JavaPlugin {
 		pluginmanager.registerEvents(playerquitevent, this);
 		pluginmanager.registerEvents(blockevents, this);
 		pluginmanager.registerEvents(chestevents, this);
+
+		pluginmanager.registerEvents(environmentalevents, this);
+		pluginmanager.registerEvents(itemevents, this);
+		pluginmanager.registerEvents(playerevents, this);
 		
 
 		getCommand("bg").setExecutor(bgcommand);
@@ -50,7 +66,7 @@ public class Main extends JavaPlugin {
 	public void onDisable()
 	{
 		String worldName = (String) game.locationCfg.get("locations.lobby.world");
-		//Bukkit.unloadWorld(worldName, false);
+		//Bukkit.unloadWorld(worldName, true);
 		File worldFile = new File(worldName);
 		worldFile.delete();
 		File srcDir = new File("backupWorld");
@@ -61,8 +77,8 @@ public class Main extends JavaPlugin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		File uiDat = new
-		File(worldName+"/uid.dat");
+		
+		File uiDat = new File(worldName+"/uid.dat");
 		uiDat.delete();
 		System.out.println("[BuildingGame] Disabled");
 	}
