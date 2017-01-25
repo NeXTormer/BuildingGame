@@ -30,6 +30,7 @@ public class BGCommand implements CommandExecutor {
 					p.sendMessage(game.playerdata.toString());
 					p.sendMessage(game.gamestate.toString());
 					p.sendMessage(game.votes[1] + "");
+					p.sendMessage(game.gradingInventories.toString());
 				}
 				if(args[0].equalsIgnoreCase("mode"))
 				{

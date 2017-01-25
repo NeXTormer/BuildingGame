@@ -1,8 +1,8 @@
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,9 +11,7 @@ import events.BlockEvents;
 import events.EnvironmentalEvents;
 import events.InventoryEvents;
 import events.ItemEvents;
-
 import events.PlayerEvents;
-
 import events.PlayerJoin;
 import events.PlayerQuit;
 import game.Game;
@@ -61,23 +59,19 @@ public class Main extends JavaPlugin {
 		
 
 		getCommand("bg").setExecutor(bgcommand);
-		
+		for(World w : Bukkit.getWorlds())
+		{
+			w.setAutoSave(false);
+		}
 	}
 	
 	public void onDisable()
 	{
 		String worldName = (String) game.locationCfg.get("locations.lobby.world");
-		//Bukkit.unloadWorld(worldName, true);
-		File worldFile = new File(worldName);
-		worldFile.delete();
-		File srcDir = new File("backupWorld");
-		File destDir = new File(worldName);
 		DeleteWorld.deleteWorld(worldName);
 		try {
 			DeleteWorld.copyFolder(new File("backupWorld"), new File("BuildingGame"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("PETER RENDL WERNER FINDENIG");
 			e.printStackTrace();
 		}
 		

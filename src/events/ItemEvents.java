@@ -30,6 +30,7 @@ public class ItemEvents implements Listener {
 		
 	}
 	
+	@EventHandler
 	public void playerInteractEvent(PlayerInteractEvent e)
 	{
 		if(game.gamestate == GameState.GRADING)
@@ -39,6 +40,8 @@ public class ItemEvents implements Listener {
 				//if(e.getMaterial().equals(Material.PRISMARINE_SHARD))
 				{
 					Player p = e.getPlayer();
+					
+					p.sendMessage("peter rendl");
 					p.closeInventory();
 					p.openInventory(game.gradingInventories.get(p).inv);
 				}

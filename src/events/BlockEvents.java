@@ -47,7 +47,7 @@ public class BlockEvents implements Listener {
 				e.setCancelled(true);
 			}
 		}
-		
+
 	}
 	
 	@EventHandler

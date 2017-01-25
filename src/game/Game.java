@@ -6,10 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -24,16 +22,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
-
-import game.EndReason;
-import game.GameState;
-import game.PlayerData;
-import game.Plot;
-import game.VotingInventory;
 
 public class Game {
 	
@@ -390,11 +383,11 @@ public class Game {
 	{
 		
 		currentPlotInGradingProcess = id;
-		Iterator<Entry<Player, VotingInventory>> it = gradingInventories.entrySet().iterator();
-		while(it.hasNext())
+
+		for(Player p : players)
 		{
-			Entry<Player, VotingInventory> entry = it.next();
-			entry.getValue().resetInventory();
+			gradingInventories.put(p, new VotingInventory());
+			gradingInventories.get(p).resetInventory();
 		}
 		
 		scoreboard.resetScores("§70:00");
@@ -414,7 +407,10 @@ public class Game {
 		is.setItemMeta(im);
 		for(Player p : players)
 		{
-			p.getActivePotionEffects().clear();
+			for(PotionEffect e : p.getActivePotionEffects())
+			{
+				p.removePotionEffect(e.getType());
+			}
 			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
 			p.getInventory().clear();
 			p.getInventory().setItem(4, is);

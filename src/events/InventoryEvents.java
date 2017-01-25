@@ -1,5 +1,6 @@
 package events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -40,9 +41,10 @@ public class InventoryEvents implements Listener {
         else if (game.gamestate == GameState.GRADING)
         {
             e.setCancelled(true);
-        	//if(e.getInventory().getName().equals(game.gradingInventories.get(p).inv.getName())) //if the clicked inventory is a grading inventory
+        	if(e.getInventory().getName().equals(game.gradingInventories.get(p).inv.getName())) //if the clicked inventory is a grading inventory
         	{
-        		if(e.getRawSlot() == 59 || e.getRawSlot() == 58 || e.getRawSlot() == 57)
+        		Bukkit.broadcastMessage("FINDENIG: " + e.getRawSlot());
+        		if(e.getRawSlot() == 48 || e.getRawSlot() == 49 || e.getRawSlot() == 50)
         		{
         			p.closeInventory();
         			p.sendMessage(game.playerprefix + "Deine Bewertung wurde gespeichert");
@@ -51,6 +53,7 @@ public class InventoryEvents implements Listener {
         		
         		if(true)//check which item has been clicked and set the rating per plot accordingly
         		{
+        			game.gradingInventories.get(p).invClicked(e);
         			game.plotArray[game.gradingCurrentPlotId].addGradeCreativity(1111); //add modularity
         		}
         		

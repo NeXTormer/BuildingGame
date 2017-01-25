@@ -50,6 +50,7 @@ public class VotingInventory {
 
 	public VotingInventory() {
 		inv = Bukkit.createInventory(null, 54, "§6Plot bewerten");
+		System.out.println("PETER RENDL PETER RENDL PETER RENDL PETER RENDL");
 	}
 
 	public void invClicked(InventoryClickEvent e) {
@@ -59,8 +60,9 @@ public class VotingInventory {
 			int c = ((row - 1) * 9 + slot) - 1;
 			if(c < 3 || c > 8)
 			{
-				return;
+				//return;
 			}
+			Bukkit.getServer().broadcastMessage("PETER: " + c);
 			voteBuffer[row - 2] = c;
 		}	
 		updateInventory();
@@ -105,6 +107,8 @@ public class VotingInventory {
 	
 	public void resetInventory()
 	{
+		inv = Bukkit.createInventory(null, 54, "§6Plot bewerten");
+
 		inv.setItem(10, optikIS);
 		inv.setItem(11, sehrGutGIS);
 		inv.setItem(12, gutGIS);
