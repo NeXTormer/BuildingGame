@@ -38,7 +38,7 @@ public class DeleteWorld {
         String[] folders = dir.list();
         for (String folder : folders) {
             if (folder.contains(worldname)) {
-                Bukkit.getServer().unloadWorld(folder, true);
+                //Bukkit.getServer().unloadWorld(folder, true);
                 File folderfile = new File(folder);
                 deleteDirectory(folderfile);
             }

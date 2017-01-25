@@ -54,7 +54,10 @@ public class Game {
 
 	public int gradingNameRevealTime = 5;
 	public int buildingTime = 13;
-
+	public int scoreboardSecondsToGrade;
+	public String currentGradingtime = "";
+	public String scoreboardPlotOwner = "";
+	
 	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
 	public FileConfiguration locationCfg = YamlConfiguration.loadConfiguration(locationsFile);
 
@@ -147,15 +150,15 @@ public class Game {
 		bgObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
 		Score score2 = bgObjective.getScore("§6Thema:");
-		score2.setScore(6);
+		score2.setScore(7);
 		Score score3 = bgObjective.getScore("§7" + finalTheme);
-		score3.setScore(5);
+		score3.setScore(6);
 		Score score4 = bgObjective.getScore(" ");
-		score4.setScore(4);
+		score4.setScore(5);
 		Score score5 = bgObjective.getScore("§6Zeit:");
-		score5.setScore(3);
+		score5.setScore(4);
 		timeScore = bgObjective.getScore("");
-		timeScore.setScore(2);
+		timeScore.setScore(3);
 		
 
 		
@@ -366,7 +369,7 @@ public class Game {
 				currentBuildingtime = "§7§l" + buildingTime / 60 + ":0" + buildingTime % 60;
 			}
 			timeScore = bgObjective.getScore(currentBuildingtime);
-			timeScore.setScore(2);
+			timeScore.setScore(3);
 		}
 
 
@@ -375,6 +378,9 @@ public class Game {
 	private void startGradingProcess()
 	{
 		//TODO: check if there are any players  left
+		for(Player p : players){
+			p.sendTitle("§6§lPlots bewerten", "§7Bewerte die Bauwerke mit der Prismarin-Scherbe");
+		}
 		gradePlot(0);
 		 
 	}
@@ -383,9 +389,12 @@ public class Game {
 	{
 		
 		currentPlotInGradingProcess = id;
+		scoreboardSecondsToGrade = secondsToGrade;
+		gradeTimer = 0;
 
 		for(Player p : players)
 		{
+			p.teleport(plotArray[id].getSpawnLocation());
 			gradingInventories.put(p, new VotingInventory());
 			gradingInventories.get(p).resetInventory();
 		}
@@ -394,7 +403,16 @@ public class Game {
 		scoreboard.resetScores(currentBuildingtime);
 		scoreboard.resetScores("§6Zeit:");
 		Score scoreErbauer = bgObjective.getScore("§6Erbauer:");
-		scoreErbauer.setScore(3);
+		scoreErbauer.setScore(4);
+		
+		Score scoreZeit = bgObjective.getScore("§6Zeit:");
+		scoreZeit.setScore(1);
+		
+		Score scorel = bgObjective.getScore("");
+		scorel.setScore(2);
+		
+		Score scoreTime = bgObjective.getScore(currentGradingtime);
+		scoreTime.setScore(0);
 		
 		Bukkit.getScheduler().cancelTask(buildingTimerScheduler);
 		
@@ -416,18 +434,37 @@ public class Game {
 			p.getInventory().setItem(4, is);
 		}
 
+		scoreboard.resetScores(scoreboardPlotOwner);
 		Score scoreK = bgObjective.getScore("§7§kPeterRendl");
-		scoreK.setScore(2);
+		scoreK.setScore(3);
+		
 		
 		int schedulerid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			
 			@Override
 			public void run() {
-				if(timer() > secondsToGrade - 3)
+				if(timer() > scoreboardSecondsToGrade+4)
 				{
-					//playsound
+					for(Player p : players)
+					{
+					p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1, 1);
+					}
+					
 				}
-				//update scoreboard grade time				
+				scoreboard.resetScores(currentGradingtime);
+				if(scoreboardSecondsToGrade%60>9)
+				{
+					currentGradingtime = "§7§l" + scoreboardSecondsToGrade / 60 + ":" + scoreboardSecondsToGrade % 60;
+				} 
+				else
+				{
+					currentGradingtime = "§7§l" + scoreboardSecondsToGrade / 60 + ":0" + scoreboardSecondsToGrade % 60;
+				}
+				timeScore = bgObjective.getScore(currentGradingtime);
+				timeScore.setScore(0);
+				scoreboardSecondsToGrade--;
+				
+							
 			}
 		}, 0, 20);
 		
@@ -438,10 +475,20 @@ public class Game {
 				Bukkit.getServer().getScheduler().cancelTask(schedulerid);
 				
 				//reveal name
+				scoreboard.resetScores("§7§kPeterRendl");
+				scoreboardPlotOwner = "§7"+plotArray[id].getOwner().getName();
+				Score scoreK = bgObjective.getScore(scoreboardPlotOwner);
+				scoreK.setScore(3);
+				
 				//remove prismarine shard
+				for(Player p : players){
+					p.sendTitle("§6§l" + plotArray[id].getOwner().getName(), "§7Hat dieses Bauwerk errichtet");
+					p.getInventory().setItem(4, null);
+					p.closeInventory();
+				}
 				
 			}
-		}, 20 * secondsToGrade);
+		}, (20 * secondsToGrade)+1);
 		
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			
@@ -464,7 +511,7 @@ public class Game {
 					//player left
 				}
 			}
-		}, 20 * gradingNameRevealTime);
+		}, 20 * (gradingNameRevealTime+secondsToGrade));
 		
 		
 	}

@@ -70,7 +70,9 @@ public class Main extends JavaPlugin {
 		String worldName = (String) game.locationCfg.get("locations.lobby.world");
 		DeleteWorld.deleteWorld(worldName);
 		try {
-			DeleteWorld.copyFolder(new File("backupWorld"), new File("BuildingGame"));
+			DeleteWorld.copyFolder(new File("backupWorld"), new File(worldName));
+			File io = new File(worldName+"/uid.dat");
+			io.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
