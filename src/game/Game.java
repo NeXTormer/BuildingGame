@@ -374,6 +374,13 @@ public class Game {
 			entry.getValue().resetInventory();
 		}
 		
+		scoreboard.resetScores(currentBuildingtime);
+		scoreboard.resetScores("§6Zeit:");
+		Score scoreErbauer = bgObjective.getScore("§6Erbauer:");
+		scoreErbauer.setScore(3);
+		
+		Score scoreK = bgObjective.getScore("§7§kPeterRendl");
+		scoreK.setScore(2);
 		
 		Bukkit.getScheduler().cancelTask(buildingTimerScheduler);
 		ItemStack is = new ItemStack(Material.PRISMARINE_SHARD);
@@ -385,6 +392,7 @@ public class Game {
 		is.setItemMeta(im);
 		for(Player p : players)
 		{
+			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
 			p.getInventory().clear();
 			p.getInventory().setItem(4, is);
 		}
