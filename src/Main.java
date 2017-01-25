@@ -15,6 +15,7 @@ import events.PlayerEvents;
 import events.PlayerJoin;
 import events.PlayerQuit;
 import game.Game;
+import utils.DeleteWorld;
 
 public class Main extends JavaPlugin {
 
@@ -63,20 +64,16 @@ public class Main extends JavaPlugin {
 	public void onDisable()
 	{
 		String worldName = (String) game.locationCfg.get("locations.lobby.world");
-		Bukkit.unloadWorld(worldName, true);
-		File worldFile = new File(worldName);
-		worldFile.delete();
-		File srcDir = new File("backupWorld");
-		File destDir = new File(worldName);
+		DeleteWorld.deleteWorld(worldName);
 		try {
-			FileUtils.copyDirectory(srcDir, destDir);
+			DeleteWorld.copyFolder(new File("backupWorld"), new File("BuildingGame"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println("PETER RENDL WERNER FINDENIG");
 			e.printStackTrace();
 		}
 		
-		File uiDat = new File(worldName+"/uid.dat");
-		uiDat.delete();
+		
 		System.out.println("[BuildingGame] Disabled");
 	}
 	
