@@ -23,6 +23,11 @@ public class ItemEvents implements Listener {
 	public void playerDropItemEvent(PlayerDropItemEvent e)
 	{
 		if(!game.globalBuildMode) e.setCancelled(true);
+		if(e.getPlayer().getInventory().getItemInHand().getType().equals(e.getItemDrop().getItemStack().getType()))
+		{
+			e.setCancelled(true);
+		}
+		
 	}
 	
 	public void playerInteractEvent(PlayerInteractEvent e)

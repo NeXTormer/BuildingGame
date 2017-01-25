@@ -52,6 +52,7 @@ public class BGCommand implements CommandExecutor {
 				if(args[0].equalsIgnoreCase("setTime"))
 				{
 					game.buildingTime = Integer.valueOf(args[1]);
+					p.sendMessage(game.playerprefix+"Die Bauzeit wurde auf "+args[0]+" Sekunden gesetzt");
 					return true;
 				}
 			}

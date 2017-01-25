@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import commands.BGCommand;
 import events.BlockEvents;
 import events.InventoryEvents;
+import events.ItemEvents;
 import events.PlayerJoin;
 import events.PlayerQuit;
 import game.Game;
@@ -22,6 +23,7 @@ public class Main extends JavaPlugin {
 	PlayerQuit playerquitevent;
 	BlockEvents blockevents;
 	InventoryEvents chestevents;
+	
 	
 	BGCommand bgcommand;
 	
@@ -39,6 +41,7 @@ public class Main extends JavaPlugin {
 		pluginmanager.registerEvents(playerquitevent, this);
 		pluginmanager.registerEvents(blockevents, this);
 		pluginmanager.registerEvents(chestevents, this);
+		
 
 		getCommand("bg").setExecutor(bgcommand);
 		

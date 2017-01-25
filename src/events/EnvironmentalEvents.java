@@ -12,6 +12,8 @@ import game.Game;
 public class EnvironmentalEvents implements Listener{
 	
     private Game game;
+    
+    
     public EnvironmentalEvents(Game game)
     {
         this.game = game;
