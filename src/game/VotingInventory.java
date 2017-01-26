@@ -50,21 +50,40 @@ public class VotingInventory {
 
 	public VotingInventory() {
 		inv = Bukkit.createInventory(null, 54, "§6Plot bewerten");
-		System.out.println("PETER RENDL PETER RENDL PETER RENDL PETER RENDL");
 	}
 
 	public void invClicked(InventoryClickEvent e) {
 		int slot = e.getRawSlot();
-		for(int row = 2; row <= 4; row++)
+		
+		if(slot <= 11 && slot >= 16)
 		{
-			int c = ((row - 1) * 9 + slot) - 1;
-			if(c < 3 || c > 8)
-			{
-				//return;
-			}
-			Bukkit.getServer().broadcastMessage("PETER: " + c);
-			voteBuffer[row - 2] = c;
-		}	
+			int x = (slot + 1) % 9;
+			voteBuffer[0] = x;
+		}
+		
+		if(slot <= 20 && slot >= 25)
+		{
+			int x = (slot + 1) % 9;
+			voteBuffer[1] = x;
+		}
+		
+		if(slot <= 29 && slot >= 34)
+		{
+			int x = (slot + 1) % 9;
+			voteBuffer[2] = x;
+		}
+		
+//		
+//		for(int row = 2; row <= 4; row++)
+//		{
+//			int c = ((row - 1) * 9 + slot) - 1;
+//			if(c < 3 || c > 8)
+//			{
+//				//return;
+//			}
+//			Bukkit.getServer().broadcastMessage("PETER: " + c);
+//			voteBuffer[row - 2] = c;
+//		}	
 		updateInventory();
 	}
 	
@@ -72,8 +91,8 @@ public class VotingInventory {
 	{
 		resetInventory();
 		inv.setItem(3 * 9 + voteBuffer[0], getItem(voteBuffer[0]));
-		inv.setItem(4 * 9 + voteBuffer[1], getItem(voteBuffer[0]));
-		inv.setItem(5 * 9 + voteBuffer[2], getItem(voteBuffer[0]));
+		inv.setItem(4 * 9 + voteBuffer[1], getItem(voteBuffer[1]));
+		inv.setItem(5 * 9 + voteBuffer[2], getItem(voteBuffer[2]));
 	}
 	
 	private ItemStack getItem(int i)
