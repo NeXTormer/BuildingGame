@@ -431,7 +431,14 @@ public class Game {
 			}
 			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
 			p.getInventory().clear();
-			p.getInventory().setItem(4, is);
+			if(plotArray[id].getOwner().getPlayer().getName().equals(p.getName()))
+			{
+				//pfusch
+            }
+            else 
+            {
+            	p.getInventory().setItem(4, is);
+            }		
 		}
 
 		scoreboard.resetScores(scoreboardPlotOwner);
@@ -506,7 +513,7 @@ public class Game {
 			public void run() {
 				if((!plotArray[id + 1].ownerLeft))
 				{
-					if(id + 1 > players.size())
+					if(id + 2 > players.size())
 					{
 						//there are no plots availible, change to GameState.END
 						Bukkit.getServer().getScheduler().cancelAllTasks();
