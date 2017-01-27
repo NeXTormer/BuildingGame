@@ -30,9 +30,6 @@ public class Main extends JavaPlugin {
 	ItemEvents itemevents;
 	PlayerEvents playerevents;
 	
-	
-	
-	
 	BGCommand bgcommand;
 	
 	public void onEnable()

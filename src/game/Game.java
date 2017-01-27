@@ -490,6 +490,16 @@ public class Game {
 			}
 		}, (20 * secondsToGrade)+1);
 		
+		//save rating
+		for(Player p : players)
+		{
+			plotArray[id].addGradeCreativity(gradingInventories.get(p).voteBuffer[0]);
+			plotArray[id].addGradeLook(gradingInventories.get(p).voteBuffer[1]);
+			plotArray[id].addGradeFitting(gradingInventories.get(p).voteBuffer[2]);
+		}
+		
+		
+		
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			
 			@Override
@@ -500,6 +510,7 @@ public class Game {
 					{
 						//there are no plots availible, change to GameState.END
 						endGame(EndReason.NORMAL_END);
+						return;
 					}
 				
 					//resume with next plot
@@ -508,6 +519,7 @@ public class Game {
 				else
 				{
 					endGame(EndReason.PLAYER_LEFT);
+					return;
 					//player left
 				}
 			}
@@ -518,7 +530,17 @@ public class Game {
 	
 	private void endGame(EndReason reason)
 	{
-		//TODO: Calculate Winner
+		Bukkit.broadcastMessage(prefix + "Das Spiel ist zu Ende");
+	
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				Bukkit.getServer().shutdown();
+				
+			}
+		}, 10* 20);
+	
 	}
 	
 	
@@ -528,7 +550,7 @@ public class Game {
 	
 	/**
 	 * add one to gradeTimer
-	 * @return
+	 * @return 
 	 */
 	private int timer()
 	{

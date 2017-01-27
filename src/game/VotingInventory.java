@@ -55,10 +55,14 @@ public class VotingInventory {
 		voteBuffer[2] = 8;
 		updateInventory();
 	}
+	
+	public void saveRating()
+	{
+		
+	}
 
 	public void invClicked(InventoryClickEvent e) {
 		int slot = e.getRawSlot();
-		Bukkit.broadcastMessage(slot + "");
 		if(slot >= 11 && slot <= 16)
 		{
 			int x = (slot + 1) % 9;
@@ -131,7 +135,6 @@ public class VotingInventory {
 	public void resetInventory()
 	{
 		//inv = Bukkit.createInventory(null, 54, "§6Plot bewerten");
-		Bukkit.broadcastMessage("INV RESET");
 		inv.setItem(10, optikIS);
 		inv.setItem(11, sehrGutGIS);
 		inv.setItem(12, gutGIS);
