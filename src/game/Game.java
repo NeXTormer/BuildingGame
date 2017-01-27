@@ -408,7 +408,7 @@ public class Game {
 		Score scoreZeit = bgObjective.getScore("§6Zeit:");
 		scoreZeit.setScore(1);
 		
-		Score scorel = bgObjective.getScore("");
+		Score scorel = bgObjective.getScore("-");
 		scorel.setScore(2);
 		
 		Score scoreTime = bgObjective.getScore(currentGradingtime);

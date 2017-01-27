@@ -1,12 +1,14 @@
 name: BuildingGame
-version: 1.0
-author: NeXTormer, GameZter
-description: Building Game
+author: GameZter
+version: 1.0.0
+description: BuildingGame for Timolia
 
-
-main: Main
+main: at.timolia.gamezter.BuildingGame
 
 commands:
-  bg:
-    description: Standard BuildingGame Befehl
-    usage: /bg <args> <args> 
+  bginfo:
+    description: Give information about the plugin
+    usage: /bginfo
+  bgup:
+    description: Tps the player 10 blocks higher
+    usage: /bgup <value>

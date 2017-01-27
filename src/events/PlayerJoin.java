@@ -18,7 +18,7 @@ public class PlayerJoin implements Listener
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e)
     {
-    	//e.getPlayer().getInventory().clear();
+    	e.getPlayer().getInventory().clear();
     	game.addPlayer(e.getPlayer());
     	e.getPlayer().setFlySpeed(0.1f);
     	e.getPlayer().setWalkSpeed(0.2f);

@@ -22,21 +22,20 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e)
     {
+    	Player player = e.getPlayer();
     	if(!game.globalBuildMode)
     	{
-			if(game.gamestate == GameState.BUILDING)
+			if(game.gamestate == GameState.BUILDING || game.gamestate == GameState.GRADING)
 			{
 				Location blocklocation = e.getPlayer().getLocation();
-				blocklocation.setY(1);
-				if(e.getPlayer().getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE)
+				if(blocklocation.getBlockY()>50)
 				{
-	
-				}
-				else
-				{
-	//				e.setCancelled(true);
-					e.getPlayer().setVelocity(new Vector(0, 0, 0));
-					e.getPlayer().teleport(e.getFrom());
+//				if(e.getPlayer().getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE)
+//				{
+//	
+//				}
+				player.teleport(player.getLocation().add(e.getFrom().toVector().subtract(e.getTo().toVector()).normalize().multiply(2)));
+				player.sendMessage(game.playerprefix+"Du hast die maximale Höhe erreicht");
 				}
 	
 			}
