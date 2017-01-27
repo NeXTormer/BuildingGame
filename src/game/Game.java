@@ -509,6 +509,7 @@ public class Game {
 					if(id + 1 > players.size())
 					{
 						//there are no plots availible, change to GameState.END
+						Bukkit.getServer().getScheduler().cancelAllTasks();
 						endGame(EndReason.NORMAL_END);
 						return;
 					}
@@ -518,6 +519,7 @@ public class Game {
 				}
 				else
 				{
+					Bukkit.getServer().getScheduler().cancelAllTasks();
 					endGame(EndReason.PLAYER_LEFT);
 					return;
 					//player left
@@ -530,6 +532,7 @@ public class Game {
 	
 	private void endGame(EndReason reason)
 	{
+		Bukkit.getServer().getScheduler().cancelAllTasks();
 		Bukkit.broadcastMessage(prefix + "Das Spiel ist zu Ende");
 	
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
