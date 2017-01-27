@@ -19,6 +19,8 @@ public class Plot {
 	private int finalGradeLook;
 	private int finalGradeFitting;
 	
+	private int finalTotalGrade;
+	
 	public boolean ownerLeft = false;
 	
 	private ArrayList<Integer> gradesCreativity = new ArrayList<>();
@@ -104,6 +106,8 @@ public class Plot {
 		{
 				finalGradeFitting += i;
 		}	
+		
+		finalTotalGrade = finalGradeCreativity + finalGradeFitting + finalGradeLook;
 	}
 	
 	public int getFinalCreativityGrade()
@@ -119,6 +123,11 @@ public class Plot {
 	public int getFinalLookGrade()
 	{
 		return finalGradeLook;
+	}
+	
+	public int getFinalTotalGrade()
+	{
+		return finalTotalGrade;
 	}
 	
 	

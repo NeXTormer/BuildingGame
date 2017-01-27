@@ -120,7 +120,7 @@ public class BlockEvents implements Listener {
 	public void onWaterSpread(BlockFromToEvent e)
 	{
 		if(game.gamestate == GameState.BUILDING)
-			{
+		{
 			Location blocklocation = e.getBlock().getLocation();
 			blocklocation.setY(1);
 			if(e.getBlock().getWorld().getBlockAt(blocklocation).getType() == Material.BEDROCK)

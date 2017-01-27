@@ -1,5 +1,7 @@
 package events;
 
+import java.util.ArrayList;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,8 +42,6 @@ public class ItemEvents implements Listener {
 				if(e.getMaterial().equals(Material.PRISMARINE_SHARD))
 				{
 					Player p = e.getPlayer();
-					
-					p.sendMessage("peter rendl");
 					p.closeInventory();
 					p.openInventory(game.gradingInventories.get(p).inv);
 				}

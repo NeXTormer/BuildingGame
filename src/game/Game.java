@@ -532,7 +532,7 @@ public class Game {
 				
 				//remove prismarine shard
 				for(Player p : players){
-					p.sendTitle("§6§l" + plotArray[id].getOwner().getName(), "§7Hat dieses Bauwerk errichtet");
+					p.sendTitle("§6§l" + plotArray[id].getOwner().getName(), "§7hat dieses Bauwerk errichtet");
 					p.getInventory().setItem(4, null);
 					p.closeInventory();
 				}
@@ -543,9 +543,9 @@ public class Game {
 		//save rating
 		for(Player p : players)
 		{
-			plotArray[id].addGradeCreativity(gradingInventories.get(p).voteBuffer[0]);
-			plotArray[id].addGradeLook(gradingInventories.get(p).voteBuffer[1]);
-			plotArray[id].addGradeFitting(gradingInventories.get(p).voteBuffer[2]);
+			plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0]));
+			plotArray[id].addGradeLook(convertGrade(gradingInventories.get(p).voteBuffer[1]));
+			plotArray[id].addGradeFitting(convertGrade(gradingInventories.get(p).voteBuffer[2]));
 		}
 		
 		
@@ -583,7 +583,36 @@ public class Game {
 	private void endGame(EndReason reason)
 	{
 		Bukkit.getServer().getScheduler().cancelAllTasks();
+		
+		//calculate winner
+		int[] grades = new int[players.size()];
+		for(int i = 0; i < players.size(); i++)
+		{
+			plotArray[i].calculateFinalGrade();
+			grades[i] = plotArray[i].getFinalTotalGrade();
+		}
+		
+		int maxindex = 0;
+		int maxvalue = 0;
+		
+		for(int i = 0; i < players.size(); i++)
+		{
+			if(grades[i] > maxvalue)
+			{
+				maxvalue = grades[i];
+				maxindex = i;
+			}
+		}
+
 		Bukkit.broadcastMessage(prefix + "Das Spiel ist zu Ende");
+		
+		for(Player p : players)
+		{
+			p.sendTitle("§6" + plotArray[maxindex].getOwner().getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
+			p.teleport(plotArray[maxindex].spawnLocation);
+		}
+		
+		
 	
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			
@@ -594,6 +623,17 @@ public class Game {
 			}
 		}, 10* 20);
 	
+	}
+	
+	private int convertGrade(int g)
+	{
+		if(g == 3) return 5;
+		if(g == 4) return 3;
+		if(g == 5) return 1;
+		if(g == 6) return -1;
+		if(g == 7) return -3;
+		
+		return 69;
 	}
 	
 	
