@@ -24,7 +24,7 @@ public class VotingInventory {
 	public int[] voteBuffer = new int[3];
 	
 	private static ItemStack optikIS = createItemStack(Material.DIAMOND, "§6Optik", "§7Bewerte, wie gut das Gebaute aussieht");
-	private static ItemStack stimmigkeitIS = createItemStack(Material.SIGN, "§6Stimmigkeit", "§7Bewerten, ob das Gebaute zum Thema passt");
+	private static ItemStack stimmigkeitIS = createItemStack(Material.SIGN, "§6Stimmigkeit", "§7Bewerte, ob das Gebaute zum Thema passt");
 	private static ItemStack kreativitaetIS = createItemStack(Material.EMERALD, "§6Kreativitaet", "§7Bewerte, wie Kreativ das Gebaute umgesetzt wurde");
 	
 	
@@ -50,24 +50,28 @@ public class VotingInventory {
 
 	public VotingInventory() {
 		inv = Bukkit.createInventory(null, 54, "§6Plot bewerten");
+		voteBuffer[0] = 8;
+		voteBuffer[1] = 8;
+		voteBuffer[2] = 8;
+		updateInventory();
 	}
 
 	public void invClicked(InventoryClickEvent e) {
 		int slot = e.getRawSlot();
-		
-		if(slot <= 11 && slot >= 16)
+		Bukkit.broadcastMessage(slot + "");
+		if(slot >= 11 && slot <= 16)
 		{
 			int x = (slot + 1) % 9;
 			voteBuffer[0] = x;
 		}
 		
-		if(slot <= 20 && slot >= 25)
+		if(slot >= 20 && slot <= 25)
 		{
 			int x = (slot + 1) % 9;
 			voteBuffer[1] = x;
 		}
 		
-		if(slot <= 29 && slot >= 34)
+		if(slot >= 29 && slot <= 34)
 		{
 			int x = (slot + 1) % 9;
 			voteBuffer[2] = x;
@@ -77,7 +81,7 @@ public class VotingInventory {
 //		for(int row = 2; row <= 4; row++)
 //		{
 //			int c = ((row - 1) * 9 + slot) - 1;
-//			if(c < 3 || c > 8)
+//			if(c < 3 || c > 8)                                  
 //			{
 //				//return;
 //			}
@@ -90,51 +94,51 @@ public class VotingInventory {
 	public void updateInventory()
 	{
 		resetInventory();
-		inv.setItem(3 * 9 + voteBuffer[0], getItem(voteBuffer[0]));
-		inv.setItem(4 * 9 + voteBuffer[1], getItem(voteBuffer[1]));
-		inv.setItem(5 * 9 + voteBuffer[2], getItem(voteBuffer[2]));
+		inv.setItem(8 + voteBuffer[0], getItem(voteBuffer[0]));
+		inv.setItem(17 + voteBuffer[1], getItem(voteBuffer[1]));
+		inv.setItem(26 + voteBuffer[2], getItem(voteBuffer[2]));
 	}
 	
 	private ItemStack getItem(int i)
 	{
 		if(i == 3)
 		{
-			return sehrGutGIS;
+			return sehrGutCIS;
 		}
 		else if(i == 4)
 		{
-			return gutGIS;
+			return gutCIS;
 		}
 		else if(i == 5)
 		{
-			return mittelGIS;
+			return mittelCIS;
 		}
 		else if(i == 6)
 		{
-			return schlechtGIS;
+			return schlechtCIS;
 		}
 		else if(i == 7)
 		{
-			return sehrSchlechtGIS;
+			return sehrSchlechtCIS;
 		}
 		else if(i == 8)
 		{
-			return nichtBewertetGIS;
+			return nichtBewertetCIS;
 		}
-		return new ItemStack(Material.COBBLESTONE);
+		return new ItemStack(Material.JACK_O_LANTERN);
 	}
 	
 	public void resetInventory()
 	{
-		inv = Bukkit.createInventory(null, 54, "§6Plot bewerten");
-
+		//inv = Bukkit.createInventory(null, 54, "§6Plot bewerten");
+		Bukkit.broadcastMessage("INV RESET");
 		inv.setItem(10, optikIS);
 		inv.setItem(11, sehrGutGIS);
 		inv.setItem(12, gutGIS);
 		inv.setItem(13, mittelGIS);
 		inv.setItem(14, schlechtGIS);
 		inv.setItem(15, sehrSchlechtGIS);
-		inv.setItem(16, nichtBewertetCIS);
+		inv.setItem(16, nichtBewertetGIS);
 		
 		inv.setItem(19, kreativitaetIS);
 		inv.setItem(20, sehrGutGIS);
@@ -142,7 +146,7 @@ public class VotingInventory {
 		inv.setItem(22, mittelGIS);
 		inv.setItem(23, schlechtGIS);
 		inv.setItem(24, sehrSchlechtGIS);
-		inv.setItem(25, nichtBewertetCIS);
+		inv.setItem(25, nichtBewertetGIS);
 		
 		inv.setItem(28, stimmigkeitIS);
 		inv.setItem(29, sehrGutGIS);
@@ -150,7 +154,7 @@ public class VotingInventory {
 		inv.setItem(31, mittelGIS);
 		inv.setItem(32, schlechtGIS);
 		inv.setItem(33, sehrSchlechtGIS);
-		inv.setItem(34, nichtBewertetCIS);
+		inv.setItem(34, nichtBewertetGIS);
 		
 		inv.setItem(48, bewertungAbschliessenIS);
 		inv.setItem(49, bewertungAbschliessenIS);

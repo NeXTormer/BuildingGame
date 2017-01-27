@@ -43,7 +43,6 @@ public class InventoryEvents implements Listener {
             e.setCancelled(true);
         	if(e.getInventory().getName().equals(game.gradingInventories.get(p).inv.getName())) //if the clicked inventory is a grading inventory
         	{
-        		Bukkit.broadcastMessage("FINDENIG: " + e.getRawSlot());
         		if(e.getRawSlot() == 48 || e.getRawSlot() == 49 || e.getRawSlot() == 50)
         		{
         			p.closeInventory();
@@ -52,10 +51,8 @@ public class InventoryEvents implements Listener {
         			return;
         		}
         		
-        		if(true)//check which item has been clicked and set the rating per plot accordingly
         		{
         			game.gradingInventories.get(p).invClicked(e);
-        			game.plotArray[game.gradingCurrentPlotId].addGradeCreativity(1111); //add modularity
         		}
         		
         	}

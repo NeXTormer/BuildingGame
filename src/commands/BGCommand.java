@@ -31,6 +31,10 @@ public class BGCommand implements CommandExecutor {
 					p.sendMessage(game.gamestate.toString());
 					p.sendMessage(game.votes[1] + "");
 					p.sendMessage(game.gradingInventories.toString());
+					p.sendMessage("VoteBuffer0: " + game.gradingInventories.get(p).voteBuffer[0]);
+					p.sendMessage("VoteBuffer1: " + game.gradingInventories.get(p).voteBuffer[1]);
+					p.sendMessage("VoteBuffer2: " + game.gradingInventories.get(p).voteBuffer[2]);
+					
 				}
 				if(args[0].equalsIgnoreCase("mode"))
 				{
