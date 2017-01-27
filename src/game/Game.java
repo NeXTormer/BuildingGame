@@ -632,6 +632,7 @@ public class Game {
 		if(g == 5) return 1;
 		if(g == 6) return -1;
 		if(g == 7) return -3;
+		if(g == 8) return 0;
 		
 		return 69;
 	}
