@@ -18,6 +18,7 @@ import game.GameState;
 public class BlockEvents implements Listener {
 	
 	private Game game;
+	
 	public BlockEvents(Game game)
 	{
 		this.game = game;
@@ -76,6 +77,11 @@ public class BlockEvents implements Listener {
 				}
 				else if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE && e.getBlock().getLocation().getBlockY()==5)
 				{
+					if(game.forbiddenBlocks.contains(e.getBlock().getType()))
+					{
+						
+					}
+					else {
 					Location replaceLoc = e.getBlock().getLocation();
 					replaceLoc.setX(replaceLoc.getX()-2);
 					replaceLoc.setZ(replaceLoc.getZ()+2);
@@ -90,6 +96,7 @@ public class BlockEvents implements Listener {
 				            	new Location(world, x, y, z).getBlock().setType(e.getBlock().getType());
 				            }
 				        }
+					}
 					}
 				}
 				else

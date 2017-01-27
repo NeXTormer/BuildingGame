@@ -1,5 +1,6 @@
 package events;
 
+import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -18,6 +19,7 @@ public class PlayerJoin implements Listener
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e)
     {
+    	e.getPlayer().setGameMode(GameMode.ADVENTURE);
     	e.getPlayer().getInventory().clear();
     	game.addPlayer(e.getPlayer());
     	e.getPlayer().setFlySpeed(0.1f);

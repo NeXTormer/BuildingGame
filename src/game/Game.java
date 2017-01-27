@@ -34,6 +34,8 @@ public class Game {
 	public static String playerprefix = "§2§ll§r§a BuildingGame§2>> §r§7";
 	public static int secondsToGrade = 15;
 	public static int MAX_PLAYERS = 16;
+	
+	public static List<Material> forbiddenBlocks = new ArrayList<>();
 
 	public Plugin plugin;
 
@@ -88,6 +90,47 @@ public class Game {
 		loadBuildThemes();
 		this.plugin = plugin;
 		
+		forbiddenBlocks.add(Material.WOOD_BUTTON);
+		forbiddenBlocks.add(Material.STONE_BUTTON);
+		forbiddenBlocks.add(Material.CHEST);
+		forbiddenBlocks.add(Material.ENDER_CHEST);
+		forbiddenBlocks.add(Material.SIGN_POST);
+		forbiddenBlocks.add(Material.COBBLE_WALL);
+		forbiddenBlocks.add(Material.WOOD_BUTTON);
+		forbiddenBlocks.add(Material.ANVIL);
+		forbiddenBlocks.add(Material.FENCE);
+		forbiddenBlocks.add(Material.FENCE_GATE);
+		forbiddenBlocks.add(Material.STAINED_GLASS_PANE);
+		forbiddenBlocks.add(Material.THIN_GLASS);
+		forbiddenBlocks.add(Material.ENDER_PORTAL_FRAME);
+		forbiddenBlocks.add(Material.SNOW);
+		forbiddenBlocks.add(Material.IRON_FENCE);
+		forbiddenBlocks.add(Material.CARPET);
+		forbiddenBlocks.add(Material.CAKE_BLOCK);
+		forbiddenBlocks.add(Material.SKULL);
+		forbiddenBlocks.add(Material.FLOWER_POT);
+		forbiddenBlocks.add(Material.STANDING_BANNER);
+		forbiddenBlocks.add(Material.BREWING_STAND);
+		forbiddenBlocks.add(Material.IRON_TRAPDOOR);
+		forbiddenBlocks.add(Material.WOODEN_DOOR);
+		forbiddenBlocks.add(Material.TRAP_DOOR);
+		forbiddenBlocks.add(Material.TRAPPED_CHEST);
+		forbiddenBlocks.add(Material.REDSTONE_WIRE);
+		forbiddenBlocks.add(Material.STONE_PLATE);
+		forbiddenBlocks.add(Material.WOOD_PLATE);
+		forbiddenBlocks.add(Material.IRON_PLATE);
+		forbiddenBlocks.add(Material.GOLD_PLATE);
+		forbiddenBlocks.add(Material.REDSTONE_TORCH_ON);
+		forbiddenBlocks.add(Material.TORCH);
+		forbiddenBlocks.add(Material.DAYLIGHT_DETECTOR);
+		forbiddenBlocks.add(Material.IRON_DOOR_BLOCK);
+		forbiddenBlocks.add(Material.REDSTONE_COMPARATOR_OFF);
+		forbiddenBlocks.add(Material.LEVER);
+		forbiddenBlocks.add(Material.RAILS);
+		forbiddenBlocks.add(Material.ACTIVATOR_RAIL);
+		forbiddenBlocks.add(Material.DETECTOR_RAIL);
+		forbiddenBlocks.add(Material.POWERED_RAIL);
+		forbiddenBlocks.add(Material.WEB);
 	}
 	
 	
@@ -408,7 +451,7 @@ public class Game {
 		Score scoreZeit = bgObjective.getScore("§6Zeit:");
 		scoreZeit.setScore(1);
 		
-		Score scorel = bgObjective.getScore("-");
+		Score scorel = bgObjective.getScore("");
 		scorel.setScore(2);
 		
 		Score scoreTime = bgObjective.getScore(currentGradingtime);
