@@ -50,7 +50,7 @@ public class Game {
 	public GameState gamestate = GameState.LOBBY; //default gamestate
 	public Inventory votingInventory; //voting inventory preset
 	public int[] votes; //theme votes
-	public List<?> themes;
+	public List<String> themes;
 	public Map<OfflinePlayer, Score> buildingScoreboard = new HashMap<>();
 	public Map<Player, VotingInventory> gradingInventories = new HashMap<>();
 
@@ -307,11 +307,11 @@ public class Game {
 		locationCfg.addDefault("locations.originplot.yaw", 0d);
 		locationCfg.addDefault("locations.originplot.pitch", 0d);
 		
-		locationCfg.addDefault("locations.originSpawn.x", 15);
+		locationCfg.addDefault("locations.originSpawn.x", 25);
 		locationCfg.addDefault("locations.originSpawn.y", 10);
-		locationCfg.addDefault("locations.originSpawn.z", 63);
+		locationCfg.addDefault("locations.originSpawn.z", 55);
 		locationCfg.addDefault("locations.originSpawn.world", "BuildingGame");
-		locationCfg.addDefault("locations.originSpawn.yaw", 0d);
+		locationCfg.addDefault("locations.originSpawn.yaw", 45d);
 		locationCfg.addDefault("locations.originSpawn.pitch", 0d);
 		
 		try {
@@ -353,9 +353,9 @@ public class Game {
 		
 	}
 
-	private void loadBuildThemes()
+	public void loadBuildThemes()
 	{
-		themes = themesCfg.getList("themes");
+		themes = (List<String>) themesCfg.getList("themes");
 		votes = new int[themes.size()];
 		votingInventory = Bukkit.createInventory(null, 36, "§6§lThemen");
 		for(int i = 0; i < themes.size(); i++)

@@ -2,6 +2,8 @@ package commands;
 
 import game.Game;
 
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -62,6 +64,43 @@ public class BGCommand implements CommandExecutor {
 				{
 					game.buildingTime = Integer.valueOf(args[1]);
 					p.sendMessage(game.playerprefix+"Die Bauzeit wurde auf §6"+args[1]+"§7 Sekunden gesetzt");
+					return true;
+				}
+				
+				if(args[0].equalsIgnoreCase("addTheme"))
+				{
+
+					game.themes.add(args[1]);
+					game.themesCfg.set("themes", game.themes);
+					game.loadBuildThemes();
+					p.sendMessage(game.playerprefix+"Das Thema §6"+args[1]+"§7 wurde zum Themenpool hinzugefügt");
+					try {
+						game.themesCfg.save(game.themesFile);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return true;
+				}
+				if(args[0].equalsIgnoreCase("removeTheme"))
+				{
+					if(game.themes.contains(args[1]))
+					{
+						game.themes.remove(args[1]);
+						game.themesCfg.set("themes", game.themes);
+						game.loadBuildThemes();
+						p.sendMessage(game.playerprefix+"Das Thema §6"+args[1]+"§7 wurde vom Themenpool entfernt");
+						try {
+							game.themesCfg.save(game.themesFile);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					else
+					{
+						p.sendMessage(game.playerprefix+"Das Thema §6"+args[1]+"§7 ist nicht im Themenpool vorhanden");
+					}
 					return true;
 				}
 			}
