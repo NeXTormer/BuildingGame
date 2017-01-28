@@ -19,7 +19,7 @@ public class Plot {
 	private int finalGradeLook;
 	private int finalGradeFitting;
 	
-	private int finalTotalGrade;
+	public int finalTotalGrade;
 	
 	public boolean ownerLeft = false;
 	

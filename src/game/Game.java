@@ -8,8 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,9 +21,12 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -70,6 +77,8 @@ public class Game {
 	public int max; //max number of votes in VOTING phase
 	public int gradingCurrentPlotId; //current plot id which is in the grading progress (GameState.GRADING)
 
+	private Random random;
+	
 	public	int voteTimer = 10;
 	private int gradeTimer = 0;
 	private int buildingTimerScheduler;
@@ -79,6 +88,7 @@ public class Game {
 	private String currentBuildingtime = "";
 	private String finalTheme;
 	private int currentPlotInGradingProcess = 1000;
+	private int maxindex = 0;
 
 
 	public Game(Plugin plugin)
@@ -89,6 +99,8 @@ public class Game {
 		loadPlots();
 		loadBuildThemes();
 		this.plugin = plugin;
+		
+		random = new Random();
 		
 		forbiddenBlocks.add(Material.WOOD_BUTTON);
 		forbiddenBlocks.add(Material.STONE_BUTTON);
@@ -451,7 +463,7 @@ public class Game {
 		Score scoreZeit = bgObjective.getScore("§6Zeit:");
 		scoreZeit.setScore(1);
 		
-		Score scorel = bgObjective.getScore("");
+		Score scorel = bgObjective.getScore("   ");
 		scorel.setScore(2);
 		
 		Score scoreTime = bgObjective.getScore(currentGradingtime);
@@ -595,7 +607,8 @@ public class Game {
 			grades[i] = plotArray[i].getFinalTotalGrade();
 		}
 		
-		int maxindex = 0;
+		
+		
 		int maxvalue = 0;
 		
 		for(int i = 0; i < players.size(); i++)
@@ -615,16 +628,56 @@ public class Game {
 			p.teleport(plotArray[maxindex].spawnLocation);
 		}
 		
+		scoreboard.resetScores("§7§l0:00");
+		scoreboard.resetScores(currentBuildingtime);
+		scoreboard.resetScores("§6Zeit:");
+		scoreboard.resetScores("§6Erbauer:");
+		scoreboard.resetScores("§6Thema:");
+		scoreboard.resetScores("§7" + finalTheme);
+		scoreboard.resetScores("");
+		scoreboard.resetScores(" ");
+		scoreboard.resetScores("   ");
+		scoreboard.resetScores(scoreboardPlotOwner);
 		
+		
+		Score rangliste = bgObjective.getScore("§6Rangliste:");
+		rangliste.setScore(maxvalue+2);
+		
+		Score space = bgObjective.getScore(" ");
+		space.setScore(maxvalue+1);
+		
+		for(Plot p : plotArray)
+		{
+			if(p.getOwner()!=null && !p.ownerLeft)
+			{
+			Score score = bgObjective.getScore("§7"+p.getOwner().getName());
+			score.setScore(p.getFinalTotalGrade());
+			}
+		}
+		
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				launchFirework();
+				
+			}
+		}, 0, 15);
+	
 	
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			
 			@Override
 			public void run() {
+				for(Player p : players)
+				{
+					p.kickPlayer(playerprefix + "Das Spiel ist zu Ende");
+				}
+				
 				Bukkit.getServer().shutdown();
 				
 			}
-		}, 10* 20);
+		}, 20* 20);
 	
 	}
 	
@@ -640,7 +693,39 @@ public class Game {
 		return 69;
 	}
 	
-	
+	private void launchFirework()
+	{
+		
+		Player p = plotArray[maxindex].getOwner();
+		 //Spawn the Firework, get the FireworkMeta.
+        Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
+        FireworkMeta fwm = fw.getFireworkMeta();
+
+        //Get the type
+        int rt = random.nextInt(4) + 1;
+        Type type = Type.BALL;       
+        if (rt == 1) type = Type.BALL;
+        if (rt == 2) type = Type.BALL_LARGE;
+        if (rt == 3) type = Type.BURST;
+        if (rt == 4) type = Type.CREEPER;
+        if (rt == 5) type = Type.STAR;
+        Color c1 = randomColor();
+        Color c2 = randomColor();
+       
+        //Create our effect with this
+        FireworkEffect effect = FireworkEffect.builder().flicker(random.nextBoolean()).withColor(c1).withFade(c2).with(type).trail(random.nextBoolean()).build();
+       
+        //Then apply the effect to the meta
+        fwm.addEffect(effect);
+       
+        //Generate some random power and set it
+        //int rp = random.nextInt(2) + 1;
+        fwm.setPower(1);
+       
+        //Then apply this to our rocket
+        fw.setFireworkMeta(fwm);
+		
+	}
 	
 	
 	
@@ -654,6 +739,33 @@ public class Game {
 		return gradeTimer++;
 	}
 	
+	
+	private Color randomColor()
+	{
+		int r = random.nextInt(17);
+		
+		switch(r)
+		{
+			case 0: return Color.AQUA;
+			case 1: return Color.BLACK;
+			case 2: return Color.BLUE;
+			case 3: return Color.FUCHSIA;
+			case 4: return Color.GRAY;
+			case 5: return Color.GREEN;
+			case 6: return Color.LIME;
+			case 7: return Color.MAROON;
+			case 8: return Color.NAVY;
+			case 9: return Color.OLIVE;
+			case 10: return Color.ORANGE;
+			case 11: return Color.PURPLE;
+			case 12: return Color.RED;
+			case 13: return Color.SILVER;
+			case 14: return Color.TEAL;
+			case 15: return Color.WHITE;
+			default: return Color.YELLOW;
+		}
+		
+	}
 	
 	
 
