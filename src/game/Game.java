@@ -39,7 +39,7 @@ public class Game {
 	
 	public static String prefix = "§1§ll§r§9 BuildingGame§1§l>> §r§7";
 	public static String playerprefix = "§2§ll§r§a BuildingGame§2>> §r§7";
-	public static int secondsToGrade = 15;
+	public static int secondsToGrade = 20;
 	public static int MAX_PLAYERS = 16;
 	
 	public static List<Material> forbiddenBlocks = new ArrayList<>();
@@ -52,7 +52,6 @@ public class Game {
 
 	public Map<Player, PlayerData> playerdata = new HashMap<>();
 	
-	public boolean inProgress = false;
 	public boolean globalBuildMode = false;
 	public GameState gamestate = GameState.LOBBY; //default gamestate
 	public Inventory votingInventory; //voting inventory preset
@@ -62,7 +61,7 @@ public class Game {
 	public Map<Player, VotingInventory> gradingInventories = new HashMap<>();
 
 	public int gradingNameRevealTime = 5;
-	public int buildingTime = 90;
+	public int buildingTime = 10 * 60; //time to build
 	public int scoreboardSecondsToGrade;
 	public String currentGradingtime = "";
 	public String scoreboardPlotOwner = "";
@@ -147,9 +146,7 @@ public class Game {
 	
 	
 	public void start(Player p) {
-		if(inProgress) return;
 		if ((players.size() >= 1) && players.size() <= 16) {
-			inProgress = true;
 
 			startVoting();
 
@@ -258,7 +255,7 @@ public class Game {
 		}
 		else
 		{
-			if(inProgress)
+			if(!(gamestate == GameState.LOBBY))
 			{
 				p.kickPlayer(prefix + "Das Spiel laeuft bereits");
 			}
@@ -280,7 +277,10 @@ public class Game {
 			{
 				if(players.get(i).getName() == p.getName()) //check which index in the arraylist the player is
 				{
-					plotArray[i].ownerLeft = true; //if the player leaves the plot will know that he has left and will not be graded
+					if(!(gamestate == GameState.LOBBY))
+					{
+						plotArray[i].ownerLeft = true; //if the player leaves the plot will know that he has left and will not be graded	
+					}
 				}
 			}
 			players.remove(p);
