@@ -25,6 +25,8 @@ public class PlayerJoin implements Listener
     	e.getPlayer().setFlySpeed(0.1f);
     	e.getPlayer().setWalkSpeed(0.2f);
     	e.getPlayer().setSaturation(10);
+    	e.getPlayer().setLevel(0);
+    	e.getPlayer().setHealth(20);
     }
 
 

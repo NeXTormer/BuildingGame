@@ -55,7 +55,7 @@ public class Game {
 	public Map<Player, VotingInventory> gradingInventories = new HashMap<>();
 
 	public int gradingNameRevealTime = 5;
-	public int buildingTime = 13;
+	public int buildingTime = 90;
 	public int scoreboardSecondsToGrade;
 	public String currentGradingtime = "";
 	public String scoreboardPlotOwner = "";
@@ -537,16 +537,19 @@ public class Game {
 					p.closeInventory();
 				}
 				
+				//save rating
+				for(Player p : players)
+				{
+					plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0]));
+					plotArray[id].addGradeLook(convertGrade(gradingInventories.get(p).voteBuffer[1]));
+					plotArray[id].addGradeFitting(convertGrade(gradingInventories.get(p).voteBuffer[2]));
+				}
+				
+				
 			}
 		}, (20 * secondsToGrade)+1);
 		
-		//save rating
-		for(Player p : players)
-		{
-			plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0]));
-			plotArray[id].addGradeLook(convertGrade(gradingInventories.get(p).voteBuffer[1]));
-			plotArray[id].addGradeFitting(convertGrade(gradingInventories.get(p).voteBuffer[2]));
-		}
+		
 		
 		
 		
