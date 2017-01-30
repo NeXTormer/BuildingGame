@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.metadata.MetadataValue;
 
 import game.Game;
 import game.GameState;
@@ -89,11 +90,21 @@ public class BlockEvents implements Listener {
 				    World world = Bukkit.getWorld(game.locationCfg.getString("locations.lobby.world"));
 				    Location edgeMin = new Location(world, replaceLoc.getX(), replaceLoc.getY(), replaceLoc.getZ());
 				    Location edgeMax = new Location(world, replaceLoc.getX()-32, replaceLoc.getY()+2, replaceLoc.getZ()+32);
+				    
+				    int blockID = e.getBlock().getTypeId();
+				    byte meta = e.getBlock().getData();
 				   
 				    for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --) {
 				        for (int y = edgeMin.getBlockY(); y < edgeMax.getBlockY(); y ++) {
 				            for (int z = edgeMin.getBlockZ(); z < edgeMax.getBlockZ(); z ++) {
-				            	new Location(world, x, y, z).getBlock().setType(e.getBlock().getType());
+				            	if(!e.getBlock().isLiquid())
+				            	{
+				            		new Location(world, x, y, z).getBlock().setTypeIdAndData(blockID, meta, false);
+				            	}
+				            	else
+				            	{
+				            		new Location(world, x, y, z).getBlock().setType(Material.WATER);
+				            	}
 				            }
 				        }
 					}

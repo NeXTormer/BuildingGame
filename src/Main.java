@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import commands.BGCommand;
+import commands.BBCommand;
 import events.BlockEvents;
 import events.EnvironmentalEvents;
 import events.InventoryEvents;
@@ -30,7 +30,7 @@ public class Main extends JavaPlugin {
 	ItemEvents itemevents;
 	PlayerEvents playerevents;
 	
-	BGCommand bgcommand;
+	BBCommand bbcommand;
 	
 	public void onEnable()
 	{
@@ -43,7 +43,7 @@ public class Main extends JavaPlugin {
 		itemevents = new ItemEvents(game);
 		playerevents = new PlayerEvents(game);
 
-		bgcommand = new BGCommand(game);
+		bbcommand = new BBCommand(game);
 		
 		pluginmanager.registerEvents(playerjoinevent, this);
 		pluginmanager.registerEvents(playerquitevent, this);
@@ -55,7 +55,7 @@ public class Main extends JavaPlugin {
 		pluginmanager.registerEvents(playerevents, this);
 		
 
-		getCommand("bg").setExecutor(bgcommand);
+		getCommand("bb").setExecutor(bbcommand);
 		for(World w : Bukkit.getWorlds())
 		{
 			w.setAutoSave(false);
@@ -75,7 +75,7 @@ public class Main extends JavaPlugin {
 		}
 		
 		
-		System.out.println("[BuildingGame] Disabled");
+		System.out.println("[BuildingBrawl] Disabled");
 	}
 	
 	

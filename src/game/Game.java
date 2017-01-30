@@ -37,8 +37,8 @@ import org.bukkit.scoreboard.Scoreboard;
 
 public class Game {
 	
-	public static String prefix = "§1§ll§r§9 BuildingGame§1§l>> §r§7";
-	public static String playerprefix = "§2§ll§r§a BuildingGame§2>> §r§7";
+	public static String prefix = "§1§ll§r§9 BuildingGBrawl§1§l>> §r§7";
+	public static String playerprefix = "§2§ll§r§a BuildingBrawl§2>> §r§7";
 	public static int secondsToGrade = 20;
 	public static int MAX_PLAYERS = 16;
 	
@@ -66,10 +66,10 @@ public class Game {
 	public String currentGradingtime = "";
 	public String scoreboardPlotOwner = "";
 	
-	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
+	public File locationsFile = new File("plugins/BuildingBrawl", "locations.yml");
 	public FileConfiguration locationCfg = YamlConfiguration.loadConfiguration(locationsFile);
 
-	public File themesFile = new File("plugins/BuildingGame", "themes.yml");
+	public File themesFile = new File("plugins/BuildingBrawl", "themes.yml");
 	public FileConfiguration themesCfg = YamlConfiguration.loadConfiguration(themesFile);
 
 	public Location lobbyLocation;
@@ -142,6 +142,7 @@ public class Game {
 		forbiddenBlocks.add(Material.DETECTOR_RAIL);
 		forbiddenBlocks.add(Material.POWERED_RAIL);
 		forbiddenBlocks.add(Material.WEB);
+		forbiddenBlocks.add(Material.DRAGON_EGG);
 	}
 	
 	
@@ -197,8 +198,8 @@ public class Game {
 		gamestate = GameState.BUILDING;
 
 		scoreboard = Bukkit.getServer().getScoreboardManager().getNewScoreboard();
-		bgObjective = scoreboard.registerNewObjective("BuildingGame", "dummy");
-		bgObjective.setDisplayName("§9    - BuildingGame -    ");
+		bgObjective = scoreboard.registerNewObjective("BuildingBrawl", "dummy");
+		bgObjective.setDisplayName("§9    - BuildingBrawl -    ");
 		bgObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
 		Score score2 = bgObjective.getScore("§6Thema:");
@@ -308,21 +309,21 @@ public class Game {
 		locationCfg.addDefault("locations.lobby.x", 0d);
 		locationCfg.addDefault("locations.lobby.y", 100d);
 		locationCfg.addDefault("locations.lobby.z", 0d);
-		locationCfg.addDefault("locations.lobby.world", "BuildingGame");
+		locationCfg.addDefault("locations.lobby.world", "BuildingBrawl");
 		locationCfg.addDefault("locations.lobby.yaw", 0d);
 		locationCfg.addDefault("locations.lobby.pitch", 0d);
 		
 		locationCfg.addDefault("locations.originplot.x", 23);
 		locationCfg.addDefault("locations.originplot.y", 4);
 		locationCfg.addDefault("locations.originplot.z", 57);
-		locationCfg.addDefault("locations.originplot.world", "BuildingGame");
+		locationCfg.addDefault("locations.originplot.world", "BuildingBrawl");
 		locationCfg.addDefault("locations.originplot.yaw", 0d);
 		locationCfg.addDefault("locations.originplot.pitch", 0d);
 		
 		locationCfg.addDefault("locations.originSpawn.x", 25);
 		locationCfg.addDefault("locations.originSpawn.y", 10);
 		locationCfg.addDefault("locations.originSpawn.z", 55);
-		locationCfg.addDefault("locations.originSpawn.world", "BuildingGame");
+		locationCfg.addDefault("locations.originSpawn.world", "BuildingBrawl");
 		locationCfg.addDefault("locations.originSpawn.yaw", 45d);
 		locationCfg.addDefault("locations.originSpawn.pitch", 0d);
 		
@@ -370,14 +371,37 @@ public class Game {
 		themes = (List<String>) themesCfg.getList("themes");
 		votes = new int[themes.size()];
 		votingInventory = Bukkit.createInventory(null, 36, "§6§lThemen");
-		for(int i = 0; i < themes.size(); i++)
+		int r = random.nextInt(themes.size());
+		
+		if(themes.size()>10)
 		{
-			ItemStack is = new ItemStack(Material.PAPER);
-			ItemMeta im = is.getItemMeta();
-			im.setDisplayName("§7" + themes.get(i));
-			is.setItemMeta(im);
+			for(int i = 0; i < 10; i++)
+			{
+				ItemStack is = new ItemStack(Material.PAPER);
+				ItemMeta im = is.getItemMeta();
+				im.setDisplayName("§7" + themes.get(r));
+				is.setItemMeta(im);
+				if(votingInventory.contains(is))
+				{
+					i--;
+				} 
+				else
+				{
+					votingInventory.addItem(is);
+				}
+			}
+		}
+		else
+		{
+			for(int i = 0; i < themes.size(); i++)
+			{
+				ItemStack is = new ItemStack(Material.PAPER);
+				ItemMeta im = is.getItemMeta();
+				im.setDisplayName("§7" + themes.get(i));
+				is.setItemMeta(im);
 
-			votingInventory.addItem(is);
+				votingInventory.addItem(is);
+			}
 		}
 	}
 

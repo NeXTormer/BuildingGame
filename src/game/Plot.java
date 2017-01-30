@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class Plot {
 
-	public Location originLocation = new Location(Bukkit.getWorld("BuildingGame"), 1, 1, 1);
-	public Location spawnLocation = new Location(Bukkit.getWorld("BuildingGame"), 1, 1, 1);
+	public Location originLocation = new Location(Bukkit.getWorld("BuildingBrawl"), 1, 1, 1);
+	public Location spawnLocation = new Location(Bukkit.getWorld("BuildingBrawl"), 1, 1, 1);
 	
 
 	public Player p;

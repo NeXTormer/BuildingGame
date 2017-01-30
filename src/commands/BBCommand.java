@@ -10,10 +10,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class BGCommand implements CommandExecutor {
+public class BBCommand implements CommandExecutor {
 	
 	private Game game;
-	public BGCommand(Game game)
+	public BBCommand(Game game)
 	{
 		this.game = game;
 	}

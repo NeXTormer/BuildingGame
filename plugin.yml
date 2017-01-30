@@ -1,12 +1,12 @@
-name: BuildingGame
-version: 1.0
+name: BuildingBrawl
+version: 1.1
 author: NeXTormer, GameZter
-description: Building Game
+description: BuildingBrawl
 
 
 main: Main
 
 commands:
-  bg:
-    description: Standard BuildingGame Befehl
-    usage: /bg <args> <args> 
+  bb:
+    description: Standard BuildingBrawl Befehl
+    usage: /bb <args> <args> 
