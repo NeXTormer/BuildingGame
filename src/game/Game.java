@@ -37,7 +37,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 public class Game {
 	
-	public static String prefix = "§1§ll§r§9 BuildingGBrawl§1§l>> §r§7";
+	public static String prefix = "§1§ll§r§9 BuildingBrawl§1§l>> §r§7";
 	public static String playerprefix = "§2§ll§r§a BuildingBrawl§2>> §r§7";
 	public static int secondsToGrade = 20;
 	public static int MAX_PLAYERS = 16;
@@ -59,6 +59,8 @@ public class Game {
 	public List<String> themes;
 	public Map<OfflinePlayer, Score> buildingScoreboard = new HashMap<>();
 	public Map<Player, VotingInventory> gradingInventories = new HashMap<>();
+	
+	public List<String> finalThemes = new ArrayList<>();
 
 	public int gradingNameRevealTime = 5;
 	public int buildingTime = 10 * 60; //time to build
@@ -66,10 +68,10 @@ public class Game {
 	public String currentGradingtime = "";
 	public String scoreboardPlotOwner = "";
 	
-	public File locationsFile = new File("plugins/BuildingBrawl", "locations.yml");
+	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
 	public FileConfiguration locationCfg = YamlConfiguration.loadConfiguration(locationsFile);
 
-	public File themesFile = new File("plugins/BuildingBrawl", "themes.yml");
+	public File themesFile = new File("plugins/BuildingGame", "themes.yml");
 	public FileConfiguration themesCfg = YamlConfiguration.loadConfiguration(themesFile);
 
 	public Location lobbyLocation;
@@ -309,21 +311,21 @@ public class Game {
 		locationCfg.addDefault("locations.lobby.x", 0d);
 		locationCfg.addDefault("locations.lobby.y", 100d);
 		locationCfg.addDefault("locations.lobby.z", 0d);
-		locationCfg.addDefault("locations.lobby.world", "BuildingBrawl");
+		locationCfg.addDefault("locations.lobby.world", "BuildingGame");
 		locationCfg.addDefault("locations.lobby.yaw", 0d);
 		locationCfg.addDefault("locations.lobby.pitch", 0d);
 		
 		locationCfg.addDefault("locations.originplot.x", 23);
 		locationCfg.addDefault("locations.originplot.y", 4);
 		locationCfg.addDefault("locations.originplot.z", 57);
-		locationCfg.addDefault("locations.originplot.world", "BuildingBrawl");
+		locationCfg.addDefault("locations.originplot.world", "BuildingGame");
 		locationCfg.addDefault("locations.originplot.yaw", 0d);
 		locationCfg.addDefault("locations.originplot.pitch", 0d);
 		
 		locationCfg.addDefault("locations.originSpawn.x", 25);
 		locationCfg.addDefault("locations.originSpawn.y", 10);
 		locationCfg.addDefault("locations.originSpawn.z", 55);
-		locationCfg.addDefault("locations.originSpawn.world", "BuildingBrawl");
+		locationCfg.addDefault("locations.originSpawn.world", "BuildingGame");
 		locationCfg.addDefault("locations.originSpawn.yaw", 45d);
 		locationCfg.addDefault("locations.originSpawn.pitch", 0d);
 		
@@ -368,27 +370,34 @@ public class Game {
 
 	public void loadBuildThemes()
 	{
+		int themeCounter = 9;
+		random = new Random();
 		themes = (List<String>) themesCfg.getList("themes");
 		votes = new int[themes.size()];
-		votingInventory = Bukkit.createInventory(null, 36, "§6§lThemen");
-		int r = random.nextInt(themes.size());
+		votingInventory = Bukkit.createInventory(null, 9, "§6§lThemen");
 		
-		if(themes.size()>10)
+		if(themes.size()>9)
 		{
-			for(int i = 0; i < 10; i++)
+			for(int i = 0; i < themeCounter; i++)
 			{
+				int r = random.nextInt(themes.size());
+				finalThemes.add(themes.get(r));
 				ItemStack is = new ItemStack(Material.PAPER);
 				ItemMeta im = is.getItemMeta();
-				im.setDisplayName("§7" + themes.get(r));
+				im.setDisplayName("§7" + finalThemes.get(i));
 				is.setItemMeta(im);
-				if(votingInventory.contains(is))
-				{
-					i--;
-				} 
-				else
+
+
+				
+				if(!votingInventory.contains(is))
 				{
 					votingInventory.addItem(is);
 				}
+				else
+				{
+					themeCounter++;
+				}
+
 			}
 		}
 		else
@@ -399,7 +408,7 @@ public class Game {
 				ItemMeta im = is.getItemMeta();
 				im.setDisplayName("§7" + themes.get(i));
 				is.setItemMeta(im);
-
+				finalThemes.add(themes.get(i));
 				votingInventory.addItem(is);
 			}
 		}
@@ -407,16 +416,23 @@ public class Game {
 
 	private String calculateFinalTheme()
 	{
+		random = new Random();
 		max = 0;
-		int maxindex = 42;
-		for(int i = 0; i < themes.size(); i++)
+		ArrayList<Integer> maxindex = new ArrayList<>();
+		for(int i = 0; i < finalThemes.size(); i++)
 		{
 			if(votes[i] > max) {
 				max = votes[i];
-				maxindex = i;
+				maxindex.clear();
+				maxindex.add(i);
+				
+			}
+			else if(votes[i]==max)
+			{
+				maxindex.add(i);
 			}
 		}
-		return (String) themes.get(maxindex);
+		return (String) finalThemes.get(maxindex.get(random.nextInt(maxindex.size())));
 	}
 
 	private void cancelScheduler(int id)

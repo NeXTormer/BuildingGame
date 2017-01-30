@@ -103,7 +103,7 @@ public class BlockEvents implements Listener {
 				            	}
 				            	else
 				            	{
-				            		new Location(world, x, y, z).getBlock().setType(Material.WATER);
+				            		new Location(world, x, y, z).getBlock().setType(Material.STATIONARY_WATER);
 				            	}
 				            }
 				        }

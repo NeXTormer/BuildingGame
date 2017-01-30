@@ -2,11 +2,13 @@ package events;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.util.Vector;
 
 import game.Game;
 import game.GameState;
@@ -35,11 +37,29 @@ public class PlayerEvents implements Listener {
 //	
 //				}
 				player.teleport(player.getLocation().add(e.getFrom().toVector().subtract(e.getTo().toVector()).normalize().multiply(2)));
-				player.sendMessage(game.playerprefix+"Du hast die maximale Höhe erreicht");
+				player.sendMessage(game.playerprefix+"Du hast die maximale Hoehe erreicht");
 				}
 	
 			}
     	}
+    }
+    
+    @EventHandler
+    public void onPlayerBucket(PlayerBucketEmptyEvent e)
+    {
+    	BlockFace bf = e.getBlockFace();
+    	Block b = e.getBlockClicked().getRelative(bf);
+    	
+		Location blocklocation = b.getLocation();
+		blocklocation.setY(1);
+		if(b.getWorld().getBlockAt(blocklocation).getType() == Material.BEDROCK)
+		{
+			
+		}
+		else
+		{
+			e.setCancelled(true);
+		}
     }
 
 }
