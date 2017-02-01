@@ -145,6 +145,14 @@ public class Game {
 		forbiddenBlocks.add(Material.POWERED_RAIL);
 		forbiddenBlocks.add(Material.WEB);
 		forbiddenBlocks.add(Material.DRAGON_EGG);
+		forbiddenBlocks.add(Material.TNT);
+		forbiddenBlocks.add(Material.DIODE_BLOCK_OFF);
+		forbiddenBlocks.add(Material.JUNGLE_DOOR);
+		forbiddenBlocks.add(Material.BIRCH_DOOR);
+		forbiddenBlocks.add(Material.ACACIA_DOOR);
+		forbiddenBlocks.add(Material.SPRUCE_DOOR);
+		forbiddenBlocks.add(Material.DARK_OAK_DOOR);
+		forbiddenBlocks.add(Material.WOODEN_DOOR);
 	}
 	
 	

@@ -80,7 +80,7 @@ public class BBCommand implements CommandExecutor {
 					return true;
 				}
 				
-				if(args[0].equalsIgnoreCase("brawl") && game.gamestate==GameState.BUILDING)
+				if(args[0].equalsIgnoreCase("brawl") && game.gamestate==GameState.GRADING)
 				{
 					p.sendMessage(game.playerprefix+"WIP");
 					return true;

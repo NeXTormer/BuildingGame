@@ -81,14 +81,14 @@ public class BlockEvents implements Listener {
 				{
 					if(game.forbiddenBlocks.contains(e.getBlock().getType()))
 					{
-						e.getPlayer().sendMessage(game.playerprefix+"Ungültiger Block");
+						e.getPlayer().sendMessage(game.playerprefix+"Ungueltiger Block");
 						e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CHICKEN_HURT, 1, 1);
 					}
 					else 
 					{
 					
 					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.LEVEL_UP, 1, 1);
-					e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu "+e.getBlock().getType().getData().getName()+"§7 geändert");
+					e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu "+e.getBlock().getType()+"§7 geändert");
 					Location replaceLoc = e.getBlock().getLocation();
 					replaceLoc.setX(replaceLoc.getX()-2);
 					replaceLoc.setZ(replaceLoc.getZ()+2);
