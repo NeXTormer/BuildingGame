@@ -717,7 +717,7 @@ public class Game {
 				Bukkit.getServer().shutdown();
 				
 			}
-		}, 20* 20);
+		}, 20* 40);
 	
 	}
 	

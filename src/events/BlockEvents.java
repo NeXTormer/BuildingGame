@@ -80,9 +80,12 @@ public class BlockEvents implements Listener {
 				{
 					if(game.forbiddenBlocks.contains(e.getBlock().getType()))
 					{
-						
+						e.getPlayer().sendMessage(game.playerprefix+"Ungültiger Block");
 					}
-					else {
+					else 
+					{
+						
+					e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu "+e.getBlock().getType().getData().getName()+"§7 geändert");
 					Location replaceLoc = e.getBlock().getLocation();
 					replaceLoc.setX(replaceLoc.getX()-2);
 					replaceLoc.setZ(replaceLoc.getZ()+2);
@@ -103,6 +106,7 @@ public class BlockEvents implements Listener {
 				            	}
 				            	else
 				            	{
+				            		System.out.println("Test");
 				            		new Location(world, x, y, z).getBlock().setType(Material.STATIONARY_WATER);
 				            	}
 				            }

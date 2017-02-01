@@ -1,6 +1,7 @@
 package commands;
 
 import game.Game;
+import game.GameState;
 
 import java.io.IOException;
 
@@ -55,15 +56,33 @@ public class BBCommand implements CommandExecutor {
 					game.start(p);
 					return true;
 				}
-				if(args[0].equalsIgnoreCase("tp"))
+				if(args[0].equalsIgnoreCase("tp") && args[1] instanceof String)
 				{
-					p.teleport(game.plotArray[Integer.valueOf(args[1])].getSpawnLocation());
+					for(int i = 0; i<game.plotArray.length; i++)
+					{
+						if(game.plotArray[i].getOwner().getName().equalsIgnoreCase(args[1]))
+						{
+							p.teleport(game.plotArray[i].getSpawnLocation());
+							break;
+						}
+					}
 					return true;
 				}
+				else
+				{
+					p.teleport(game.plotArray[Integer.valueOf(args[1])].getSpawnLocation());	
+				}
+				
 				if(args[0].equalsIgnoreCase("setTime"))
 				{
 					game.buildingTime = Integer.valueOf(args[1]);
-					p.sendMessage(game.playerprefix+"Die Bauzeit wurde auf §6"+args[1]+"§7 Sekunden gesetzt");
+					Bukkit.getServer().broadcastMessage(game.prefix+"Die Bauzeit wurde auf §6"+args[1]+"§7 Sekunden gesetzt");
+					return true;
+				}
+				
+				if(args[0].equalsIgnoreCase("brawl") && game.gamestate==GameState.BUILDING)
+				{
+					p.sendMessage(game.playerprefix+"WIP");
 					return true;
 				}
 				
