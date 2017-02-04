@@ -68,6 +68,8 @@ public class Game {
 	public String currentGradingtime = "";
 	public String scoreboardPlotOwner = "";
 	
+	public boolean launchFirework = true;
+	
 	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
 	public FileConfiguration locationCfg = YamlConfiguration.loadConfiguration(locationsFile);
 
@@ -643,7 +645,7 @@ public class Game {
 		
 	}
 	
-	private void endGame(EndReason reason)
+	public void endGame(EndReason reason)
 	{
 		Bukkit.getServer().getScheduler().cancelAllTasks();
 		
@@ -707,7 +709,9 @@ public class Game {
 			
 			@Override
 			public void run() {
+				if(launchFirework){
 				launchFirework();
+				}
 				
 			}
 		}, 0, 15);
@@ -719,10 +723,10 @@ public class Game {
 			public void run() {
 				for(Player p : players)
 				{
-					p.kickPlayer(playerprefix + "Das Spiel ist zu Ende");
+					//p.kickPlayer(playerprefix + "Das Spiel ist zu Ende");
 				}
 				
-				Bukkit.getServer().shutdown();
+				//Bukkit.getServer().shutdown();
 				
 			}
 		}, 20* 40);

@@ -1,5 +1,6 @@
 package commands;
 
+import game.EndReason;
 import game.Game;
 import game.GameState;
 
@@ -45,6 +46,25 @@ public class BBCommand implements CommandExecutor {
 					p.sendMessage(game.prefix + "Der Globale Baumodus wurde §6" + (game.globalBuildMode ? "aktiviert" : "deaktiviert"));
 				}
 				
+				if(args[0].equalsIgnoreCase("end"))
+				{
+					game.endGame(EndReason.NORMAL_END);
+				}
+				
+				if(args[0].equalsIgnoreCase("launchFirework"))
+				{
+					if(game.launchFirework==true)
+					{
+						p.sendMessage(game.playerprefix+"Das Feuerwerk wurde ausgestellt");
+					}
+					if(game.launchFirework==false)
+					{
+						p.sendMessage(game.playerprefix+"Das Feuerwerk wurde eingeschalten");
+					}
+					game.launchFirework = !game.launchFirework;
+					return true;
+				}
+				
 
 			}
 			else if(args.length == 2)
@@ -68,10 +88,8 @@ public class BBCommand implements CommandExecutor {
 					}
 					return true;
 				}
-				else
-				{
-					p.teleport(game.plotArray[Integer.valueOf(args[1])].getSpawnLocation());	
-				}
+				
+
 				
 				if(args[0].equalsIgnoreCase("setTime"))
 				{

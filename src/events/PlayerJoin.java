@@ -24,7 +24,8 @@ public class PlayerJoin implements Listener
     	game.addPlayer(e.getPlayer());
     	e.getPlayer().setFlySpeed(0.1f);
     	e.getPlayer().setWalkSpeed(0.2f);
-    	e.getPlayer().setSaturation(10);
+    	e.getPlayer().setSaturation(20);
+    	e.getPlayer().setFoodLevel(20);
     	e.getPlayer().setLevel(0);
     	e.getPlayer().setHealth(20);
     }
