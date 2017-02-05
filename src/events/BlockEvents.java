@@ -88,7 +88,19 @@ public class BlockEvents implements Listener {
 					{
 					
 					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.LEVEL_UP, 1, 1);
-					e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu "+e.getBlock().getType()+"§7 geändert");
+	            	if(e.getBlock().getType().equals(Material.WOOD_PLATE))
+	            	{
+	            		e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu WATER geändert");
+	            	}
+	            	else if(e.getBlock().getType().equals(Material.STONE_PLATE))
+	            	{
+	            		e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu LAVA geändert");
+	            	}
+	            	else
+	            	{
+	            		e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu "+e.getBlock().getType()+"§7 geändert");
+	            	}
+					
 					Location replaceLoc = e.getBlock().getLocation();
 					replaceLoc.setX(replaceLoc.getX()-2);
 					replaceLoc.setZ(replaceLoc.getZ()+2);
@@ -107,7 +119,7 @@ public class BlockEvents implements Listener {
 				            	{
 				            		new Location(world, x, y, z).getBlock().setType(Material.STATIONARY_WATER);
 				            	}
-				            	if(e.getBlock().getType().equals(Material.STONE_PLATE))
+				            	else if(e.getBlock().getType().equals(Material.STONE_PLATE))
 				            	{
 				            		new Location(world, x, y, z).getBlock().setType(Material.STATIONARY_LAVA);
 				            	}
