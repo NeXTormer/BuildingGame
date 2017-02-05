@@ -391,21 +391,18 @@ public class Game {
 			for(int i = 0; i < themeCounter; i++)
 			{
 				int r = random.nextInt(themes.size());
-				finalThemes.add(themes.get(r));
-				ItemStack is = new ItemStack(Material.PAPER);
-				ItemMeta im = is.getItemMeta();
-				im.setDisplayName("§7" + finalThemes.get(i));
-				is.setItemMeta(im);
-
-
-				
-				if(!votingInventory.contains(is))
+				if(finalThemes.contains(themes.get(r)))
 				{
-					votingInventory.addItem(is);
+					themeCounter++;
 				}
 				else
 				{
-					themeCounter++;
+					finalThemes.add(themes.get(r));
+					ItemStack is = new ItemStack(Material.PAPER);
+					ItemMeta im = is.getItemMeta();
+					im.setDisplayName("§7" + themes.get(r));
+					is.setItemMeta(im);
+					votingInventory.addItem(is);
 				}
 
 			}
@@ -731,7 +728,7 @@ public class Game {
 					//p.kickPlayer(playerprefix + "Das Spiel ist zu Ende");
 				}
 				
-				//Bukkit.getServer().shutdown();
+				Bukkit.getServer().shutdown();
 				
 			}
 		}, 20* 40);

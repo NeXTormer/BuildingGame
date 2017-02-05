@@ -46,6 +46,12 @@ public class BBCommand implements CommandExecutor {
 					p.sendMessage(game.prefix + "Der Globale Baumodus wurde §6" + (game.globalBuildMode ? "aktiviert" : "deaktiviert"));
 				}
 				
+				if(args[0].equalsIgnoreCase("info"))
+				{
+					
+					p.sendMessage(game.playerprefix + "Infos unter: https://docs.google.com/document/d/1PMkiqQYeHSQoFZg-LxOkRed9O2VPCyfEpDjsdw516vo/edit");
+				}
+				
 				if(args[0].equalsIgnoreCase("end"))
 				{
 					game.endGame(EndReason.NORMAL_END);
