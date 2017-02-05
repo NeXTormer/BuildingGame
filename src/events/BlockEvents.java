@@ -103,14 +103,18 @@ public class BlockEvents implements Listener {
 				    for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --) {
 				        for (int y = edgeMin.getBlockY(); y < edgeMax.getBlockY(); y ++) {
 				            for (int z = edgeMin.getBlockZ(); z < edgeMax.getBlockZ(); z ++) {
-				            	if(!e.getBlock().isLiquid())
+				            	if(e.getBlock().getType().equals(Material.WOOD_PLATE))
 				            	{
-				            		new Location(world, x, y, z).getBlock().setTypeIdAndData(blockID, meta, false);
+				            		new Location(world, x, y, z).getBlock().setType(Material.STATIONARY_WATER);
+				            	}
+				            	if(e.getBlock().getType().equals(Material.STONE_PLATE))
+				            	{
+				            		new Location(world, x, y, z).getBlock().setType(Material.STATIONARY_LAVA);
 				            	}
 				            	else
 				            	{
-				            		System.out.println("Test");
-				            		new Location(world, x, y, z).getBlock().setType(Material.STATIONARY_WATER);
+				            		new Location(world, x, y, z).getBlock().setTypeIdAndData(blockID, meta, false);
+				            		
 				            	}
 				            }
 				        }

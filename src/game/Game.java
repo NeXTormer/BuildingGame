@@ -39,7 +39,7 @@ public class Game {
 	
 	public static String prefix = "§1§ll§r§9 BuildingBrawl§1§l>> §r§7";
 	public static String playerprefix = "§2§ll§r§a BuildingBrawl§2>> §r§7";
-	public static int secondsToGrade = 20;
+	public static int secondsToGrade = 30;
 	public static int MAX_PLAYERS = 16;
 	
 	public static List<Material> forbiddenBlocks = new ArrayList<>();
@@ -131,8 +131,8 @@ public class Game {
 		forbiddenBlocks.add(Material.TRAP_DOOR);
 		forbiddenBlocks.add(Material.TRAPPED_CHEST);
 		forbiddenBlocks.add(Material.REDSTONE_WIRE);
-		forbiddenBlocks.add(Material.STONE_PLATE);
-		forbiddenBlocks.add(Material.WOOD_PLATE);
+//		forbiddenBlocks.add(Material.STONE_PLATE);
+//		forbiddenBlocks.add(Material.WOOD_PLATE);
 		forbiddenBlocks.add(Material.IRON_PLATE);
 		forbiddenBlocks.add(Material.GOLD_PLATE);
 		forbiddenBlocks.add(Material.REDSTONE_TORCH_ON);
@@ -296,7 +296,7 @@ public class Game {
 					}
 				}
 			}
-			players.remove(p);
+			//players.remove(p);
 		}
 		else
 		{
@@ -490,8 +490,13 @@ public class Game {
 		 
 	}
 	
-	private void gradePlot(int id)
+	private void gradePlot(int i)
 	{
+		int id = i;
+		if(plotArray[id+1].ownerLeft)
+		{
+			gradePlot(id+1);
+		}
 		
 		currentPlotInGradingProcess = id;
 		scoreboardSecondsToGrade = secondsToGrade;
@@ -634,9 +639,9 @@ public class Game {
 				}
 				else
 				{
-					Bukkit.getServer().getScheduler().cancelAllTasks();
-					endGame(EndReason.PLAYER_LEFT);
-					return;
+//					Bukkit.getServer().getScheduler().cancelAllTasks();
+//					endGame(EndReason.PLAYER_LEFT);
+//					return;
 					//player left
 				}
 			}

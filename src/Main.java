@@ -3,6 +3,7 @@ import java.io.IOException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,6 +35,7 @@ public class Main extends JavaPlugin {
 	
 	public void onEnable()
 	{
+		new WorldCreator("BuildingGame").createWorld();
 		game = new Game(this);
 		playerjoinevent = new PlayerJoin(game);
 		playerquitevent = new PlayerQuit(game);

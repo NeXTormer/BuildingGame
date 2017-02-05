@@ -45,11 +45,11 @@ public class EnvironmentalEvents implements Listener{
     	e.setCancelled(true);
     }
     
-    @EventHandler
-    public void onSummon(EntitySpawnEvent e)
-    {
-    	e.setCancelled(true);
-    } 
+//    @EventHandler
+//    public void onSummon(EntitySpawnEvent e)
+//    {
+//    	e.setCancelled(true);
+//    } 
     
     @EventHandler
     public void onPortalJoin(PlayerPortalEvent e)

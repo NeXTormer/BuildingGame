@@ -49,6 +49,7 @@ public class InventoryEvents implements Listener {
         			p.sendMessage(game.playerprefix + "Deine Bewertung wurde gespeichert");
         			p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1, 1);
         			return;
+        			
         		}
         		
         		{
