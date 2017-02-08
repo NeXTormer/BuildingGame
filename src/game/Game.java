@@ -75,6 +75,9 @@ public class Game {
 
 	public File themesFile = new File("plugins/BuildingGame", "themes.yml");
 	public FileConfiguration themesCfg = YamlConfiguration.loadConfiguration(themesFile);
+	
+	public File forbiddenFile = new File("plugins/BuildingGame", "forbiddenBlocks.yml");
+	public FileConfiguration forbiddenBlocksCfg = YamlConfiguration.loadConfiguration(forbiddenFile);
 
 	public Location lobbyLocation;
 	public int max; //max number of votes in VOTING phase
@@ -97,6 +100,8 @@ public class Game {
 	public Game(Plugin plugin)
 	{
 		lobbyLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
+		Bukkit.getServer().getWorld(locationCfg.getString("locations.lobby.world")).setAnimalSpawnLimit(100);
+		Bukkit.getServer().getWorld(locationCfg.getString("locations.lobby.world")).setMonsterSpawnLimit(100);
 		loadLocations();
 		setConfigDefaults();
 		loadPlots();
@@ -105,56 +110,59 @@ public class Game {
 		
 		random = new Random();
 		
-		forbiddenBlocks.add(Material.WOOD_BUTTON);
-		forbiddenBlocks.add(Material.STONE_BUTTON);
-		forbiddenBlocks.add(Material.CHEST);
-		forbiddenBlocks.add(Material.ENDER_CHEST);
-		forbiddenBlocks.add(Material.SIGN_POST);
-		forbiddenBlocks.add(Material.COBBLE_WALL);
-		forbiddenBlocks.add(Material.WOOD_BUTTON);
-		forbiddenBlocks.add(Material.ANVIL);
-		forbiddenBlocks.add(Material.FENCE);
-		forbiddenBlocks.add(Material.FENCE_GATE);
-		forbiddenBlocks.add(Material.STAINED_GLASS_PANE);
-		forbiddenBlocks.add(Material.THIN_GLASS);
-		forbiddenBlocks.add(Material.ENDER_PORTAL_FRAME);
-		forbiddenBlocks.add(Material.SNOW);
-		forbiddenBlocks.add(Material.IRON_FENCE);
-		forbiddenBlocks.add(Material.CARPET);
-		forbiddenBlocks.add(Material.CAKE_BLOCK);
-		forbiddenBlocks.add(Material.SKULL);
-		forbiddenBlocks.add(Material.FLOWER_POT);
-		forbiddenBlocks.add(Material.STANDING_BANNER);
-		forbiddenBlocks.add(Material.BREWING_STAND);
-		forbiddenBlocks.add(Material.IRON_TRAPDOOR);
-		forbiddenBlocks.add(Material.WOODEN_DOOR);
-		forbiddenBlocks.add(Material.TRAP_DOOR);
-		forbiddenBlocks.add(Material.TRAPPED_CHEST);
-		forbiddenBlocks.add(Material.REDSTONE_WIRE);
-//		forbiddenBlocks.add(Material.STONE_PLATE);
-//		forbiddenBlocks.add(Material.WOOD_PLATE);
-		forbiddenBlocks.add(Material.IRON_PLATE);
-		forbiddenBlocks.add(Material.GOLD_PLATE);
-		forbiddenBlocks.add(Material.REDSTONE_TORCH_ON);
-		forbiddenBlocks.add(Material.TORCH);
-		forbiddenBlocks.add(Material.DAYLIGHT_DETECTOR);
-		forbiddenBlocks.add(Material.IRON_DOOR_BLOCK);
-		forbiddenBlocks.add(Material.REDSTONE_COMPARATOR_OFF);
-		forbiddenBlocks.add(Material.LEVER);
-		forbiddenBlocks.add(Material.RAILS);
-		forbiddenBlocks.add(Material.ACTIVATOR_RAIL);
-		forbiddenBlocks.add(Material.DETECTOR_RAIL);
-		forbiddenBlocks.add(Material.POWERED_RAIL);
-		forbiddenBlocks.add(Material.WEB);
-		forbiddenBlocks.add(Material.DRAGON_EGG);
-		forbiddenBlocks.add(Material.TNT);
-		forbiddenBlocks.add(Material.DIODE_BLOCK_OFF);
-		forbiddenBlocks.add(Material.JUNGLE_DOOR);
-		forbiddenBlocks.add(Material.BIRCH_DOOR);
-		forbiddenBlocks.add(Material.ACACIA_DOOR);
-		forbiddenBlocks.add(Material.SPRUCE_DOOR);
-		forbiddenBlocks.add(Material.DARK_OAK_DOOR);
-		forbiddenBlocks.add(Material.WOODEN_DOOR);
+//		forbiddenBlocks.add(Material.WOOD_BUTTON);
+//		forbiddenBlocks.add(Material.STONE_BUTTON);
+//		forbiddenBlocks.add(Material.CHEST);
+//		forbiddenBlocks.add(Material.ENDER_CHEST);
+//		forbiddenBlocks.add(Material.SIGN_POST);
+//		forbiddenBlocks.add(Material.COBBLE_WALL);
+//		forbiddenBlocks.add(Material.WOOD_BUTTON);
+//		forbiddenBlocks.add(Material.ANVIL);
+//		forbiddenBlocks.add(Material.FENCE);
+//		forbiddenBlocks.add(Material.FENCE_GATE);
+//		forbiddenBlocks.add(Material.STAINED_GLASS_PANE);
+//		forbiddenBlocks.add(Material.THIN_GLASS);
+//		forbiddenBlocks.add(Material.ENDER_PORTAL_FRAME);
+//		forbiddenBlocks.add(Material.SNOW);
+//		forbiddenBlocks.add(Material.IRON_FENCE);
+//		forbiddenBlocks.add(Material.CARPET);
+//		forbiddenBlocks.add(Material.CAKE_BLOCK);
+//		forbiddenBlocks.add(Material.SKULL);
+//		forbiddenBlocks.add(Material.FLOWER_POT);
+//		forbiddenBlocks.add(Material.STANDING_BANNER);
+//		forbiddenBlocks.add(Material.BREWING_STAND);
+//		forbiddenBlocks.add(Material.IRON_TRAPDOOR);
+//		forbiddenBlocks.add(Material.WOODEN_DOOR);
+//		forbiddenBlocks.add(Material.TRAP_DOOR);
+//		forbiddenBlocks.add(Material.TRAPPED_CHEST);
+//		forbiddenBlocks.add(Material.REDSTONE_WIRE);
+//		forbiddenBlocks.add(Material.IRON_PLATE);
+//		forbiddenBlocks.add(Material.GOLD_PLATE);
+//		forbiddenBlocks.add(Material.REDSTONE_TORCH_ON);
+//		forbiddenBlocks.add(Material.TORCH);
+//		forbiddenBlocks.add(Material.DAYLIGHT_DETECTOR);
+//		forbiddenBlocks.add(Material.IRON_DOOR_BLOCK);
+//		forbiddenBlocks.add(Material.REDSTONE_COMPARATOR_OFF);
+//		forbiddenBlocks.add(Material.LEVER);
+//		forbiddenBlocks.add(Material.RAILS);
+//		forbiddenBlocks.add(Material.ACTIVATOR_RAIL);
+//		forbiddenBlocks.add(Material.DETECTOR_RAIL);
+//		forbiddenBlocks.add(Material.POWERED_RAIL);
+//		forbiddenBlocks.add(Material.WEB);
+//		forbiddenBlocks.add(Material.DRAGON_EGG);
+//		forbiddenBlocks.add(Material.TNT);
+//		forbiddenBlocks.add(Material.DIODE_BLOCK_OFF);
+//		forbiddenBlocks.add(Material.JUNGLE_DOOR);
+//		forbiddenBlocks.add(Material.BIRCH_DOOR);
+//		forbiddenBlocks.add(Material.ACACIA_DOOR);
+//		forbiddenBlocks.add(Material.SPRUCE_DOOR);
+//		forbiddenBlocks.add(Material.DARK_OAK_DOOR);
+//		forbiddenBlocks.add(Material.WOODEN_DOOR);
+	}
+	
+	public void loadForbiddenBlocks()
+	{
+		forbiddenBlocks = (List<Material>) forbiddenBlocksCfg.getList("forbiddenBlocks");
 	}
 	
 	
@@ -557,7 +565,7 @@ public class Game {
 			
 			@Override
 			public void run() {
-				if(timer() > scoreboardSecondsToGrade+4)
+				if(scoreboardSecondsToGrade < 6 && scoreboardSecondsToGrade > 0)
 				{
 					for(Player p : players)
 					{

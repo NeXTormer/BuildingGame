@@ -125,6 +125,7 @@ public class BlockEvents implements Listener {
 				            	}
 				            	else
 				            	{
+				            		
 				            		new Location(world, x, y, z).getBlock().setTypeIdAndData(blockID, meta, false);
 				            		
 				            	}

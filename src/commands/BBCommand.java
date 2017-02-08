@@ -1,16 +1,21 @@
 package commands;
 
-import game.EndReason;
-import game.Game;
-import game.GameState;
-
+import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import game.EndReason;
+import game.Game;
+import game.GameState;
+import utils.DeleteWorld;
 
 public class BBCommand implements CommandExecutor {
 	
@@ -44,6 +49,26 @@ public class BBCommand implements CommandExecutor {
 				{
 					game.globalBuildMode = !game.globalBuildMode;
 					p.sendMessage(game.prefix + "Der Globale Baumodus wurde §6" + (game.globalBuildMode ? "aktiviert" : "deaktiviert"));
+				}
+				
+				if(args[0].equalsIgnoreCase("skull") && game.gamestate == GameState.BUILDING)
+				{
+					((Player) sender).performCommand("hdb");
+				}
+				
+				if(args[0].equalsIgnoreCase("save"))
+				{
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm:ss");
+					Date date = new Date();
+					String name = "Backup:"+dateFormat.format(date); //2016/11/16 12:08:43
+					try {
+					//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
+						DeleteWorld.copyFolder(new File(name), new File("BuildingGame"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					p.sendMessage(game.prefix + "Die Welt wurde unter dem Name§6 "+name+" §7gespeichert");
 				}
 				
 				if(args[0].equalsIgnoreCase("info"))
