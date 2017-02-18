@@ -19,6 +19,7 @@ public class PlayerQuit implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e)
     {
         game.removePlayer(e.getPlayer());
+        game.removeSpectator(e.getPlayer());
     }
 
 	

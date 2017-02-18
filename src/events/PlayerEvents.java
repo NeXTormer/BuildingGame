@@ -29,6 +29,7 @@ public class PlayerEvents implements Listener {
     	{
 			if(game.gamestate == GameState.BUILDING || game.gamestate == GameState.GRADING)
 			{
+				if(game.spectators.contains(player)) return;
 				Location blocklocation = e.getPlayer().getLocation();
 				if(blocklocation.getBlockY()>50)
 				{
@@ -54,7 +55,7 @@ public class PlayerEvents implements Listener {
 		blocklocation.setY(1);
 		if(b.getWorld().getBlockAt(blocklocation).getType() == Material.BEDROCK)
 		{
-			
+			//pfusch
 		}
 		else
 		{

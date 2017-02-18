@@ -65,7 +65,6 @@ public class BBCommand implements CommandExecutor {
 					//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
 						DeleteWorld.copyFolder(new File(name), new File("BuildingGame"));
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					p.sendMessage(game.prefix + "Die Welt wurde unter dem Name§6 "+name+" §7gespeichert");
@@ -95,7 +94,29 @@ public class BBCommand implements CommandExecutor {
 					game.launchFirework = !game.launchFirework;
 					return true;
 				}
-				
+				if(args[0].equalsIgnoreCase("spectate"))
+				{
+					if(game.spectators.contains(p))
+					{
+						if(game.gamestate == GameState.LOBBY)
+						{
+							game.removeSpectator(p);
+							game.addPlayer(p);
+						}
+						else
+						{
+							p.sendMessage(game.prefix + "Du kannst nicht mehr mitspielen da das Spiel bereits gestartet hat");
+						}
+					}
+					else
+					{
+						if(game.gamestate == GameState.LOBBY)
+						{
+							game.removePlayer(p);
+							game.addSpectator(p, "Du wurdest den Zuschauern hinzugefuegt");
+						}
+					}
+				}
 
 			}
 			else if(args.length == 2)
@@ -145,7 +166,6 @@ public class BBCommand implements CommandExecutor {
 					try {
 						game.themesCfg.save(game.themesFile);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					return true;
@@ -161,7 +181,6 @@ public class BBCommand implements CommandExecutor {
 						try {
 							game.themesCfg.save(game.themesFile);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}

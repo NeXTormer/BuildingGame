@@ -47,6 +47,7 @@ public class Game {
 	public Plugin plugin;
 
 	public List<Player> players = new ArrayList<>();
+	public List<Player> spectators = new ArrayList<>();
 	
 	public Plot[] plotArray = new Plot[16];
 
@@ -267,6 +268,48 @@ public class Game {
 		}, 0, 20);
 		buildingTimerScheduler = buildingTimerTask;
 	}
+	
+	public void addSpectator(Player p, String msg)
+	{
+		if(spectators.contains(p))
+		{
+			p.sendMessage(prefix + "Unbekannter Fehler");
+		}
+		else
+		{
+			spectators.add(p);
+			p.sendMessage(prefix + msg);
+			p.teleport(lobbyLocation);
+			p.setGameMode(GameMode.ADVENTURE);
+			p.setAllowFlight(true);
+			p.setFlying(true);
+			p.setFoodLevel(20);
+			for(Player z : players)
+			{
+				z.hidePlayer(p);
+			}
+		}	
+	}
+
+	
+	public void removeSpectator(Player p)
+	{
+		if(spectators.contains(p))
+		{
+			p.teleport(lobbyLocation);
+			spectators.remove(p);
+			p.setFlying(false);
+			p.setAllowFlight(false);
+			for(Player z : players)
+			{
+				z.showPlayer(p);
+			}
+		}
+		else
+		{
+			p.sendMessage(prefix + "Unbekannter Fehler");			
+		}
+	}
 
 	public void addPlayer(Player p)
 	{
@@ -278,7 +321,7 @@ public class Game {
 		{
 			if(!(gamestate == GameState.LOBBY))
 			{
-				p.kickPlayer(prefix + "Das Spiel laeuft bereits");
+				addSpectator(p, "Da das Spiel bereits laeuft wurdest du den Zuschauern hinzugefuegt");
 			}
 			else
 			{
@@ -304,7 +347,7 @@ public class Game {
 					}
 				}
 			}
-			//players.remove(p);
+			players.remove(p); //TODO: Das war auskommentiert...Michi?
 		}
 		else
 		{
