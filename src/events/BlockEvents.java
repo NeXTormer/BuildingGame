@@ -1,18 +1,20 @@
 package events;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.metadata.MetadataValue;
 
 import game.Game;
 import game.GameState;
@@ -20,6 +22,7 @@ import game.GameState;
 public class BlockEvents implements Listener {
 	
 	private Game game;
+	private Random random;
 	
 	public BlockEvents(Game game)
 	{
@@ -77,10 +80,22 @@ public class BlockEvents implements Listener {
 						if(e.getBlock().getLocation().getY() == 1) e.setCancelled(true);
 					}
 				}
-				else if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE && e.getBlock().getLocation().getBlockY()==5)
+				else if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE && e.getBlock().getLocation().getBlockY()>4)
 				{
-					System.out.println(game.forbiddenBlocks.size());
-					System.out.println(game.forbiddenBlocks.get(1));
+					List<Material> replaceBlocks = new ArrayList<>();
+					int blockAmount = 1;
+					for(int i = 0; i<blockAmount;i++)
+					{
+						Location replaceMaterialLocation = e.getBlock().getLocation();
+						replaceMaterialLocation.setY(blockAmount+4);
+						replaceBlocks.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getType());
+						blockAmount++;
+						replaceMaterialLocation.setY(blockAmount+4);
+						if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getType()==Material.AIR)
+						{
+							blockAmount--;
+						}
+					}
 					if(game.forbiddenBlocks.contains(e.getBlock().getType().toString()))
 					{
 						e.getPlayer().sendMessage(game.playerprefix+"Ungueltiger Block");
@@ -169,6 +184,12 @@ public class BlockEvents implements Listener {
 				e.setCancelled(true);
 			}
 		}
+	}
+	
+	public Material randomMaterial(List<Material> materials)
+	{
+		int r = random.nextInt(materials.size());
+		return materials.get(r);
 	}
 
 }
