@@ -384,9 +384,9 @@ public class Game {
 		locationCfg.addDefault("locations.originplot.yaw", 0d);
 		locationCfg.addDefault("locations.originplot.pitch", 0d);
 		
-		locationCfg.addDefault("locations.originSpawn.x", 25);
+		locationCfg.addDefault("locations.originSpawn.x", 24);
 		locationCfg.addDefault("locations.originSpawn.y", 10);
-		locationCfg.addDefault("locations.originSpawn.z", 55);
+		locationCfg.addDefault("locations.originSpawn.z", 56);
 		locationCfg.addDefault("locations.originSpawn.world", "BuildingGame");
 		locationCfg.addDefault("locations.originSpawn.yaw", 45d);
 		locationCfg.addDefault("locations.originSpawn.pitch", 0d);
