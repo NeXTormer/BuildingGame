@@ -4,9 +4,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -42,6 +45,33 @@ public class PlayerEvents implements Listener {
 				}
 	
 			}
+    	}
+    }
+    
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent e)
+    {
+    	if(e.getEntityType() == EntityType.PLAYER)
+    	{
+    		Player p = (Player) e.getEntity();
+    		if(game.spectators.contains(p))
+    		{
+    			//p.setburning false
+    			e.setCancelled(true);
+    		}
+    	}
+    }
+    
+    @EventHandler
+    public void onPayerCombust(EntityCombustEvent e)
+    {
+    	if(e.getEntityType() == EntityType.PLAYER)
+    	{
+    		Player p = (Player) e.getEntity();
+    		if(game.spectators.contains(p))
+    		{
+    			e.setCancelled(true);
+    		}
     	}
     }
     
