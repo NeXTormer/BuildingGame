@@ -81,7 +81,7 @@ public class BlockEvents implements Listener {
 				{
 					System.out.println(game.forbiddenBlocks.size());
 					System.out.println(game.forbiddenBlocks.get(1));
-					if(game.forbiddenBlocks.contains(e.getBlock().getType()))
+					if(game.forbiddenBlocks.contains(e.getBlock().getType().toString()))
 					{
 						e.getPlayer().sendMessage(game.playerprefix+"Ungueltiger Block");
 						e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CHICKEN_HURT, 1, 1);

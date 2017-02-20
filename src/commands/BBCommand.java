@@ -133,10 +133,10 @@ public class BBCommand implements CommandExecutor {
 				{
 					ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
 					SkullMeta sm = (SkullMeta) is.getItemMeta();
-					sm.setOwner(args[2]);
+					sm.setOwner(args[1]);
 					is.setItemMeta(sm);
 					p.getInventory().addItem(is);
-					p.sendMessage(game.playerprefix+"Du hast den Kopf von "+args[2]+" erhalten!");
+					p.sendMessage(game.playerprefix+"Du hast den Kopf von " + args[1] + " erhalten!");
 				}
 				if(args[0].equalsIgnoreCase("startgame"))
 				{
