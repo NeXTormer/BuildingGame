@@ -60,7 +60,7 @@ public class DeleteWorld {
             OutputStream out;
             try (InputStream in = new FileInputStream(src)) {
                 out = new FileOutputStream(dest);
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[4096]; //1024
                 int length;
                 while ((length = in.read(buffer)) > 0) {
                     out.write(buffer, 0, length);

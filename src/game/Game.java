@@ -83,6 +83,7 @@ public class Game {
 	public Location lobbyLocation;
 	public int max; //max number of votes in VOTING phase
 	public int gradingCurrentPlotId; //current plot id which is in the grading progress (GameState.GRADING)
+	public String finalTheme;
 
 	private Random random;
 	
@@ -93,7 +94,6 @@ public class Game {
 	private Score timeScore;
 	private Objective bgObjective;
 	private String currentBuildingtime = "";
-	private String finalTheme;
 	private int currentPlotInGradingProcess = 1000;
 	private int maxindex = 0;
 
@@ -107,6 +107,7 @@ public class Game {
 		setConfigDefaults();
 		loadPlots();
 		loadBuildThemes();
+		loadForbiddenBlocks();
 		this.plugin = plugin;
 		
 		random = new Random();
@@ -347,7 +348,7 @@ public class Game {
 					}
 				}
 			}
-			players.remove(p); //TODO: Das war auskommentiert...Michi?
+			//players.remove(p); //TODO: make this good
 		}
 		else
 		{

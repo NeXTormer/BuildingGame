@@ -61,16 +61,21 @@ public class BBCommand implements CommandExecutor {
 				
 				if(args[0].equalsIgnoreCase("save"))
 				{
-					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm:ss");
-					Date date = new Date();
-					String name = "Backup:"+dateFormat.format(date); //2016/11/16_12:08:43
-					try {
-					//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
-						DeleteWorld.copyFolder(new File("BuildingGame"), new File(name));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					p.sendMessage(game.prefix + "Die Welt wurde unter dem Name§6 "+name+" §7gespeichert");
+					if(game.gamestate == GameState.GRADING || game.gamestate == GameState.END)
+					{
+						DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+						Date date = new Date();
+						String name = "Backup_"+dateFormat.format(date) + "_" + game.finalTheme; //2016/11/16_12:08:43
+						
+						try {
+							//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
+							DeleteWorld.copyFolder(new File("BuildingGame"), new File("worldbackups/" + name));
+						} catch (IOException e) {
+							e.printStackTrace();
+							p.sendMessage(game.prefix + "Fehler beim speichern der Welt");
+						}
+						p.sendMessage(game.prefix + "Die Welt wurde unter dem Name§6 "+name+" §7gespeichert");
+					}		
 				}
 				
 				if(args[0].equalsIgnoreCase("info"))
