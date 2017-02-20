@@ -23,10 +23,14 @@ public class BlockEvents implements Listener {
 	
 	private Game game;
 	private Random random;
+	private List<Integer> replaceBlocks = new ArrayList<>();
+	private List<Byte> replaceDatas = new ArrayList<>();
+	private int blockAmount = 1;
 	
 	public BlockEvents(Game game)
 	{
 		this.game = game;
+		random = new Random();
 	}
 	
 	@EventHandler
@@ -46,7 +50,7 @@ public class BlockEvents implements Listener {
 						if(e.getBlock().getLocation().getY() == 1) e.setCancelled(true);
 					}
 				}
-				else if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE && e.getBlock().getLocation().getBlockY()==5)
+				else if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE && e.getBlock().getLocation().getBlockY()>4)
 				{
 					
 				}
@@ -82,20 +86,6 @@ public class BlockEvents implements Listener {
 				}
 				else if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE && e.getBlock().getLocation().getBlockY()>4)
 				{
-					List<Material> replaceBlocks = new ArrayList<>();
-					int blockAmount = 1;
-					for(int i = 0; i<blockAmount;i++)
-					{
-						Location replaceMaterialLocation = e.getBlock().getLocation();
-						replaceMaterialLocation.setY(blockAmount+4);
-						replaceBlocks.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getType());
-						blockAmount++;
-						replaceMaterialLocation.setY(blockAmount+4);
-						if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getType()==Material.AIR)
-						{
-							blockAmount--;
-						}
-					}
 					if(game.forbiddenBlocks.contains(e.getBlock().getType().toString()))
 					{
 						e.getPlayer().sendMessage(game.playerprefix+"Ungueltiger Block");
@@ -103,9 +93,30 @@ public class BlockEvents implements Listener {
 					}
 					else 
 					{
-					
-					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.LEVEL_UP, 1, 1);
-	            	if(e.getBlock().getType().equals(Material.WOOD_PLATE))
+						replaceBlocks.clear();
+						replaceDatas.clear();
+						blockAmount = 1;
+						for(int i = 0; i<blockAmount;i++)
+						{
+							Location replaceMaterialLocation = e.getBlock().getLocation();
+							replaceMaterialLocation.setY(blockAmount+4);
+							replaceBlocks.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId());
+							replaceDatas.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getData());
+							blockAmount++;
+							replaceMaterialLocation.setY(blockAmount+4);
+							if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getType()==Material.AIR)
+							{
+								blockAmount--;
+							}
+							if(game.forbiddenBlocks.contains(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getType().toString()))
+							{
+								e.getPlayer().sendMessage(game.playerprefix+"Ungueltiger Block");
+								e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CHICKEN_HURT, 1, 1);
+								break;
+							}
+						}
+						e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.NOTE_BASS, 1, 1);
+						if(e.getBlock().getType().equals(Material.WOOD_PLATE))
 	            	{
 	            		e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu WATER geändert");
 	            	}
@@ -119,6 +130,7 @@ public class BlockEvents implements Listener {
 	            	}
 					
 					Location replaceLoc = e.getBlock().getLocation();
+					replaceLoc.setY(5);
 					replaceLoc.setX(replaceLoc.getX()-2);
 					replaceLoc.setZ(replaceLoc.getZ()+2);
 					replaceLoc.setY(replaceLoc.getY()-3);
@@ -142,8 +154,8 @@ public class BlockEvents implements Listener {
 				            	}
 				            	else
 				            	{
-				            		
-				            		new Location(world, x, y, z).getBlock().setTypeIdAndData(blockID, meta, false);
+				            		randomMaterial(replaceBlocks, replaceDatas, world, x, y, z);
+				            		//new Location(world, x, y, z).getBlock().setTypeIdAndData(blockID, meta, false);
 				            		
 				            	}
 				            }
@@ -186,10 +198,11 @@ public class BlockEvents implements Listener {
 		}
 	}
 	
-	public Material randomMaterial(List<Material> materials)
+	public void randomMaterial(List<Integer> materials, List<Byte> data, World world, int x, int y, int z)
 	{
 		int r = random.nextInt(materials.size());
-		return materials.get(r);
+		new Location(world, x, y, z).getBlock().setTypeIdAndData(materials.get(r), data.get(r), false);
+		//return materials.get(r);
 	}
 
 }
