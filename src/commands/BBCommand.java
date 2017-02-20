@@ -7,10 +7,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import game.EndReason;
 import game.Game;
@@ -60,10 +63,10 @@ public class BBCommand implements CommandExecutor {
 				{
 					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm:ss");
 					Date date = new Date();
-					String name = "Backup:"+dateFormat.format(date); //2016/11/16 12:08:43
+					String name = "Backup:"+dateFormat.format(date); //2016/11/16_12:08:43
 					try {
 					//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
-						DeleteWorld.copyFolder(new File(name), new File("BuildingGame"));
+						DeleteWorld.copyFolder(new File("BuildingGame"), new File(name));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -121,6 +124,15 @@ public class BBCommand implements CommandExecutor {
 			}
 			else if(args.length == 2)
 			{
+				if(args[0].equalsIgnoreCase("skull") && game.gamestate == GameState.BUILDING)
+				{
+					SkullMeta sm = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+					sm.setOwner(args[2]);
+					ItemStack is = new ItemStack(Material.SKULL_ITEM,1 , (byte)3);
+					is.setItemMeta(sm);
+					p.getInventory().addItem(is);
+					p.sendMessage(game.playerprefix+"Du hast den Kopf von "+args[2]+" erhalten!");
+				}
 				if(args[0].equalsIgnoreCase("startgame"))
 				{
 					Bukkit.getServer().broadcastMessage(game.prefix+"Das Spiel startet in §6"+args[1]+"§7 Sekunden");

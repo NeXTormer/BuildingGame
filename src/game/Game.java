@@ -273,12 +273,12 @@ public class Game {
 	{
 		if(spectators.contains(p))
 		{
-			p.sendMessage(prefix + "Unbekannter Fehler");
+			p.sendMessage(playerprefix + "Unbekannter Fehler");
 		}
 		else
 		{
 			spectators.add(p);
-			p.sendMessage(prefix + msg);
+			p.sendMessage(playerprefix + msg);
 			p.teleport(lobbyLocation);
 			p.setGameMode(GameMode.ADVENTURE);
 			p.setAllowFlight(true);
