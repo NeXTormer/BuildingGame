@@ -79,6 +79,8 @@ public class BlockEvents implements Listener {
 				}
 				else if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE && e.getBlock().getLocation().getBlockY()==5)
 				{
+					System.out.println(game.forbiddenBlocks.size());
+					System.out.println(game.forbiddenBlocks.get(1));
 					if(game.forbiddenBlocks.contains(e.getBlock().getType()))
 					{
 						e.getPlayer().sendMessage(game.playerprefix+"Ungueltiger Block");

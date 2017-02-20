@@ -131,9 +131,9 @@ public class BBCommand implements CommandExecutor {
 			{
 				if(args[0].equalsIgnoreCase("skull") && game.gamestate == GameState.BUILDING)
 				{
-					SkullMeta sm = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+					ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
+					SkullMeta sm = (SkullMeta) is.getItemMeta();
 					sm.setOwner(args[2]);
-					ItemStack is = new ItemStack(Material.SKULL_ITEM,1 , (byte)3);
 					is.setItemMeta(sm);
 					p.getInventory().addItem(is);
 					p.sendMessage(game.playerprefix+"Du hast den Kopf von "+args[2]+" erhalten!");
