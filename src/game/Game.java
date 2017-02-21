@@ -24,10 +24,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -871,6 +873,21 @@ public class Game {
 			default: return Color.YELLOW;
 		}
 		
+	}
+	
+	public void openTeleportInventory(Player p)
+	{
+		Inventory inv = Bukkit.createInventory(null, 18, "§6Spieler:");
+		for(Player z : players)
+		{
+			ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
+			SkullMeta sm = (SkullMeta) is.getItemMeta();
+			sm.setOwner(z.getDisplayName());
+			sm.setDisplayName("§6" + p.getDisplayName());
+			is.setItemMeta(sm);
+			inv.addItem(is);
+		}
+		p.openInventory(inv);
 	}
 	
 	

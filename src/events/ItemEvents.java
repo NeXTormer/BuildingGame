@@ -35,15 +35,28 @@ public class ItemEvents implements Listener {
 	@EventHandler
 	public void playerInteractEvent(PlayerInteractEvent e)
 	{
-		if(game.gamestate == GameState.GRADING)
+		if(!game.spectators.contains(e.getPlayer()))
+		{
+			if(game.gamestate == GameState.GRADING)
+			{
+				if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
+				{
+					if(e.getMaterial().equals(Material.PRISMARINE_SHARD))
+					{
+						Player p = e.getPlayer();
+						p.closeInventory();
+						p.openInventory(game.gradingInventories.get(p).inv);
+					}
+				}
+			}			
+		}
+		else
 		{
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
 			{
-				if(e.getMaterial().equals(Material.PRISMARINE_SHARD))
+				if(e.getMaterial() == Material.COMPASS)
 				{
-					Player p = e.getPlayer();
-					p.closeInventory();
-					p.openInventory(game.gradingInventories.get(p).inv);
+					game.openTeleportInventory(e.getPlayer());
 				}
 			}
 		}
