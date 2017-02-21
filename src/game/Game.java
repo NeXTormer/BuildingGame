@@ -24,7 +24,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -62,6 +61,7 @@ public class Game {
 	public List<String> themes;
 	public Map<OfflinePlayer, Score> buildingScoreboard = new HashMap<>();
 	public Map<Player, VotingInventory> gradingInventories = new HashMap<>();
+	public Map<String, ItemStack> skulls = new HashMap<>();
 	
 	public List<String> finalThemes = new ArrayList<>();
 
@@ -99,6 +99,8 @@ public class Game {
 	private int currentPlotInGradingProcess = 1000;
 	private int maxindex = 0;
 
+	private ItemStack compass = new ItemStack(Material.COMPASS);
+	private ItemMeta compassmeta = compass.getItemMeta();
 
 	public Game(Plugin plugin)
 	{
@@ -111,6 +113,9 @@ public class Game {
 		loadBuildThemes();
 		loadForbiddenBlocks();
 		this.plugin = plugin;
+		
+		compassmeta.setDisplayName("§6Spieler beobachten");
+		compass.setItemMeta(compassmeta);
 		
 		random = new Random();
 		
@@ -280,6 +285,10 @@ public class Game {
 		}
 		else
 		{
+			if(players.contains(p))
+			{
+				players.remove(p);
+			}
 			spectators.add(p);
 			p.sendMessage(playerprefix + msg);
 			p.teleport(lobbyLocation);
@@ -332,6 +341,16 @@ public class Game {
 				playerdata.put(p, new PlayerData());
 				p.sendMessage(prefix + "Du bist dem Spiel beigetreten");
 				p.teleport(lobbyLocation);
+			
+				ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
+				SkullMeta sm = (SkullMeta) is.getItemMeta();
+				sm.setOwner(p.getDisplayName());
+				sm.setDisplayName("§6" + p.getDisplayName());
+				is.setItemMeta(sm);
+				if(!skulls.containsKey(p.getDisplayName()))
+				{
+					skulls.put(p.getDisplayName(), is);					
+				}
 			}
 		}
 	}
@@ -559,6 +578,10 @@ public class Game {
 			gradingInventories.put(p, new VotingInventory());
 			gradingInventories.get(p).resetInventory();
 		}
+		for(Player p : spectators)
+		{
+			p.teleport(plotArray[id].getSpawnLocation());
+		}
 		
 		scoreboard.resetScores("§70:00");
 		scoreboard.resetScores(currentBuildingtime);
@@ -733,6 +756,11 @@ public class Game {
 			p.sendTitle("§6" + plotArray[maxindex].getOwner().getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
 			p.teleport(plotArray[maxindex].spawnLocation);
 		}
+		for(Player p : spectators)
+		{
+			p.teleport(plotArray[maxindex].spawnLocation);
+			p.sendTitle("§6" + plotArray[maxindex].getOwner().getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
+		}
 		
 		scoreboard.resetScores("§7§l0:00");
 		scoreboard.resetScores(currentBuildingtime);
@@ -877,21 +905,13 @@ public class Game {
 	
 	public void openTeleportInventory(Player p)
 	{
-		Inventory inv = Bukkit.createInventory(null, 18, "§6Spieler:");
+		Inventory inv = Bukkit.createInventory(null, 18, "§6§lSpieler beobachten");
 		for(Player z : players)
 		{
-			ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
-			SkullMeta sm = (SkullMeta) is.getItemMeta();
-			sm.setOwner(z.getDisplayName());
-			sm.setDisplayName("§6" + p.getDisplayName());
-			is.setItemMeta(sm);
-			inv.addItem(is);
+			inv.addItem(skulls.get(p.getDisplayName()));
 		}
 		p.openInventory(inv);
 	}
-	
-	
-
-	
+		
 
 }

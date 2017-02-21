@@ -33,7 +33,7 @@ public class InventoryEvents implements Listener {
     	if(game.spectators.contains(p))
     	{
     		Inventory inv = e.getInventory();
-    		if(inv.getName().equals("§6Spieler:"))
+    		if(inv.getName().equals("§6§lSpieler beobachten"))
     		{
     			e.setCancelled(true);
     			ItemStack is = e.getCurrentItem();
