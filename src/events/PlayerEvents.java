@@ -56,7 +56,7 @@ public class PlayerEvents implements Listener {
     		Player p = (Player) e.getEntity();
     		if(game.spectators.contains(p))
     		{
-    			//p.setburning false
+    			p.setFireTicks(0);
     			e.setCancelled(true);
     		}
     	}
@@ -71,6 +71,7 @@ public class PlayerEvents implements Listener {
     		if(game.spectators.contains(p))
     		{
     			e.setCancelled(true);
+    			p.setFireTicks(0);
     		}
     	}
     }
