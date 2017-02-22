@@ -218,7 +218,7 @@ public class Game {
 		
 		ItemStack compass = new ItemStack(Material.COMPASS);
 		ItemMeta compassMeta = compass.getItemMeta();
-		compassMeta.setDisplayName("§6Spieler Beobachten");
+		compassMeta.setDisplayName("§6§l - Spieler beobachten - ");
 		compass.setItemMeta(compassMeta);
 		
 

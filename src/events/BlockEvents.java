@@ -100,20 +100,22 @@ public class BlockEvents implements Listener {
 						{
 							Location replaceMaterialLocation = e.getBlock().getLocation();
 							replaceMaterialLocation.setY(blockAmount+4);
-							if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==72 || Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==70)
+							if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==101 || Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==102 || Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==30)
 							{
-								Bukkit.broadcastMessage("1");
-								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==72)
+								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==102)
 								{
 									replaceBlocks.add(9);
 									replaceDatas.add((byte)0);
-									Bukkit.broadcastMessage("2");
 								}
 								
-								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==70)
+								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==101)
 								{
-									Bukkit.broadcastMessage("3");
 									replaceBlocks.add(11);
+									replaceDatas.add((byte)0);
+								}
+								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==30)
+								{
+									replaceBlocks.add(0);
 									replaceDatas.add((byte)0);
 								}
 							}
