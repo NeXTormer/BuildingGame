@@ -215,6 +215,12 @@ public class Game {
 			p.setScoreboard(scoreboard);
 
 		}
+		
+		ItemStack compass = new ItemStack(Material.COMPASS);
+		ItemMeta compassMeta = compass.getItemMeta();
+		compassMeta.setDisplayName("§6Spieler Beobachten");
+		compass.setItemMeta(compassMeta);
+		
 
 		for(Player p : spectators)
 		{
@@ -223,6 +229,7 @@ public class Game {
 			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme +"§r§7 ("+max+" Stimme(n))");
 			p.sendTitle("§7Thema: §6§l" + finalTheme, "§7Noch §6 "+(buildingTime / 60 + ":" + buildingTime % 60)+" §7Minuten verbleiben");
 			p.setFlying(true);
+			p.getInventory().setItem(4, compass);
 		}
 
 		

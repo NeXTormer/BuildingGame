@@ -100,16 +100,19 @@ public class BlockEvents implements Listener {
 						{
 							Location replaceMaterialLocation = e.getBlock().getLocation();
 							replaceMaterialLocation.setY(blockAmount+4);
-							if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==96 || Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==70)
+							if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==72 || Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==70)
 							{
-								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==96)
+								Bukkit.broadcastMessage("1");
+								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==72)
 								{
 									replaceBlocks.add(9);
 									replaceDatas.add((byte)0);
+									Bukkit.broadcastMessage("2");
 								}
 								
 								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==70)
 								{
+									Bukkit.broadcastMessage("3");
 									replaceBlocks.add(11);
 									replaceDatas.add((byte)0);
 								}
