@@ -39,7 +39,7 @@ public class InventoryEvents implements Listener {
     			ItemStack is = e.getCurrentItem();
     			SkullMeta sm = (SkullMeta) is.getItemMeta();
     			Player target = Bukkit.getPlayer(sm.getOwner());
-    			Location targetLocation = p.getLocation();
+    			Location targetLocation = target.getLocation();
     			targetLocation.setY(40);
     			p.teleport(targetLocation);
     		}

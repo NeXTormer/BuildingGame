@@ -40,7 +40,9 @@ public class PlayerEvents implements Listener {
 //				{
 //	
 //				}
-				player.teleport(player.getLocation().add(e.getFrom().toVector().subtract(e.getTo().toVector()).normalize().multiply(2)));
+				Location targetLocation = player.getLocation();
+				targetLocation.setY(targetLocation.getY() - 3);
+				player.teleport(targetLocation);
 				player.sendMessage(game.playerprefix+"Du hast die maximale Hoehe erreicht");
 				}
 	

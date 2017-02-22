@@ -265,6 +265,15 @@ public class Game {
 
 		}
 
+		for(Player p : spectators)
+		{
+			p.teleport(plotArray[1].getSpawnLocation());
+			p.setScoreboard(scoreboard);
+			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme +"§r§7 ("+max+" Stimme(n))");
+			p.sendTitle("§7Thema: §6§l" + finalTheme, "§7Noch §6 "+(buildingTime / 60 + ":" + buildingTime % 60)+" §7Minuten verbleiben");
+			p.setFlying(true);
+			p.setGameMode(GameMode.CREATIVE);
+		}
 
 		
 		final int buildingTimerTask;
@@ -374,6 +383,10 @@ public class Game {
 		else
 		{
 			p.sendMessage(prefix + "Unbekannter Fehler");
+		}
+		if(skulls.containsKey(p))
+		{
+			skulls.remove(p);
 		}
 	}
 	
@@ -556,6 +569,10 @@ public class Game {
 		for(Player p : players){
 			p.sendTitle("§6§lPlots bewerten", "§7Bewerte die Bauwerke mit der Prismarin-Scherbe");
 		}
+		for(Player p : spectators)
+		{
+			p.sendTitle("§6§lPlots bewerten", "");	
+		}
 		gradePlot(0);
 		 
 	}
@@ -638,7 +655,7 @@ public class Game {
 				{
 					for(Player p : players)
 					{
-					p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1, 1);
+						p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1, 1);
 					}
 					
 				}
@@ -675,7 +692,13 @@ public class Game {
 				for(Player p : players){
 					p.sendTitle("§6§l" + plotArray[id].getOwner().getName(), "§7hat dieses Bauwerk errichtet");
 					p.getInventory().setItem(4, null);
+					p.getInventory().setItem(0, null);					
 					p.closeInventory();
+				}
+				
+				for(Player p : spectators)
+				{
+					p.sendTitle("§6§l" + plotArray[id].getOwner().getName(), "§7hat dieses Bauwerk errichtet");
 				}
 				
 				//save rating
@@ -755,6 +778,11 @@ public class Game {
 		{
 			p.sendTitle("§6" + plotArray[maxindex].getOwner().getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
 			p.teleport(plotArray[maxindex].spawnLocation);
+			for(Player z : spectators)
+			{
+				p.showPlayer(z);
+			}
+			
 		}
 		for(Player p : spectators)
 		{
@@ -793,8 +821,9 @@ public class Game {
 			
 			@Override
 			public void run() {
-				if(launchFirework){
-				launchFirework();
+				if(launchFirework)
+				{
+					launchFirework();
 				}
 				
 			}
@@ -839,7 +868,7 @@ public class Game {
 
         //Get the type
         int rt = random.nextInt(4) + 1;
-        Type type = Type.BALL;       
+        Type type = Type.BALL;
         if (rt == 1) type = Type.BALL;
         if (rt == 2) type = Type.BALL_LARGE;
         if (rt == 3) type = Type.BURST;
@@ -908,7 +937,7 @@ public class Game {
 		Inventory inv = Bukkit.createInventory(null, 18, "§6§lSpieler beobachten");
 		for(Player z : players)
 		{
-			inv.addItem(skulls.get(p.getDisplayName()));
+			inv.addItem(skulls.get(z.getDisplayName()));
 		}
 		p.openInventory(inv);
 	}
