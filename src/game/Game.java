@@ -118,55 +118,6 @@ public class Game {
 		compass.setItemMeta(compassmeta);
 		
 		random = new Random();
-		
-//		forbiddenBlocks.add(Material.WOOD_BUTTON);
-//		forbiddenBlocks.add(Material.STONE_BUTTON);
-//		forbiddenBlocks.add(Material.CHEST);
-//		forbiddenBlocks.add(Material.ENDER_CHEST);
-//		forbiddenBlocks.add(Material.SIGN_POST);
-//		forbiddenBlocks.add(Material.COBBLE_WALL);
-//		forbiddenBlocks.add(Material.WOOD_BUTTON);
-//		forbiddenBlocks.add(Material.ANVIL);
-//		forbiddenBlocks.add(Material.FENCE);
-//		forbiddenBlocks.add(Material.FENCE_GATE);
-//		forbiddenBlocks.add(Material.STAINED_GLASS_PANE);
-//		forbiddenBlocks.add(Material.THIN_GLASS);
-//		forbiddenBlocks.add(Material.ENDER_PORTAL_FRAME);
-//		forbiddenBlocks.add(Material.SNOW);
-//		forbiddenBlocks.add(Material.IRON_FENCE);
-//		forbiddenBlocks.add(Material.CARPET);
-//		forbiddenBlocks.add(Material.CAKE_BLOCK);
-//		forbiddenBlocks.add(Material.SKULL);
-//		forbiddenBlocks.add(Material.FLOWER_POT);
-//		forbiddenBlocks.add(Material.STANDING_BANNER);
-//		forbiddenBlocks.add(Material.BREWING_STAND);
-//		forbiddenBlocks.add(Material.IRON_TRAPDOOR);
-//		forbiddenBlocks.add(Material.WOODEN_DOOR);
-//		forbiddenBlocks.add(Material.TRAP_DOOR);
-//		forbiddenBlocks.add(Material.TRAPPED_CHEST);
-//		forbiddenBlocks.add(Material.REDSTONE_WIRE);
-//		forbiddenBlocks.add(Material.IRON_PLATE);
-//		forbiddenBlocks.add(Material.GOLD_PLATE);
-//		forbiddenBlocks.add(Material.REDSTONE_TORCH_ON);
-//		forbiddenBlocks.add(Material.TORCH);
-//		forbiddenBlocks.add(Material.DAYLIGHT_DETECTOR);
-//		forbiddenBlocks.add(Material.IRON_DOOR_BLOCK);
-//		forbiddenBlocks.add(Material.REDSTONE_COMPARATOR_OFF);
-//		forbiddenBlocks.add(Material.LEVER);
-//		forbiddenBlocks.add(Material.RAILS);
-//		forbiddenBlocks.add(Material.ACTIVATOR_RAIL);
-//		forbiddenBlocks.add(Material.DETECTOR_RAIL);
-//		forbiddenBlocks.add(Material.POWERED_RAIL);
-//		forbiddenBlocks.add(Material.WEB);
-//		forbiddenBlocks.add(Material.DRAGON_EGG);
-//		forbiddenBlocks.add(Material.TNT);
-//		forbiddenBlocks.add(Material.DIODE_BLOCK_OFF);
-//		forbiddenBlocks.add(Material.JUNGLE_DOOR);
-//		forbiddenBlocks.add(Material.BIRCH_DOOR);
-//		forbiddenBlocks.add(Material.ACACIA_DOOR);
-//		forbiddenBlocks.add(Material.SPRUCE_DOOR);
-//		forbiddenBlocks.add(Material.DARK_OAK_DOOR);
-//		forbiddenBlocks.add(Material.WOODEN_DOOR);
 	}
 	
 	public void loadForbiddenBlocks()
@@ -267,12 +218,11 @@ public class Game {
 
 		for(Player p : spectators)
 		{
-			p.teleport(plotArray[1].getSpawnLocation());
+			p.teleport(players.get(0).getLocation());
 			p.setScoreboard(scoreboard);
 			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme +"§r§7 ("+max+" Stimme(n))");
 			p.sendTitle("§7Thema: §6§l" + finalTheme, "§7Noch §6 "+(buildingTime / 60 + ":" + buildingTime % 60)+" §7Minuten verbleiben");
 			p.setFlying(true);
-			p.setGameMode(GameMode.CREATIVE);
 		}
 
 		

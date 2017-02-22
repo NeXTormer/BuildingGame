@@ -39,14 +39,20 @@ public class BBCommand implements CommandExecutor {
 			{
 				if(args[0].equalsIgnoreCase("debug"))
 				{
-					p.sendMessage(game.playerdata.toString());
-					p.sendMessage(game.gamestate.toString());
-					p.sendMessage(game.votes[1] + "");
-					p.sendMessage(game.gradingInventories.toString());
-					p.sendMessage("VoteBuffer0: " + game.gradingInventories.get(p).voteBuffer[0]);
-					p.sendMessage("VoteBuffer1: " + game.gradingInventories.get(p).voteBuffer[1]);
-					p.sendMessage("VoteBuffer2: " + game.gradingInventories.get(p).voteBuffer[2]);
+					p.sendMessage(game.playerprefix + "Players: ");
+					for(Player pl : game.players)
+					{
+						p.sendMessage(game.playerprefix + " - §6" + pl.getDisplayName());
+					}
+
+					p.sendMessage(game.playerprefix + "Spectators: ");
+					for(Player pl : game.spectators)
+					{
+						p.sendMessage(game.playerprefix + " - §6" + pl.getDisplayName());
+					}
+
 					
+					p.sendMessage(game.playerprefix + "GameState: §6" + game.gamestate.toString());
 				}
 				if(args[0].equalsIgnoreCase("mode"))
 				{
