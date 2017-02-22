@@ -105,11 +105,13 @@ public class BlockEvents implements Listener {
 								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==96)
 								{
 									replaceBlocks.add(9);
+									replaceDatas.add((byte)0);
 								}
 								
 								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==70)
 								{
 									replaceBlocks.add(11);
+									replaceDatas.add((byte)0);
 								}
 							}
 							else
