@@ -100,8 +100,23 @@ public class BlockEvents implements Listener {
 						{
 							Location replaceMaterialLocation = e.getBlock().getLocation();
 							replaceMaterialLocation.setY(blockAmount+4);
-							replaceBlocks.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId());
-							replaceDatas.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getData());
+							if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==96 || Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==70)
+							{
+								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==96)
+								{
+									replaceBlocks.add(9);
+								}
+								
+								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==70)
+								{
+									replaceBlocks.add(11);
+								}
+							}
+							else
+							{
+								replaceBlocks.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId());
+								replaceDatas.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getData());
+							}
 							blockAmount++;
 							replaceMaterialLocation.setY(blockAmount+4);
 							if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getType()==Material.AIR)
@@ -115,7 +130,7 @@ public class BlockEvents implements Listener {
 								break;
 							}
 						}
-						e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.NOTE_BASS, 1, 1);
+						e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CREEPER_DEATH, 1, 1);
 						if(e.getBlock().getType().equals(Material.WOOD_PLATE))
 	            	{
 	            		e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu WATER geändert");
@@ -154,7 +169,7 @@ public class BlockEvents implements Listener {
 				            	}
 				            	else
 				            	{
-				            		randomMaterial(replaceBlocks, replaceDatas, world, x, y, z);
+				            		replaceMaterial(replaceBlocks, replaceDatas, world, x, y, z);
 				            		//new Location(world, x, y, z).getBlock().setTypeIdAndData(blockID, meta, false);
 				            		
 				            	}
@@ -198,7 +213,7 @@ public class BlockEvents implements Listener {
 		}
 	}
 	
-	public void randomMaterial(List<Integer> materials, List<Byte> data, World world, int x, int y, int z)
+	public void replaceMaterial(List<Integer> materials, List<Byte> data, World world, int x, int y, int z)
 	{
 		int r = random.nextInt(materials.size());
 		new Location(world, x, y, z).getBlock().setTypeIdAndData(materials.get(r), data.get(r), false);
