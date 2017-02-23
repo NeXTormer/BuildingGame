@@ -1,14 +1,16 @@
 package events;
 
-import java.util.ArrayList;
-
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.material.MaterialData;
 
 import game.Game;
 import game.GameState;
@@ -48,7 +50,61 @@ public class ItemEvents implements Listener {
 						p.openInventory(game.gradingInventories.get(p).inv);
 					}
 				}
-			}			
+			}
+			if(e.getAction() == Action.RIGHT_CLICK_BLOCK)
+			{
+				if(e.getMaterial().equals(Material.WOOD_HOE))
+				{
+					Block block = e.getClickedBlock();
+					byte data = block.getData();
+					if(block.getType().equals(Material.LOG))
+					{
+						if(data==(byte)0 || data==(byte)4 || data==(byte)8)
+						{
+							block.setData((byte) 12);
+						}
+						if(data==(byte)1 || data==(byte)5 || data==(byte)9)
+						{
+							block.setData((byte) 13);
+						}
+						if(data==(byte)2 || data==(byte)6 || data==(byte)10)
+						{
+							block.setData((byte) 14);
+						}
+						if(data==(byte)3 || data==(byte)7 || data==(byte)11)
+						{
+							block.setData((byte) 15);
+						}
+					}
+					if(block.getType().equals(Material.LOG_2))
+					{
+						if(data==(byte)0 || data==(byte)4 || data==(byte)8)
+						{
+							block.setData((byte) 12);
+						}
+						if(data==(byte)1 || data==(byte)5 || data==(byte)9)
+						{
+							block.setData((byte) 13);
+						}
+					}
+				}
+			}
+			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
+			{
+				if(e.getMaterial().equals(Material.FIREWORK))
+				{
+					Player p = e.getPlayer();
+					if(game.launchFirework==true)
+					{
+						p.sendMessage(game.playerprefix+"Das Feuerwerk wurde ausgestellt");
+					}
+					if(game.launchFirework==false)
+					{
+						p.sendMessage(game.playerprefix+"Das Feuerwerk wurde eingeschalten");
+					}
+					game.launchFirework = !game.launchFirework;
+				}
+			}
 		}
 		else
 		{

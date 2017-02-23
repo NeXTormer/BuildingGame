@@ -23,6 +23,7 @@ import utils.DeleteWorld;
 public class BBCommand implements CommandExecutor {
 	
 	private Game game;
+	private boolean saveState = true;
 	public BBCommand(Game game)
 	{
 		this.game = game;
@@ -69,18 +70,26 @@ public class BBCommand implements CommandExecutor {
 				{
 					if(game.gamestate == GameState.GRADING || game.gamestate == GameState.END)
 					{
-						DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
-						Date date = new Date();
-						String name = "Backup_"+dateFormat.format(date) + "_" + game.finalTheme; //2016/11/16_12:08:43
-						
-						try {
-							//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
-							DeleteWorld.copyFolder(new File("BuildingGame"), new File("worldbackups/" + name));
-						} catch (IOException e) {
-							e.printStackTrace();
-							p.sendMessage(game.prefix + "Fehler beim speichern der Welt");
+						if(saveState)
+						{	
+							saveState=false;
+							DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+							Date date = new Date();
+							String name = "Backup_"+dateFormat.format(date) + "_" + game.finalTheme; //2016/11/16_12:08:43
+							
+							try {
+								//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
+								DeleteWorld.copyFolder(new File("BuildingGame"), new File("worldbackups/" + name));
+							} catch (IOException e) {
+								e.printStackTrace();
+								p.sendMessage(game.prefix + "Fehler beim speichern der Welt");
+							}
+							p.sendMessage(game.prefix + "Die Welt wurde unter dem Name§6 "+name+" §7gespeichert");
 						}
-						p.sendMessage(game.prefix + "Die Welt wurde unter dem Name§6 "+name+" §7gespeichert");
+						else
+						{
+							p.sendMessage(game.prefix + "Die Welt wurde bereits gespeichert");
+						}
 					}		
 				}
 				

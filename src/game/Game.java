@@ -40,7 +40,7 @@ public class Game {
 	
 	public static String prefix = "§1§ll§r§9 BuildingBrawl§1§l>> §r§7";
 	public static String playerprefix = "§2§ll§r§a BuildingBrawl§2>> §r§7";
-	public static int secondsToGrade = 30;
+	public static int secondsToGrade = 25;
 	public static int MAX_PLAYERS = 16;
 	
 	public static List<Material> forbiddenBlocks = new ArrayList<>();
@@ -731,9 +731,19 @@ public class Game {
 
 		Bukkit.broadcastMessage(prefix + "Das Spiel ist zu Ende");
 		
+		Player winner = plotArray[maxindex].getOwner();
+		ItemStack winnerHelmet = new ItemStack(Material.GOLD_HELMET);
+		ItemStack firework = new ItemStack(Material.FIREWORK);
+		ItemMeta fireworkMeta = firework.getItemMeta();
+		fireworkMeta.setDisplayName("§6§lFeuerwerk ein/aus");
+		firework.setItemMeta(fireworkMeta);
+		winner.getInventory().setItem(39, winnerHelmet);
+		winner.getInventory().setItem(4, firework);
+		
+		
 		for(Player p : players)
 		{
-			p.sendTitle("§6" + plotArray[maxindex].getOwner().getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
+			p.sendTitle("§6" + winner.getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
 			p.teleport(plotArray[maxindex].spawnLocation);
 			for(Player z : spectators)
 			{
@@ -744,7 +754,7 @@ public class Game {
 		for(Player p : spectators)
 		{
 			p.teleport(plotArray[maxindex].spawnLocation);
-			p.sendTitle("§6" + plotArray[maxindex].getOwner().getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
+			p.sendTitle("§6" + winner.getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
 		}
 		
 		scoreboard.resetScores("§7§l0:00");
