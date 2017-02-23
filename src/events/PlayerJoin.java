@@ -28,6 +28,7 @@ public class PlayerJoin implements Listener
     	e.getPlayer().setFoodLevel(20);
     	e.getPlayer().setLevel(0);
     	e.getPlayer().setHealth(20);
+    	e.getPlayer().getInventory().clear();
     }
 
 
