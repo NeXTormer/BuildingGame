@@ -1,6 +1,7 @@
 package events;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -57,34 +58,68 @@ public class ItemEvents implements Listener {
 				{
 					Block block = e.getClickedBlock();
 					byte data = block.getData();
-					if(block.getType().equals(Material.LOG))
+					Location blocklocation = block.getLocation();
+					blocklocation.setY(1);
+					if(e.getPlayer().getWorld().getBlockAt(blocklocation).getType() == Material.BEDROCK || e.getPlayer().getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE)
 					{
-						if(data==(byte)0 || data==(byte)4 || data==(byte)8)
+						if(block.getType().equals(Material.LOG))
 						{
-							block.setData((byte) 12);
+							if(data==(byte)0 || data==(byte)4 || data==(byte)8)
+							{
+								block.setData((byte) 12);
+							}
+							if(data==(byte)1 || data==(byte)5 || data==(byte)9)
+							{
+								block.setData((byte) 13);
+							}
+							if(data==(byte)2 || data==(byte)6 || data==(byte)10)
+							{
+								block.setData((byte) 14);
+							}
+							if(data==(byte)3 || data==(byte)7 || data==(byte)11)
+							{
+								block.setData((byte) 15);
+							}
 						}
-						if(data==(byte)1 || data==(byte)5 || data==(byte)9)
+						if(block.getType().equals(Material.LOG_2))
 						{
-							block.setData((byte) 13);
+							if(data==(byte)0 || data==(byte)4 || data==(byte)8)
+							{
+								block.setData((byte) 12);
+							}
+							if(data==(byte)1 || data==(byte)5 || data==(byte)9)
+							{
+								block.setData((byte) 13);
+							}
 						}
-						if(data==(byte)2 || data==(byte)6 || data==(byte)10)
+						
+						if(block.getType().equals(Material.REDSTONE_LAMP_OFF))
 						{
-							block.setData((byte) 14);
+							block.setType(Material.REDSTONE_LAMP_ON);
 						}
-						if(data==(byte)3 || data==(byte)7 || data==(byte)11)
+						if(block.getType().equals(Material.REDSTONE_LAMP_ON))
 						{
-							block.setData((byte) 15);
+							block.setType(Material.REDSTONE_LAMP_OFF);
 						}
-					}
-					if(block.getType().equals(Material.LOG_2))
-					{
-						if(data==(byte)0 || data==(byte)4 || data==(byte)8)
+						
+						if(block.getType().equals(Material.IRON_TRAPDOOR) || block.getType().equals(Material.TRAP_DOOR))
 						{
-							block.setData((byte) 12);
-						}
-						if(data==(byte)1 || data==(byte)5 || data==(byte)9)
-						{
-							block.setData((byte) 13);
+							if(data==(byte)0)
+							{
+								block.setData((byte) 4);
+							}
+							if(data==(byte)1)
+							{
+								block.setData((byte) 5);
+							}
+							if(data==(byte)2)
+							{
+								block.setData((byte) 6);
+							}
+							if(data==(byte)3)
+							{
+								block.setData((byte) 7);
+							}
 						}
 					}
 				}
