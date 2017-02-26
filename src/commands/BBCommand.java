@@ -185,7 +185,7 @@ public class BBCommand implements CommandExecutor {
 						sm.setOwner(args[1]);
 						is.setItemMeta(sm);
 						p.getInventory().addItem(is);
-						p.sendMessage(game.playerprefix+"Du hast den Kopf von " + args[1] + " erhalten!");
+						p.sendMessage(game.playerprefix+"Du hast den Kopf von §6" + args[1] + " §7erhalten!");
 						return true;
 					}
 					
