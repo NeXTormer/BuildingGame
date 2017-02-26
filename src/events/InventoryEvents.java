@@ -30,7 +30,7 @@ public class InventoryEvents implements Listener {
     public void onInventoryClick(InventoryClickEvent e)
     {
     	Player p = (Player) e.getWhoClicked();
-    	if(game.spectators.contains(p))
+    	if(game.spectators.contains(p.getUniqueId()))
     	{
     		Inventory inv = e.getInventory();
     		if(inv.getName().equals("§6§lSpieler beobachten"))

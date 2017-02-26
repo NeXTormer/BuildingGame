@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -52,14 +53,16 @@ public class BBCommand implements CommandExecutor {
 					if(args[0].equalsIgnoreCase("debug"))
 					{
 						p.sendMessage(game.playerprefix + "Players: ");
-						for(Player pl : game.players)
+						for(UUID uuid : game.players)
 						{
+							Player pl = Bukkit.getPlayer(uuid);
 							p.sendMessage(game.playerprefix + " - " + pl.getDisplayName());
 						}
 						
 						p.sendMessage(game.playerprefix + "Spectators: ");
-						for(Player pl : game.spectators)
+						for(UUID uuid : game.spectators)
 						{
+							Player pl = Bukkit.getPlayer(uuid);
 							p.sendMessage(game.playerprefix + " - §6" + pl.getDisplayName());
 						}
 						
@@ -148,7 +151,7 @@ public class BBCommand implements CommandExecutor {
 					
 					if(args[0].equalsIgnoreCase("spectate"))
 					{
-						if(game.spectators.contains(p))
+						if(game.spectators.contains(p.getUniqueId()))
 						{
 							if(game.gamestate == GameState.LOBBY)
 							{

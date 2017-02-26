@@ -3,7 +3,9 @@ package commands;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -82,8 +84,9 @@ public class BBTabCompleter implements TabCompleter {
 			if(args[0].equalsIgnoreCase("tp"))
 			{
 				temp.clear();
-				for(Player p : game.players)
+				for(UUID uuid : game.players)
 				{
+					Player p = Bukkit.getPlayer(uuid);
 					temp.add(p.getDisplayName());
 				}
 				return temp;

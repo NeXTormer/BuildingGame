@@ -32,7 +32,7 @@ public class PlayerEvents implements Listener {
     	{
 			if(game.gamestate == GameState.BUILDING || game.gamestate == GameState.GRADING)
 			{
-				if(game.spectators.contains(player)) return;
+				if(game.spectators.contains(player.getUniqueId())) return;
 				Location blocklocation = e.getPlayer().getLocation();
 				if(blocklocation.getBlockY()>50)
 				{
@@ -56,7 +56,7 @@ public class PlayerEvents implements Listener {
     	if(e.getEntityType() == EntityType.PLAYER)
     	{
     		Player p = (Player) e.getEntity();
-    		if(game.spectators.contains(p))
+    		if(game.spectators.contains(p.getUniqueId()))
     		{
     			p.setFireTicks(0);
     			e.setCancelled(true);
@@ -70,7 +70,7 @@ public class PlayerEvents implements Listener {
     	if(e.getEntityType() == EntityType.PLAYER)
     	{
     		Player p = (Player) e.getEntity();
-    		if(game.spectators.contains(p))
+    		if(game.spectators.contains(p.getUniqueId()))
     		{
     			e.setCancelled(true);
     			p.setFireTicks(0);

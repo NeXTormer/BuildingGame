@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -46,9 +47,9 @@ public class Game {
 	public static List<Material> forbiddenBlocks = new ArrayList<>();
 
 	public Plugin plugin;
-
-	public List<Player> players = new ArrayList<>();
-	public List<Player> spectators = new ArrayList<>();
+	
+	public List<UUID> players = new ArrayList<>();
+	public List<UUID> spectators = new ArrayList<>();
 	
 	public Plot[] plotArray = new Plot[16];
 
@@ -139,8 +140,10 @@ public class Game {
 	private void startVoting()
 	{
 		gamestate = GameState.VOTING;
-		for(Player p : players)
+		
+		for(UUID uuid : players)
 		{
+			Player p = Bukkit.getPlayer(uuid);
 			p.setGameMode(GameMode.ADVENTURE);
 			p.openInventory(votingInventory);
 			p.setLevel(voteTimer);
@@ -150,8 +153,9 @@ public class Game {
 		votingTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
 			public void run() {
-				for(Player p : players)
+				for(UUID uuid : players)
 				{
+					Player p = Bukkit.getPlayer(uuid);
 					p.setLevel(p.getLevel() - 1);
 					if(p.getLevel() <= 3)
 					{
@@ -196,7 +200,7 @@ public class Game {
 
 		
 		for (int i = 0; i < players.size(); i++) {
-			Player p = players.get(i);
+			Player p = Bukkit.getPlayer(players.get(i));
 			p.setLevel(buildingTime);
 			plotArray[i].setOwner(p);
 			p.teleport(plotArray[i].getSpawnLocation());
@@ -222,9 +226,10 @@ public class Game {
 		compass.setItemMeta(compassMeta);
 		
 
-		for(Player p : spectators)
+		for(UUID uuid : spectators)
 		{
-			p.teleport(players.get(0).getLocation());
+			Player p = Bukkit.getPlayer(uuid);
+			p.teleport(Bukkit.getPlayer(players.get(0)).getLocation());
 			p.setScoreboard(scoreboard);
 			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme +"§r§7 ("+max+" Stimme(n))");
 			p.sendTitle("§7Thema: §6§l" + finalTheme, "§7Noch §6 "+(buildingTime / 60 + ":" + buildingTime % 60)+" §7Minuten verbleiben");
@@ -245,26 +250,27 @@ public class Game {
 	
 	public void addSpectator(Player p, String msg)
 	{
-		if(spectators.contains(p))
+		if(spectators.contains(p.getUniqueId()))
 		{
 			p.sendMessage(playerprefix + "Unbekannter Fehler");
 		}
 		else
 		{
-			if(players.contains(p))
+			if(players.contains(p.getUniqueId()))
 			{
-				players.remove(p);
+				players.remove(p.getUniqueId());
 				Bukkit.getServer().broadcastMessage(prefix + "257"); //============debug
 			}
-			spectators.add(p);
+			spectators.add(p.getUniqueId());
 			p.sendMessage(playerprefix + msg);
 			p.teleport(lobbyLocation);
 			p.setGameMode(GameMode.ADVENTURE);
 			p.setAllowFlight(true);
 			p.setFlying(true);
 			p.setFoodLevel(20);
-			for(Player z : players)
+			for(UUID uuid : players)
 			{
+				Player z = Bukkit.getPlayer(uuid);
 				z.hidePlayer(p);
 			}
 		}	
@@ -273,14 +279,15 @@ public class Game {
 	
 	public void removeSpectator(Player p)
 	{
-		if(spectators.contains(p))
+		if(spectators.contains(p.getUniqueId()))
 		{
 			p.teleport(lobbyLocation);
-			spectators.remove(p);
+			spectators.remove(p.getUniqueId());
 			p.setFlying(false);
 			p.setAllowFlight(false);
-			for(Player z : players)
+			for(UUID uuid : players)
 			{
+				Player z = Bukkit.getPlayer(uuid);
 				z.showPlayer(p);
 			}
 		}
@@ -292,9 +299,9 @@ public class Game {
 
 	public void addPlayer(Player p)
 	{
-		if(players.contains(p) || spectators.contains(p))
+		if(players.contains(p.getUniqueId()) || spectators.contains(p.getUniqueId()))
 		{
-			p.sendMessage(prefix + "Unbekannter Fehler");
+			p.sendMessage(prefix + "Du bist dem Spiel wieder beigetreten");
 		}
 		else
 		{
@@ -304,7 +311,7 @@ public class Game {
 			}
 			else
 			{
-				players.add(p);
+				players.add(p.getUniqueId());
 				p.sendMessage(prefix + "Du bist dem Spiel beigetreten");
 				p.teleport(lobbyLocation);
 			
@@ -337,11 +344,11 @@ public class Game {
 	
 	public void removePlayer(Player p)
 	{
-		if(players.contains(p))
+		if(players.contains(p.getUniqueId()))
 		{
 			for(int i = 0; i < players.size(); i++)
 			{
-				if(players.get(i).getName().equalsIgnoreCase(p.getName())) //check which index in the arraylist the player is
+				if(Bukkit.getPlayer(players.get(i)).getName().equalsIgnoreCase(p.getName())) //check which index in the arraylist the player is
 				{
 					if(!(gamestate == GameState.LOBBY))
 					{
@@ -351,7 +358,7 @@ public class Game {
 			}
 			if(gamestate == GameState.LOBBY)
 			{				
-				players.remove(p); //TODO: make this good, don't remove while game is running, let him reconnect
+				players.remove(p.getUniqueId()); //TODO: make this good, don't remove while game is running, let him reconnect
 			}
 		}
 		else
@@ -511,8 +518,9 @@ public class Game {
 	{
 		scoreboard.resetScores(currentBuildingtime);
 		buildingTime--;
-		for(Player p : players)
+		for(UUID uuid : players)
 		{
+			Player p = Bukkit.getPlayer(uuid);
 			if(buildingTime<=10) p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1.0f, 1.0f);
 		}
 		if(buildingTime <= 0)
@@ -541,15 +549,18 @@ public class Game {
 	private void startGradingProcess()
 	{
 		//TODO: check if there are any players  left
-		for(Player p : players){
+		for(UUID uuid : players)
+		{
+			Player p = Bukkit.getPlayer(uuid);
 			p.sendTitle("§6§lPlots bewerten", "§7Bewerte die Bauwerke mit der Prismarin-Scherbe");
 		}
-		for(Player p : spectators)
+		for(UUID uuid : spectators)
 		{
+			Player p = Bukkit.getPlayer(uuid);
 			p.sendTitle("§6§lPlots bewerten", "");	
 		}
-		gradePlot(0);
-		 
+		
+		gradePlot(0);	 
 	}
 	
 	private void gradePlot(int i)
@@ -564,14 +575,16 @@ public class Game {
 		scoreboardSecondsToGrade = secondsToGrade;
 		gradeTimer = 0;
 
-		for(Player p : players)
+		for(UUID uuid : players)
 		{
+			Player p = Bukkit.getPlayer(uuid);
 			p.teleport(plotArray[id].getSpawnLocation());
 			gradingInventories.put(p, new VotingInventory());
 			gradingInventories.get(p).resetInventory();
 		}
-		for(Player p : spectators)
+		for(UUID uuid : spectators)
 		{
+			Player p = Bukkit.getPlayer(uuid);
 			p.teleport(plotArray[id].getSpawnLocation());
 		}
 		
@@ -599,8 +612,9 @@ public class Game {
 		lore.add("§7Rechtsklicke um das Plot zu bewerten");
 		im.setLore(lore);
 		is.setItemMeta(im);
-		for(Player p : players)
+		for(UUID uuid : players)
 		{
+			Player p = Bukkit.getPlayer(uuid);
 			for(PotionEffect e : p.getActivePotionEffects())
 			{
 				p.removePotionEffect(e.getType());
@@ -633,8 +647,9 @@ public class Game {
 			public void run() {
 				if(scoreboardSecondsToGrade < 6 && scoreboardSecondsToGrade > 0)
 				{
-					for(Player p : players)
+					for(UUID uuid : players)
 					{
+						Player p = Bukkit.getPlayer(uuid);
 						p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1, 1);
 					}
 					
@@ -669,21 +684,25 @@ public class Game {
 				scoreK.setScore(3);
 				
 				//remove prismarine shard
-				for(Player p : players){
+				for(UUID uuid : players)
+				{
+					Player p = Bukkit.getPlayer(uuid);
 					p.sendTitle("§6§l" + plotArray[id].getOwner().getName(), "§7hat dieses Bauwerk errichtet");
 					p.getInventory().setItem(4, null);
 					p.getInventory().setItem(0, null);					
 					p.closeInventory();
 				}
 				
-				for(Player p : spectators)
+				for(UUID uuid : spectators)
 				{
+					Player p = Bukkit.getPlayer(uuid);
 					p.sendTitle("§6§l" + plotArray[id].getOwner().getName(), "§7hat dieses Bauwerk errichtet");
 				}
 				
 				//save rating
-				for(Player p : players)
+				for(UUID uuid : players)
 				{
+					Player p = Bukkit.getPlayer(uuid);
 					plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0]));
 					plotArray[id].addGradeLook(convertGrade(gradingInventories.get(p).voteBuffer[1]));
 					plotArray[id].addGradeFitting(convertGrade(gradingInventories.get(p).voteBuffer[2]));
@@ -764,18 +783,21 @@ public class Game {
 		winner.getInventory().setItem(4, firework);
 		
 		
-		for(Player p : players)
+		for(UUID uuid : players)
 		{
+			Player p = Bukkit.getPlayer(uuid);
 			p.sendTitle("§6" + winner.getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
 			p.teleport(plotArray[maxindex].spawnLocation);
-			for(Player z : spectators)
+			for(UUID uuid2 : spectators)
 			{
+				Player z = Bukkit.getPlayer(uuid2);
 				p.showPlayer(z);
 			}
 			
 		}
-		for(Player p : spectators)
+		for(UUID uuid : spectators)
 		{
+			Player p = Bukkit.getPlayer(uuid);
 			p.teleport(plotArray[maxindex].spawnLocation);
 			p.sendTitle("§6" + winner.getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
 		}
@@ -824,8 +846,9 @@ public class Game {
 			
 			@Override
 			public void run() {
-				for(Player p : players)
+				for(UUID uuid : players)
 				{
+					Player p = Bukkit.getPlayer(uuid);
 					//p.kickPlayer(playerprefix + "Das Spiel ist zu Ende");
 				}
 				
@@ -925,8 +948,9 @@ public class Game {
 	public void openTeleportInventory(Player p)
 	{
 		Inventory inv = Bukkit.createInventory(null, 18, "§6§lSpieler beobachten");
-		for(Player z : players)
+		for(UUID uuid : players)
 		{
+			Player z = Bukkit.getPlayer(uuid);
 			inv.addItem(skulls.get(z.getDisplayName()));
 		}
 		p.openInventory(inv);
