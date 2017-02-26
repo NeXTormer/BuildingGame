@@ -47,189 +47,225 @@ public class BBCommand implements CommandExecutor {
 			Player p = (Player) sender;
 			if(args.length == 1)
 			{
-				if(args[0].equalsIgnoreCase("debug"))
+				if(p.hasPermission("buildingbrawl.debug"))
 				{
-					p.sendMessage(game.playerprefix + "Players: ");
-					for(Player pl : game.players)
+					if(args[0].equalsIgnoreCase("debug"))
 					{
-						p.sendMessage(game.playerprefix + " - " + pl.getDisplayName());
+						p.sendMessage(game.playerprefix + "Players: ");
+						for(Player pl : game.players)
+						{
+							p.sendMessage(game.playerprefix + " - " + pl.getDisplayName());
+						}
+						
+						p.sendMessage(game.playerprefix + "Spectators: ");
+						for(Player pl : game.spectators)
+						{
+							p.sendMessage(game.playerprefix + " - §6" + pl.getDisplayName());
+						}
+						
+						
+						p.sendMessage(game.playerprefix + "GameState: §6" + game.gamestate.toString());
+						return true;
 					}
-
-					p.sendMessage(game.playerprefix + "Spectators: ");
-					for(Player pl : game.spectators)
+					if(args[0].equalsIgnoreCase("mode"))
 					{
-						p.sendMessage(game.playerprefix + " - §6" + pl.getDisplayName());
-					}
-
+						game.globalBuildMode = !game.globalBuildMode;
+						p.sendMessage(game.prefix + "Der Globale Baumodus wurde §6" + (game.globalBuildMode ? "aktiviert" : "deaktiviert"));
+						return true;
+					}	
 					
-					p.sendMessage(game.playerprefix + "GameState: §6" + game.gamestate.toString());
-				}
-				if(args[0].equalsIgnoreCase("mode"))
-				{
-					game.globalBuildMode = !game.globalBuildMode;
-					p.sendMessage(game.prefix + "Der Globale Baumodus wurde §6" + (game.globalBuildMode ? "aktiviert" : "deaktiviert"));
+					if(args[0].equalsIgnoreCase("end"))
+					{
+						game.endGame(EndReason.NORMAL_END);
+						return true;
+					}
+					
 				}
 				
 				if(args[0].equalsIgnoreCase("skull") && game.gamestate == GameState.BUILDING)
 				{
 					((Player) sender).performCommand("hdb");
-				}
-				
-				if(args[0].equalsIgnoreCase("save"))
-				{
-					if(game.gamestate == GameState.GRADING || game.gamestate == GameState.END)
-					{
-						if(saveState)
-						{	
-							saveState=false;
-							DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
-							Date date = new Date();
-							String name = "Backup_"+dateFormat.format(date) + "_" + game.finalTheme; //2016_11_16_12:08:43
-							
-							try {
-								//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
-								DeleteWorld.copyFolder(new File("BuildingGame"), new File("worldbackups/" + name));
-							} catch (IOException e) {
-								e.printStackTrace();
-								p.sendMessage(game.prefix + "Fehler beim speichern der Welt");
-							}
-							p.sendMessage(game.prefix + "Die Welt wurde unter dem Name§6 "+name+" §7gespeichert");
-						}
-						else
-						{
-							p.sendMessage(game.prefix + "Die Welt wurde bereits gespeichert");
-						}
-					}		
-				}
-				
-				if(args[0].equalsIgnoreCase("info"))
-				{
-					p.spigot().sendMessage(prefixMessage, infoMessage);
-				}
-				
-				if(args[0].equalsIgnoreCase("end"))
-				{
-					game.endGame(EndReason.NORMAL_END);
-				}
-				
-				if(args[0].equalsIgnoreCase("launchFirework"))
-				{
-					if(game.launchFirework==true)
-					{
-						p.sendMessage(game.playerprefix+"Das Feuerwerk wurde ausgestellt");
-					}
-					if(game.launchFirework==false)
-					{
-						p.sendMessage(game.playerprefix+"Das Feuerwerk wurde eingeschalten");
-					}
-					game.launchFirework = !game.launchFirework;
 					return true;
 				}
-				if(args[0].equalsIgnoreCase("spectate"))
+				
+				if(p.hasPermission("buildingbrawl.saveworld"))
 				{
-					if(game.spectators.contains(p))
+					if(args[0].equalsIgnoreCase("save"))
 					{
-						if(game.gamestate == GameState.LOBBY)
+						if(game.gamestate == GameState.GRADING || game.gamestate == GameState.END)
 						{
-							game.removeSpectator(p);
-							game.addPlayer(p);
+							if(saveState)
+							{	
+								saveState=false;
+								DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+								Date date = new Date();
+								String name = "Backup_"+dateFormat.format(date) + "_" + game.finalTheme; //2016_11_16_12:08:43
+								
+								try {
+									//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
+									DeleteWorld.copyFolder(new File("BuildingGame"), new File("worldbackups/" + name));
+								} catch (IOException e) {
+									e.printStackTrace();
+									p.sendMessage(game.prefix + "Fehler beim speichern der Welt");
+								}
+								p.sendMessage(game.prefix + "Die Welt wurde unter dem Name§6 "+name+" §7gespeichert");
+							}
+							else
+							{
+								p.sendMessage(game.prefix + "Die Welt wurde bereits gespeichert");
+							}
+							return true;
+						}	
+						else
+						{
+							p.sendMessage(game.prefix + "Die Welt kann nur am Ende des Spiels gespeichert werden");
+							return true;
+						}
+					}	
+				}
+				
+				if(p.hasPermission("buildingbrawl.play"))
+				{
+					if(args[0].equalsIgnoreCase("info"))
+					{
+						p.spigot().sendMessage(prefixMessage, infoMessage);
+						return true;
+					}
+					
+					if(args[0].equalsIgnoreCase("launchFirework"))
+					{
+						if(game.launchFirework==true)
+						{
+							p.sendMessage(game.playerprefix+"Das Feuerwerk wurde ausgestellt");
+						}
+						if(game.launchFirework==false)
+						{
+							p.sendMessage(game.playerprefix+"Das Feuerwerk wurde eingeschalten");
+						}
+						game.launchFirework = !game.launchFirework;
+						return true;
+					}
+					
+					if(args[0].equalsIgnoreCase("spectate"))
+					{
+						if(game.spectators.contains(p))
+						{
+							if(game.gamestate == GameState.LOBBY)
+							{
+								game.removeSpectator(p);
+								game.addPlayer(p);
+							}
+							else
+							{
+								p.sendMessage(game.prefix + "Du kannst nicht mehr mitspielen da das Spiel bereits gestartet hat");
+							}
 						}
 						else
 						{
-							p.sendMessage(game.prefix + "Du kannst nicht mehr mitspielen da das Spiel bereits gestartet hat");
+							if(game.gamestate == GameState.LOBBY)
+							{
+								game.removePlayer(p);
+								game.addSpectator(p, "Du wurdest den Zuschauern hinzugefuegt");
+							}
 						}
-					}
-					else
-					{
-						if(game.gamestate == GameState.LOBBY)
-						{
-							game.removePlayer(p);
-							game.addSpectator(p, "Du wurdest den Zuschauern hinzugefuegt");
-						}
+						return true;
 					}
 				}
+				
 
 			}
 			else if(args.length == 2)
 			{
-				if(args[0].equalsIgnoreCase("skull") && game.gamestate == GameState.BUILDING)
+				if(p.hasPermission("buildingbrawl.play"))
 				{
-					ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
-					SkullMeta sm = (SkullMeta) is.getItemMeta();
-					sm.setOwner(args[1]);
-					is.setItemMeta(sm);
-					p.getInventory().addItem(is);
-					p.sendMessage(game.playerprefix+"Du hast den Kopf von " + args[1] + " erhalten!");
-				}
-				if(args[0].equalsIgnoreCase("startgame"))
-				{
-					Bukkit.getServer().broadcastMessage(game.prefix+"Das Spiel startet in §6"+args[1]+"§7 Sekunden");
-					game.voteTimer = Integer.valueOf(args[1])+1;
-					game.start(p);
-					return true;
-				}
-				if(args[0].equalsIgnoreCase("tp") && args[1] instanceof String)
-				{
-					for(int i = 0; i<game.plotArray.length; i++)
+					if(args[0].equalsIgnoreCase("skull") && game.gamestate == GameState.BUILDING)
 					{
-						if(game.plotArray[i].getOwner().getName().equalsIgnoreCase(args[1]))
+						ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
+						SkullMeta sm = (SkullMeta) is.getItemMeta();
+						sm.setOwner(args[1]);
+						is.setItemMeta(sm);
+						p.getInventory().addItem(is);
+						p.sendMessage(game.playerprefix+"Du hast den Kopf von " + args[1] + " erhalten!");
+						return true;
+					}
+					
+				}
+				
+				if(p.hasPermission("buildinggame.debug"))
+				{					
+					if(args[0].equalsIgnoreCase("startgame"))
+					{
+						Bukkit.getServer().broadcastMessage(game.prefix+"Das Spiel startet in §6"+args[1]+"§7 Sekunden");
+						game.voteTimer = Integer.valueOf(args[1])+1;
+						game.start(p);
+						return true;
+					}
+					
+					if(args[0].equalsIgnoreCase("tp") && args[1] instanceof String)
+					{
+						for(int i = 0; i<game.plotArray.length; i++)
 						{
-							p.teleport(game.plotArray[i].getSpawnLocation());
-							break;
+							if(game.plotArray[i].getOwner().getName().equalsIgnoreCase(args[1]))
+							{
+								p.teleport(game.plotArray[i].getSpawnLocation());
+								break;
+							}
 						}
+						return true;
 					}
-					return true;
-				}
-				
-
-				
-				if(args[0].equalsIgnoreCase("setTime"))
-				{
-					game.buildingTime = Integer.valueOf(args[1]);
-					Bukkit.getServer().broadcastMessage(game.prefix+"Die Bauzeit wurde auf §6"+args[1]+"§7 Sekunden gesetzt");
-					return true;
-				}
-				
-				if(args[0].equalsIgnoreCase("brawl") && game.gamestate==GameState.GRADING)
-				{
-					p.sendMessage(game.playerprefix+"WIP");
-					return true;
-				}
-				
-				if(args[0].equalsIgnoreCase("addTheme"))
-				{
-
-					game.themes.add(args[1]);
-					game.themesCfg.set("themes", game.themes);
-					game.loadBuildThemes();
-					p.sendMessage(game.playerprefix+"Das Thema §6"+args[1]+"§7 wurde zum Themenpool hinzugefügt");
-					try {
-						game.themesCfg.save(game.themesFile);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					return true;
-				}
-				if(args[0].equalsIgnoreCase("removeTheme"))
-				{
-					if(game.themes.contains(args[1]))
+					
+					if(args[0].equalsIgnoreCase("setTime"))
 					{
-						game.themes.remove(args[1]);
+						game.buildingTime = Integer.valueOf(args[1]);
+						Bukkit.getServer().broadcastMessage(game.prefix+"Die Bauzeit wurde auf §6"+args[1]+"§7 Sekunden gesetzt");
+						return true;
+					}
+					
+					if(args[0].equalsIgnoreCase("brawl") && game.gamestate==GameState.GRADING)
+					{
+						p.sendMessage(game.playerprefix+"WIP");
+						return true;
+					}
+					
+					if(args[0].equalsIgnoreCase("addTheme"))
+					{
+						
+						game.themes.add(args[1]);
 						game.themesCfg.set("themes", game.themes);
 						game.loadBuildThemes();
-						p.sendMessage(game.playerprefix+"Das Thema §6"+args[1]+"§7 wurde vom Themenpool entfernt");
+						p.sendMessage(game.playerprefix+"Das Thema §6"+args[1]+"§7 wurde zum Themenpool hinzugefügt");
 						try {
 							game.themesCfg.save(game.themesFile);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
+						return true;
 					}
-					else
+					
+					if(args[0].equalsIgnoreCase("removeTheme"))
 					{
-						p.sendMessage(game.playerprefix+"Das Thema §6"+args[1]+"§7 ist nicht im Themenpool vorhanden");
+						if(game.themes.contains(args[1]))
+						{
+							game.themes.remove(args[1]);
+							game.themesCfg.set("themes", game.themes);
+							game.loadBuildThemes();
+							p.sendMessage(game.playerprefix+"Das Thema §6"+args[1]+"§7 wurde vom Themenpool entfernt");
+							try {
+								game.themesCfg.save(game.themesFile);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						else
+						{
+							p.sendMessage(game.playerprefix+"Das Thema §6"+args[1]+"§7 ist nicht im Themenpool vorhanden");
+						}
+						return true;
 					}
-					return true;
 				}
+				
+
+				
 			}
 			sender.sendMessage(game.playerprefix + "Nicht vorhandener oder nicht vollstaendiger Befehl");
 		}

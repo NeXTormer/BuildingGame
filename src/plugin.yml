@@ -10,3 +10,19 @@ commands:
   bb:
     description: Standard BuildingBrawl Befehl
     usage: /bb <args> <args> 
+
+permissions:
+  buildingbrawl.*:
+    description: Access to all permissions
+    children:
+      - buildingbrawl.debug
+      - buildingbrawl.play
+      - buildingbrawl.saveworld
+  buildingbrawl.debug:
+    children:
+      - buildingbrawl.play
+      - buildingbrawl.saveworld
+  buildingbrawl.play:
+    description: Default permission needed to play the game
+  buildingbrawl.saveworld:
+    description: Permission to save the world
