@@ -18,15 +18,24 @@ import org.bukkit.inventory.meta.SkullMeta;
 import game.EndReason;
 import game.Game;
 import game.GameState;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import utils.DeleteWorld;
 
 public class BBCommand implements CommandExecutor {
 	
+	private TextComponent infoMessage;
+	private TextComponent prefixMessage;
+
 	private Game game;
 	private boolean saveState = true;
 	public BBCommand(Game game)
 	{
 		this.game = game;
+		
+		infoMessage = new TextComponent("§7Infos findest du §6§lhier");
+		prefixMessage = new TextComponent(game.playerprefix);
+		infoMessage.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://docs.google.com/document/d/1PMkiqQYeHSQoFZg-LxOkRed9O2VPCyfEpDjsdw516vo/edit"));
 	}
 	
 	
@@ -43,7 +52,7 @@ public class BBCommand implements CommandExecutor {
 					p.sendMessage(game.playerprefix + "Players: ");
 					for(Player pl : game.players)
 					{
-						p.sendMessage(game.playerprefix + " - §6" + pl.getDisplayName());
+						p.sendMessage(game.playerprefix + " - " + pl.getDisplayName());
 					}
 
 					p.sendMessage(game.playerprefix + "Spectators: ");
@@ -75,7 +84,7 @@ public class BBCommand implements CommandExecutor {
 							saveState=false;
 							DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 							Date date = new Date();
-							String name = "Backup_"+dateFormat.format(date) + "_" + game.finalTheme; //2016/11/16_12:08:43
+							String name = "Backup_"+dateFormat.format(date) + "_" + game.finalTheme; //2016_11_16_12:08:43
 							
 							try {
 								//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
@@ -95,9 +104,7 @@ public class BBCommand implements CommandExecutor {
 				
 				if(args[0].equalsIgnoreCase("info"))
 				{
-					
-					p.sendMessage(game.playerprefix + "Infos unter: https://docs.google.com/document/d/1PMkiqQYeHSQoFZg-LxOkRed9O2VPCyfEpDjsdw516vo/edit");
-					//TODO: Make clickable
+					p.spigot().sendMessage(prefixMessage, infoMessage);
 				}
 				
 				if(args[0].equalsIgnoreCase("end"))
@@ -224,7 +231,7 @@ public class BBCommand implements CommandExecutor {
 					return true;
 				}
 			}
-			
+			sender.sendMessage(game.playerprefix + "Nicht vorhandener oder nicht vollstaendiger Befehl");
 		}
 		
 		
