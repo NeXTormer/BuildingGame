@@ -302,6 +302,11 @@ public class Game {
 		if(players.contains(p.getUniqueId()) || spectators.contains(p.getUniqueId()))
 		{
 			p.sendMessage(prefix + "Du bist dem Spiel wieder beigetreten");
+			for(UUID uuid : spectators)
+			{
+				Player player = Bukkit.getPlayer(uuid);
+				p.hidePlayer(player);
+			}
 		}
 		else
 		{
@@ -337,6 +342,13 @@ public class Game {
 				if(!skulls.containsKey(p.getDisplayName()))
 				{
 					skulls.put(p.getDisplayName(), is);					
+				}
+
+				//TODO: moeglicherweise unnoetig
+				for(UUID uuid : spectators)
+				{
+					Player player = Bukkit.getPlayer(uuid);
+					p.hidePlayer(player);
 				}
 			}
 		}
@@ -703,7 +715,7 @@ public class Game {
 				for(UUID uuid : players)
 				{
 					Player p = Bukkit.getPlayer(uuid);
-					plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0]));
+					plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0])); //TODO: nullpointer wenn ein spieler waehrend der voting phase leavt
 					plotArray[id].addGradeLook(convertGrade(gradingInventories.get(p).voteBuffer[1]));
 					plotArray[id].addGradeFitting(convertGrade(gradingInventories.get(p).voteBuffer[2]));
 				}
