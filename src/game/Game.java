@@ -335,7 +335,10 @@ public class Game {
 					}
 				}
 			}
-			//players.remove(p); //TODO: make this good
+			if(gamestate == GameState.LOBBY)
+			{				
+				players.remove(p); //TODO: make this good, don't remove while game is running, let him reconnect
+			}
 		}
 		else
 		{
@@ -504,7 +507,8 @@ public class Game {
 			gamestate = gamestate.GRADING;
 			startGradingProcess();
 		}
-		else{
+		else
+		{
 			if(buildingTime%60>9)
 			{
 				currentBuildingtime = "§7§l" + buildingTime / 60 + ":" + buildingTime % 60;
@@ -589,6 +593,7 @@ public class Game {
 			}
 			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
 			p.getInventory().clear();
+			p.getEquipment().clear();
 			if(plotArray[id].getOwner().getPlayer().getName().equals(p.getName()))
 			{
 				//pfusch

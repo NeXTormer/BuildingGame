@@ -42,6 +42,7 @@ public class BBTabCompleter implements TabCompleter {
 		arg1def.add("brawl");
 		arg1def.add("addtheme");
 		arg1def.add("removetheme");
+		arg1def.add("spectate");
 
 		Collections.sort(arg1def);
 
