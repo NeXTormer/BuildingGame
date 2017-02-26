@@ -29,6 +29,7 @@ public class PlayerJoin implements Listener
     	e.getPlayer().setLevel(0);
     	e.getPlayer().setHealth(20);
     	e.getPlayer().getInventory().clear();
+    	e.getPlayer().getEquipment().clear();
     }
 
 
