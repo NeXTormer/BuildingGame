@@ -97,6 +97,7 @@ public class BBCommand implements CommandExecutor {
 				{
 					
 					p.sendMessage(game.playerprefix + "Infos unter: https://docs.google.com/document/d/1PMkiqQYeHSQoFZg-LxOkRed9O2VPCyfEpDjsdw516vo/edit");
+					//TODO: Make clickable
 				}
 				
 				if(args[0].equalsIgnoreCase("end"))

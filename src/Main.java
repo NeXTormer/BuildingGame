@@ -8,6 +8,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import commands.BBCommand;
+import commands.BBTabCompleter;
 import events.BlockEvents;
 import events.EnvironmentalEvents;
 import events.InventoryEvents;
@@ -32,6 +33,7 @@ public class Main extends JavaPlugin {
 	PlayerEvents playerevents;
 	
 	BBCommand bbcommand;
+	BBTabCompleter bbtabcompleter;
 	
 	public void onEnable()
 	{
@@ -46,6 +48,7 @@ public class Main extends JavaPlugin {
 		playerevents = new PlayerEvents(game);
 
 		bbcommand = new BBCommand(game);
+		bbtabcompleter = new BBTabCompleter(game);
 		
 		pluginmanager.registerEvents(playerjoinevent, this);
 		pluginmanager.registerEvents(playerquitevent, this);
@@ -58,6 +61,7 @@ public class Main extends JavaPlugin {
 		
 
 		getCommand("bb").setExecutor(bbcommand);
+		getCommand("bb").setTabCompleter(bbtabcompleter);
 		for(World w : Bukkit.getWorlds())
 		{
 			w.setAutoSave(false);
