@@ -254,6 +254,7 @@ public class Game {
 			if(players.contains(p))
 			{
 				players.remove(p);
+				Bukkit.getServer().broadcastMessage(prefix + "257"); //============debug
 			}
 			spectators.add(p);
 			p.sendMessage(playerprefix + msg);
@@ -291,7 +292,7 @@ public class Game {
 
 	public void addPlayer(Player p)
 	{
-		if(players.contains(p))
+		if(players.contains(p) || spectators.contains(p))
 		{
 			p.sendMessage(prefix + "Unbekannter Fehler");
 		}
@@ -304,10 +305,23 @@ public class Game {
 			else
 			{
 				players.add(p);
-				playerdata.put(p, new PlayerData());
 				p.sendMessage(prefix + "Du bist dem Spiel beigetreten");
 				p.teleport(lobbyLocation);
 			
+				p.setGameMode(GameMode.ADVENTURE);
+		    	p.getInventory().clear();
+		    	
+		    	p.setFlySpeed(0.1f);
+		    	p.setWalkSpeed(0.2f);
+		    	p.setSaturation(20);
+		    	p.setFoodLevel(20);
+		    	p.setLevel(0);
+		    	p.setHealth(20);
+		    	p.getInventory().clear();
+		    	p.getInventory().setHelmet(null);
+		    	p.getInventory().setChestplate(null);
+		    	p.getInventory().setLeggings(null);
+		    	p.getInventory().setBoots(null);				
 				ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
 				SkullMeta sm = (SkullMeta) is.getItemMeta();
 				sm.setOwner(p.getDisplayName());
@@ -327,7 +341,7 @@ public class Game {
 		{
 			for(int i = 0; i < players.size(); i++)
 			{
-				if(players.get(i).getName() == p.getName()) //check which index in the arraylist the player is
+				if(players.get(i).getName().equalsIgnoreCase(p.getName())) //check which index in the arraylist the player is
 				{
 					if(!(gamestate == GameState.LOBBY))
 					{
@@ -593,7 +607,11 @@ public class Game {
 			}
 			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
 			p.getInventory().clear();
-			p.getEquipment().clear();
+			p.getInventory().setHelmet(null);
+			p.getInventory().setChestplate(null);
+			p.getInventory().setLeggings(null);
+			p.getInventory().setBoots(null);	
+			
 			if(plotArray[id].getOwner().getPlayer().getName().equals(p.getName()))
 			{
 				//pfusch
