@@ -1,8 +1,8 @@
 package events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPistonEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -20,6 +20,12 @@ public class EnvironmentalEvents implements Listener{
     public EnvironmentalEvents(Game game)
     {
         this.game = game;
+    }
+
+    @EventHandler
+    public void onPiston(BlockPistonExtendEvent e)
+    {
+    	e.setCancelled(true);
     }
     
     @EventHandler
@@ -58,16 +64,4 @@ public class EnvironmentalEvents implements Listener{
     	e.setCancelled(true);
     }
     
-    @EventHandler
-    public void onPiston(BlockPistonEvent e)
-    {
-    	e.setCancelled(true);
-    }
-    
-    @EventHandler
-    public void onPistonExtend(BlockPistonExtendEvent e)
-    {
-    	e.setCancelled(true);
-    }
-
 }

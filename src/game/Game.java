@@ -148,7 +148,7 @@ public class Game {
 	{
 		gamestate = GameState.VOTING;
 		
-		for(UUID uuid : players)
+		for(UUID uuid : players) 
 		{
 			Player p = Bukkit.getPlayer(uuid);
 			p.setGameMode(GameMode.ADVENTURE);
