@@ -186,14 +186,14 @@ public class Game {
 		bgObjective.setDisplayName("§9    - BuildingBrawl -    ");
 		bgObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-		Score score2 = bgObjective.getScore("§6Thema:");
-		score2.setScore(7);
-		Score score3 = bgObjective.getScore("§7" + finalTheme);
-		score3.setScore(6);
-		Score score4 = bgObjective.getScore(" ");
-		score4.setScore(5);
-		Score score5 = bgObjective.getScore("§6Zeit:");
-		score5.setScore(4);
+		Score scoreThema = bgObjective.getScore("§6Thema:");
+		scoreThema.setScore(7);
+		Score scoreFinalTheme = bgObjective.getScore("§7" + finalTheme);
+		scoreFinalTheme.setScore(6);
+		Score scoreSpace1 = bgObjective.getScore(" ");
+		scoreSpace1.setScore(5);
+		Score scoreZeit = bgObjective.getScore("§6Zeit:");
+		scoreZeit.setScore(4);
 		timeScore = bgObjective.getScore("");
 		timeScore.setScore(3);
 		

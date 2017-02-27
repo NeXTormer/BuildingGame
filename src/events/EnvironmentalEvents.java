@@ -1,11 +1,11 @@
 package events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPistonEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -54,6 +54,18 @@ public class EnvironmentalEvents implements Listener{
     
     @EventHandler
     public void onPortalJoin(PlayerPortalEvent e)
+    {
+    	e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onPiston(BlockPistonEvent e)
+    {
+    	e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onPistonExtend(BlockPistonExtendEvent e)
     {
     	e.setCancelled(true);
     }
