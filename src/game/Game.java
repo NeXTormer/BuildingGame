@@ -44,6 +44,8 @@ public class Game {
 	public static int secondsToGrade = 25;
 	public static int MAX_PLAYERS = 16;
 	
+	
+	
 	public static List<Material> forbiddenBlocks = new ArrayList<>();
 
 	public Plugin plugin;
@@ -99,7 +101,12 @@ public class Game {
 	private String currentBuildingtime = "";
 	private int currentPlotInGradingProcess = 1000;
 	private int maxindex = 0;
-
+	
+	/**
+	 * scheduler id for the timer which shuts the server down when there are no players left
+	 */
+	private int playerLeaveTimerScheduler = 0;
+	
 	private ItemStack compass = new ItemStack(Material.COMPASS);
 	private ItemMeta compassmeta = compass.getItemMeta();
 
@@ -307,6 +314,8 @@ public class Game {
 				Player player = Bukkit.getPlayer(uuid);
 				p.hidePlayer(player);
 			}
+			
+			p.setScoreboard(scoreboard);
 		}
 		else
 		{
@@ -381,6 +390,19 @@ public class Game {
 		{
 			skulls.remove(p);
 		}
+		
+		//Check if there are no players left
+		if(players.size() == 0)
+		{
+			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+				
+				@Override
+				public void run() {
+					
+				}
+			}, 20, 20);
+		}
+		
 	}
 	
 	
@@ -560,7 +582,6 @@ public class Game {
 	
 	private void startGradingProcess()
 	{
-		//TODO: check if there are any players  left
 		for(UUID uuid : players)
 		{
 			Player p = Bukkit.getPlayer(uuid);
