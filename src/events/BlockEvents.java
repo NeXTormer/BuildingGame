@@ -138,18 +138,6 @@ public class BlockEvents implements Listener {
 							}
 						}
 						e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CREEPER_DEATH, 1, 1);
-						if(e.getBlock().getType().equals(Material.WOOD_PLATE))
-	            	{
-	            		e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu WATER geändert");
-	            	}
-	            	else if(e.getBlock().getType().equals(Material.STONE_PLATE))
-	            	{
-	            		e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu LAVA geändert");
-	            	}
-	            	else
-	            	{
-	            		e.getPlayer().sendMessage(game.playerprefix+"Der Boden wurde zu "+e.getBlock().getType()+"§7 geändert");
-	            	}
 					
 					Location replaceLoc = e.getBlock().getLocation();
 					replaceLoc.setY(5);
