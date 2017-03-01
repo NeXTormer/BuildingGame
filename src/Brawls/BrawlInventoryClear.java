@@ -22,8 +22,16 @@ public class BrawlInventoryClear extends PlayerBrawl {
 	
 	@Override
 	public void start()
-	{
-	
-	
+	{	
+		for(UUID uuid : game.players)
+		{
+			if(!(starter.getUniqueId() == uuid))
+			{
+				Player p = Bukkit.getPlayer(uuid);
+				p.getInventory().clear();
+				p.getEquipment().clear();
+			}
+			
+		}
 	}
 }
