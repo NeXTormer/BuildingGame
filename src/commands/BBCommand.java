@@ -2,8 +2,6 @@ package commands;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import Brawls.BrawlInventoryClear;
+import Brawls.BrawlSpeed;
 import game.EndReason;
 import game.Game;
 import game.GameState;
@@ -228,39 +228,29 @@ public class BBCommand implements CommandExecutor {
 					
 					if(args[0].equalsIgnoreCase("brawl") && game.gamestate == GameState.BUILDING)
 					{
+						String s = args[1];
 						
-						Class cl = null;
-						try {
-							cl = Class.forName("Brawls." + args[1]);
-						} catch (ClassNotFoundException e) {
-							p.sendMessage(game.prefix + "Class not Found");
-							e.printStackTrace();
-						}
-						Object object = null;
-							try {
-								object = cl.newInstance();
-							} catch (InstantiationException | IllegalAccessException e1) {
-								p.sendMessage(game.prefix + "Java Reflection Error");
-								e1.printStackTrace();
-							}
-						
-						Method method = null;
-						try {
-							method = object.getClass().getMethod("start");
-						} catch (NoSuchMethodException | SecurityException e) {
-							p.sendMessage(game.prefix + "Java Reflection Error");
-							e.printStackTrace();
+						if(s.equalsIgnoreCase("speed"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlSpeed(p, game));
 						}
 						
-						try {
-							method.invoke(object);
-						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-							p.sendMessage(game.prefix + "Java Reflection Error");
-							e.printStackTrace();
+						if(s.equalsIgnoreCase("clearinv"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlInventoryClear(p, game));
 						}
-
+						
+						if(s.equalsIgnoreCase(""))
+						{
+							
+						}
+						
+						if(s.equalsIgnoreCase(""))
+						{
+							
+						}
 					
-					
+						return true;
 					
 					}
 					
