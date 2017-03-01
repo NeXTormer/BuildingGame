@@ -16,9 +16,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import Brawls.BrawlBlindness;
 import Brawls.BrawlFreeze;
 import Brawls.BrawlInventoryClear;
 import Brawls.BrawlInventoryClose;
+import Brawls.BrawlPumpkin;
 import Brawls.BrawlSpeed;
 import game.EndReason;
 import game.Game;
@@ -251,6 +253,16 @@ public class BBCommand implements CommandExecutor {
 						if(s.equalsIgnoreCase("closeinv"))
 						{
 							game.playPlayerBrawlBrawl(new BrawlInventoryClose(p, game));
+						}
+						
+						if(s.equalsIgnoreCase("pumpkin"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlPumpkin(p, game));
+						}
+						
+						if(s.equalsIgnoreCase("blindness"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlBlindness(p, game));
 						}
 					
 						return true;
