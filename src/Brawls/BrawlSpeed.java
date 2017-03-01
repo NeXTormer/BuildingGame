@@ -39,7 +39,7 @@ public class BrawlSpeed extends PlayerBrawl {
 				    	p.setFlySpeed(0.1f);
 				    	p.setWalkSpeed(0.2f);
 				    	p.playSound(p.getLocation(), Sound.ENDERMAN_DEATH, 1, 1);
-				    	p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 1, 1));
+				    	p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
 					}
 				}
 				
@@ -52,8 +52,8 @@ public class BrawlSpeed extends PlayerBrawl {
 			if(!(starter.getUniqueId() == uuid))
 			{
 				Player p = Bukkit.getPlayer(uuid);
-				p.setFlySpeed(100000000);
-				p.setWalkSpeed(100000000);
+				p.setFlySpeed(1.0f);
+				p.setWalkSpeed(1.0f);
 				p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
 				p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
 			}
