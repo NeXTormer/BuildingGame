@@ -2,6 +2,8 @@ package commands;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -224,10 +226,42 @@ public class BBCommand implements CommandExecutor {
 						return true;
 					}
 					
-					if(args[0].equalsIgnoreCase("brawl") && game.gamestate==GameState.GRADING)
+					if(args[0].equalsIgnoreCase("brawl") && game.gamestate == GameState.BUILDING)
 					{
-						p.sendMessage(game.playerprefix+"WIP");
-						return true;
+						
+						Class cl = null;
+						try {
+							cl = Class.forName("Brawls." + args[1]);
+						} catch (ClassNotFoundException e) {
+							p.sendMessage(game.prefix + "Class not Found");
+							e.printStackTrace();
+						}
+						Object object = null;
+							try {
+								object = cl.newInstance();
+							} catch (InstantiationException | IllegalAccessException e1) {
+								p.sendMessage(game.prefix + "Java Reflection Error");
+								e1.printStackTrace();
+							}
+						
+						Method method = null;
+						try {
+							method = object.getClass().getMethod("start");
+						} catch (NoSuchMethodException | SecurityException e) {
+							p.sendMessage(game.prefix + "Java Reflection Error");
+							e.printStackTrace();
+						}
+						
+						try {
+							method.invoke(object);
+						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							p.sendMessage(game.prefix + "Java Reflection Error");
+							e.printStackTrace();
+						}
+
+					
+					
+					
 					}
 					
 					if(args[0].equalsIgnoreCase("addTheme"))

@@ -37,6 +37,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
+import Brawls.PlayerBrawl;
+
 public class Game {
 	
 	public static String prefix = "§1§ll§r§9 BuildingBrawl§1§l>> §r§7";
@@ -128,7 +130,7 @@ public class Game {
 		random = new Random();
 	}
 	
-	public void loadForbiddenBlocks()
+	private void loadForbiddenBlocks()
 	{
 		forbiddenBlocks = (List<Material>) forbiddenBlocksCfg.getList("forbiddenBlocks");
 	}
@@ -989,5 +991,9 @@ public class Game {
 		p.openInventory(inv);
 	}
 		
+	public void playPlayerBrawlBrawl(PlayerBrawl brawl)
+	{
+		brawl.start();
+	}
 
 }

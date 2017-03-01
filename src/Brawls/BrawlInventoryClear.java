@@ -18,8 +18,8 @@ public class BrawlInventoryClear extends PlayerBrawl {
 	public BrawlInventoryClear(Player starter, Game game)
 	{
 		super();
-		game = game;
-		starter = starter;
+		this.game = game;
+		this.starter = starter;
 	}
 	
 	@Override
