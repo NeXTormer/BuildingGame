@@ -1,5 +1,14 @@
 package Brawls;
 
-public class Brawl {
+public abstract class Brawl {
 
+	public Brawl()
+	{
+		
+	}
+	
+	public void start()
+	{
+		
+	}	
 }
