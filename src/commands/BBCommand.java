@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import Brawls.BrawlFreeze;
 import Brawls.BrawlInventoryClear;
+import Brawls.BrawlInventoryClose;
 import Brawls.BrawlSpeed;
 import game.EndReason;
 import game.Game;
@@ -247,9 +248,9 @@ public class BBCommand implements CommandExecutor {
 							game.playPlayerBrawlBrawl(new BrawlFreeze(p, game));
 						}
 						
-						if(s.equalsIgnoreCase(""))
+						if(s.equalsIgnoreCase("closeinv"))
 						{
-							
+							game.playPlayerBrawlBrawl(new BrawlInventoryClose(p, game));
 						}
 					
 						return true;

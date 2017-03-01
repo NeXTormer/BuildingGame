@@ -57,8 +57,7 @@ public class Main extends JavaPlugin {
 
 		pluginmanager.registerEvents(environmentalevents, this);
 		pluginmanager.registerEvents(itemevents, this);
-		pluginmanager.registerEvents(playerevents, this);
-		
+		pluginmanager.registerEvents(playerevents, this);	
 
 		getCommand("bb").setExecutor(bbcommand);
 		getCommand("bb").setTabCompleter(bbtabcompleter);

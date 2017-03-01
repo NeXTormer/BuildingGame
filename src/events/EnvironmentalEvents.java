@@ -2,6 +2,7 @@ package events;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -69,6 +70,12 @@ public class EnvironmentalEvents implements Listener{
     
     @EventHandler
     public void onPortalJoin(PlayerPortalEvent e)
+    {
+    	e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onBlockFade(BlockFadeEvent e)
     {
     	e.setCancelled(true);
     }
