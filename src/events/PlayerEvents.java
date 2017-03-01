@@ -34,12 +34,9 @@ public class PlayerEvents implements Listener {
 			{
 				if(game.spectators.contains(player.getUniqueId())) return;
 				Location blocklocation = e.getPlayer().getLocation();
-				if(blocklocation.getBlockY()>50)
+				int maxHeight = game.configCfg.getInt("maxHeight");
+				if(blocklocation.getBlockY()>maxHeight)
 				{
-//				if(e.getPlayer().getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE)
-//				{
-//	
-//				}
 				Location targetLocation = player.getLocation();
 				targetLocation.setY(targetLocation.getY() - 3);
 				player.teleport(targetLocation);

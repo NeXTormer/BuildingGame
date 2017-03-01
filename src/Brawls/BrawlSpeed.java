@@ -14,18 +14,19 @@ public class BrawlSpeed extends PlayerBrawl {
 
 	private Game game;
 	private Player starter;
-	
+	private int duration;
 	
 	public BrawlSpeed(Player starter, Game game)
 	{
 		super();
-		game = game;
-		starter = starter;
+		this.game = game;
+		this.starter = starter;
 	}
 	
 	@Override
 	public void start()
 	{	
+		duration = game.configCfg.getInt("brawlDurationSpeed");
 		Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 			
 			@Override
@@ -44,7 +45,7 @@ public class BrawlSpeed extends PlayerBrawl {
 				
 				
 			}
-		}, 20 * 5);
+		}, 20 * duration);
 		
 		for(UUID uuid : game.players)
 		{

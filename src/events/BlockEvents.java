@@ -154,16 +154,6 @@ public class BlockEvents implements Listener {
 				    for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --) {
 				        for (int y = edgeMin.getBlockY(); y < edgeMax.getBlockY(); y ++) {
 				            for (int z = edgeMin.getBlockZ(); z < edgeMax.getBlockZ(); z ++) {
-//				            	if(e.getBlock().getType().equals(Material.WOOD_PLATE))
-//				            	{
-//				            		new Location(world, x, y, z).getBlock().setType(Material.STATIONARY_WATER);
-//				            	}
-//				            	else if(e.getBlock().getType().equals(Material.STONE_PLATE))
-//				            	{
-//				            		new Location(world, x, y, z).getBlock().setType(Material.STATIONARY_LAVA);
-//				            	}
-//				            	else
-//				            	{
 				            		replaceMaterial(replaceBlocks, replaceDatas, world, x, y, z);
 				            		//new Location(world, x, y, z).getBlock().setTypeIdAndData(blockID, meta, false);
 				            		
@@ -212,7 +202,6 @@ public class BlockEvents implements Listener {
 	{
 		int r = random.nextInt(materials.size());
 		new Location(world, x, y, z).getBlock().setTypeIdAndData(materials.get(r), data.get(r), false);
-		//return materials.get(r);
 	}
 
 }

@@ -49,15 +49,12 @@ public class BrawlFreeze extends PlayerBrawl {
 			            	Location currentLocation = new Location(world, x, y, z);
 			            	if(currentLocation.getBlock().getType().equals(Material.AIR))
 			            	{
-			            		Block b = currentLocation.getBlock();
-			            		b.setTypeId(79);
+			            		currentLocation.getBlock().setTypeId(79);
 			            	}
 			            }
 			        }
-			    }
-			    
+			    } 
 			}
-			
 		}
 	}
 }

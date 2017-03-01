@@ -71,9 +71,10 @@ public class Main extends JavaPlugin {
 	public void onDisable()
 	{
 		String worldName = (String) game.locationCfg.get("locations.lobby.world");
+		String backupName = game.configCfg.getString("backupWorld");
 		DeleteWorld.deleteWorld(worldName);
 		try {
-			DeleteWorld.copyFolder(new File("backupWorld"), new File(worldName));
+			DeleteWorld.copyFolder(new File(backupName), new File(worldName));
 			File io = new File(worldName+"/uid.dat");
 			io.delete();
 		} catch (IOException e) {

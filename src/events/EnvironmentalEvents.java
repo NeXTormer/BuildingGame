@@ -1,11 +1,11 @@
 package events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -25,7 +25,10 @@ public class EnvironmentalEvents implements Listener{
     @EventHandler
     public void onPiston(BlockPistonExtendEvent e)
     {
-    	e.setCancelled(true);
+    	if(!game.configCfg.getBoolean("enableRedstone"))
+    	{
+    		e.setCancelled(true);
+    	}
     }
     
     @EventHandler
@@ -43,7 +46,10 @@ public class EnvironmentalEvents implements Listener{
     @EventHandler
     public void onRedstone(BlockRedstoneEvent e)
     {
-    	e.setNewCurrent(0);
+    	if(!game.configCfg.getBoolean("enableRedstone"))
+    	{
+    		e.setNewCurrent(0);
+    	}
     }
     
     @EventHandler
@@ -52,11 +58,14 @@ public class EnvironmentalEvents implements Listener{
     	e.setCancelled(true);
     }
     
-//    @EventHandler
-//    public void onSummon(EntitySpawnEvent e)
-//    {
-//    	e.setCancelled(true);
-//    } 
+    @EventHandler
+    public void onSummon(EntitySpawnEvent e)
+    {
+    	if(!game.configCfg.getBoolean("enableMobs"))
+    	{
+        	e.setCancelled(true);	
+    	}
+    } 
     
     @EventHandler
     public void onPortalJoin(PlayerPortalEvent e)

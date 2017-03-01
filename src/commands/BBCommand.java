@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import Brawls.BrawlFreeze;
 import Brawls.BrawlInventoryClear;
 import Brawls.BrawlSpeed;
 import game.EndReason;
@@ -105,10 +106,11 @@ public class BBCommand implements CommandExecutor {
 								DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 								Date date = new Date();
 								String name = "Backup_"+dateFormat.format(date) + "_" + game.finalTheme; //2016_11_16_12:08:43
+								String backupPath = game.configCfg.getString("savePath");
 								
 								try {
 									//	DeleteWorld.copyFolder(new File(game.locationCfg.getString("locations.lobby.world")), new File(name));
-									DeleteWorld.copyFolder(new File("BuildingGame"), new File("worldbackups/" + name));
+									DeleteWorld.copyFolder(new File("BuildingGame"), new File(backupPath + "/" + name));
 								} catch (IOException e) {
 									e.printStackTrace();
 									p.sendMessage(game.prefix + "Fehler beim speichern der Welt");
@@ -240,9 +242,9 @@ public class BBCommand implements CommandExecutor {
 							game.playPlayerBrawlBrawl(new BrawlInventoryClear(p, game));
 						}
 						
-						if(s.equalsIgnoreCase(""))
+						if(s.equalsIgnoreCase("freeze"))
 						{
-							
+							game.playPlayerBrawlBrawl(new BrawlFreeze(p, game));
 						}
 						
 						if(s.equalsIgnoreCase(""))

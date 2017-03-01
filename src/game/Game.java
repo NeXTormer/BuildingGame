@@ -86,6 +86,9 @@ public class Game {
 	
 	public File forbiddenFile = new File("plugins/BuildingGame", "forbiddenBlocks.yml");
 	public FileConfiguration forbiddenBlocksCfg = YamlConfiguration.loadConfiguration(forbiddenFile);
+	
+	public File configFile = new File("plugins/BuildingGame", "config.yml");
+	public FileConfiguration configCfg = YamlConfiguration.loadConfiguration(configFile);
 
 	public Location lobbyLocation;
 	public int max; //max number of votes in VOTING phase
@@ -114,6 +117,7 @@ public class Game {
 
 	public Game(Plugin plugin)
 	{
+		loadConfig();
 		lobbyLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
 		Bukkit.getServer().getWorld(locationCfg.getString("locations.lobby.world")).setAnimalSpawnLimit(100);
 		Bukkit.getServer().getWorld(locationCfg.getString("locations.lobby.world")).setMonsterSpawnLimit(100);
@@ -130,6 +134,12 @@ public class Game {
 		random = new Random();
 	}
 	
+	private void loadConfig()
+	{
+		secondsToGrade = configCfg.getInt("secondsToGrade");
+		buildingTime = configCfg.getInt("secondsToBuild");
+	}
+	
 	private void loadForbiddenBlocks()
 	{
 		forbiddenBlocks = (List<Material>) forbiddenBlocksCfg.getList("forbiddenBlocks");
@@ -137,13 +147,15 @@ public class Game {
 	
 	
 	public void start(Player p) {
-		if ((players.size() >= 1) && players.size() <= 16) {
+		int minPlayers = configCfg.getInt("minPlayers");
+		if ((players.size() >= minPlayers) && players.size() <= 16) {
 
 			startVoting();
 
 		} else {
-			p.sendMessage(prefix + "Ungueltige Spieleranzahl (2 - 16 Spieler)");
-		}
+			p.sendMessage(prefix + "Ungueltige Spieleranzahl ("+minPlayers+" - 16 Spieler)");
+			Bukkit.getServer().broadcastMessage(prefix + "Start abgebrochen")
+;		}
 	}
 
 	private void startVoting()
@@ -483,13 +495,14 @@ public class Game {
 
 	public void loadBuildThemes()
 	{
-		int themeCounter = 9;
+		int themeAmount = configCfg.getInt("themeAmount");
+		int themeCounter = themeAmount;
 		random = new Random();
 		themes = (List<String>) themesCfg.getList("themes");
 		votes = new int[themes.size()];
-		votingInventory = Bukkit.createInventory(null, 9, "§6§lThemen");
+		votingInventory = Bukkit.createInventory(null, themeAmount, "§6§lThemen");
 		
-		if(themes.size()>9)
+		if(themes.size()>themeAmount)
 		{
 			for(int i = 0; i < themeCounter; i++)
 			{
