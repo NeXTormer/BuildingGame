@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import Brawls.Animation;
 import Brawls.BrawlBlindness;
 import Brawls.BrawlFreeze;
 import Brawls.BrawlInventoryClear;
@@ -308,6 +309,14 @@ public class BBCommand implements CommandExecutor {
 				
 
 				
+			}
+			else
+			{
+				if(args[0].equalsIgnoreCase("test"))
+				{
+					Animation animation = new Animation(game.plotArray[Integer.parseInt(args[1])], game.plotArray[Integer.parseInt(args[2])], game);
+					animation.start();
+				}
 			}
 			sender.sendMessage(game.playerprefix + "Nicht vorhandener oder nicht vollstaendiger Befehl");
 		}
