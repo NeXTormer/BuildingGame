@@ -1,5 +1,9 @@
 package events;
 
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -8,9 +12,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import game.Game;
@@ -59,6 +65,29 @@ public class PlayerEvents implements Listener {
     			e.setCancelled(true);
     		}
     	}
+    }
+    
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e)
+    {
+    	if(e.getAction().equals(Action.PHYSICAL))
+    	{
+			Location blocklocation = e.getClickedBlock().getLocation();
+			blocklocation.setY(1);
+    		if(e.getClickedBlock().getType() == Material.GOLD_PLATE && e.getPlayer().getWorld().getBlockAt(blocklocation).getType() == Material.MELON_BLOCK)
+    		{
+    			e.getPlayer().setGameMode(GameMode.CREATIVE);
+    			UUID playerUUID = e.getPlayer().getUniqueId();
+    			for(int i = 0; i<game.plotArray.length; i++)
+    			{
+    				if(playerUUID.equals(game.plotArray[i].getOwner().getUniqueId()))
+    				{
+    					Bukkit.getPlayer(playerUUID).teleport(game.plotArray[i].getSpawnLocation());
+    				}
+    			}
+    		}
+    	}
+
     }
     
     @EventHandler

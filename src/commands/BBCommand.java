@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -22,6 +23,8 @@ import Brawls.BrawlFly;
 import Brawls.BrawlFreeze;
 import Brawls.BrawlInventoryClear;
 import Brawls.BrawlInventoryClose;
+import Brawls.BrawlJump;
+import Brawls.BrawlPolymorph;
 import Brawls.BrawlPumpkin;
 import Brawls.BrawlReplace;
 import Brawls.BrawlSpeed;
@@ -39,10 +42,11 @@ public class BBCommand implements CommandExecutor {
 
 	private Game game;
 	private boolean saveState = true;
+	private Random random;
 	public BBCommand(Game game)
 	{
 		this.game = game;
-		
+		random = new Random();
 		infoMessage = new TextComponent("§7Infos findest du §6§lhier");
 		prefixMessage = new TextComponent(game.playerprefix);
 		infoMessage.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://docs.google.com/document/d/1PMkiqQYeHSQoFZg-LxOkRed9O2VPCyfEpDjsdw516vo/edit"));
@@ -276,6 +280,16 @@ public class BBCommand implements CommandExecutor {
 						if(s.equalsIgnoreCase("replace"))
 						{
 							game.playPlayerBrawlBrawl(new BrawlReplace(p, game));
+						}
+						
+						if(s.equalsIgnoreCase("polymorph"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlPolymorph(p, game));
+						}
+						
+						if(s.equalsIgnoreCase("jump"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlJump(game.randomBrawlVictim(p), game));
 						}
 					
 						return true;

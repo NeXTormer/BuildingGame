@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.GameMode;
@@ -91,6 +92,7 @@ public class Game {
 	public FileConfiguration configCfg = YamlConfiguration.loadConfiguration(configFile);
 
 	public Location lobbyLocation;
+	public Location jumpLocation;
 	public int max; //max number of votes in VOTING phase
 	public int gradingCurrentPlotId; //current plot id which is in the grading progress (GameState.GRADING)
 	public String finalTheme;
@@ -119,6 +121,7 @@ public class Game {
 	{
 		loadConfig();
 		lobbyLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
+		jumpLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
 		Bukkit.getServer().getWorld(locationCfg.getString("locations.lobby.world")).setAnimalSpawnLimit(100);
 		Bukkit.getServer().getWorld(locationCfg.getString("locations.lobby.world")).setMonsterSpawnLimit(100);
 		loadLocations();
@@ -429,6 +432,13 @@ public class Game {
 		lobbyLocation.setWorld(Bukkit.getWorld(locationCfg.getString("locations.lobby.world")));
 		lobbyLocation.setYaw((float) locationCfg.getDouble("locations.lobby.yaw"));
 		lobbyLocation.setPitch((float) (locationCfg.getDouble("locations.lobby.pitch")));
+		
+		jumpLocation.setX(locationCfg.getDouble("locations.jumpspawn.x"));
+		jumpLocation.setY(locationCfg.getDouble("locations.jumpspawn.y"));
+		jumpLocation.setZ(locationCfg.getDouble("locations.jumpspawn.z"));
+		jumpLocation.setWorld(Bukkit.getWorld(locationCfg.getString("locations.jumpspawn.world")));
+		jumpLocation.setYaw((float) locationCfg.getDouble("locations.jumpspawn.yaw"));
+		jumpLocation.setPitch((float) (locationCfg.getDouble("locations.jumpspawn.pitch")));
 	}
 
 	private void setConfigDefaults()
@@ -608,6 +618,7 @@ public class Game {
 			if(op.isOnline())
 			{
 				Player p = Bukkit.getPlayer(uuid);
+				p.setGameMode(GameMode.CREATIVE);
 				p.sendTitle("§6§lPlots bewerten", "§7Bewerte die Bauwerke mit der Prismarin-Scherbe");				
 			}
 			
@@ -857,7 +868,7 @@ public class Game {
 
 		Bukkit.broadcastMessage(prefix + "Das Spiel ist zu Ende");
 		
-		Player winner = plotArray[maxindex].getOwner();
+		Player winner = plotArray[maxindex].getOwner().getPlayer();
 		ItemStack winnerHelmet = new ItemStack(Material.GOLD_HELMET);
 		ItemStack firework = new ItemStack(Material.FIREWORK);
 		ItemMeta fireworkMeta = firework.getItemMeta();
@@ -964,7 +975,7 @@ public class Game {
 	private void launchFirework()
 	{
 		
-		Player p = plotArray[maxindex].getOwner();
+		Player p = plotArray[maxindex].getOwner().getPlayer();
 		 //Spawn the Firework, get the FireworkMeta.
         Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
         FireworkMeta fwm = fw.getFireworkMeta();
@@ -1035,6 +1046,33 @@ public class Game {
 		
 	}
 	
+	public DyeColor randomDyeColor()
+	{
+		int r = random.nextInt(17);
+		
+		switch(r)
+		{
+			case 0: return DyeColor.BLUE;
+			case 1: return DyeColor.BLACK;
+			case 2: return DyeColor.BROWN;
+			case 3: return DyeColor.CYAN;
+			case 4: return DyeColor.GRAY;
+			case 5: return DyeColor.GREEN;
+			case 6: return DyeColor.LIGHT_BLUE;
+			case 7: return DyeColor.LIME;
+			case 8: return DyeColor.MAGENTA;
+			case 9: return DyeColor.ORANGE;
+			case 10: return DyeColor.PINK;
+			case 11: return DyeColor.PURPLE;
+			case 12: return DyeColor.RED;
+			case 13: return DyeColor.SILVER;
+			case 14: return DyeColor.WHITE;
+			case 15: return DyeColor.YELLOW;
+			default: return DyeColor.YELLOW;
+		}
+		
+	}
+	
 	public void openTeleportInventory(Player p)
 	{
 		Inventory inv = Bukkit.createInventory(null, 18, "§6§lSpieler beobachten");
@@ -1049,6 +1087,34 @@ public class Game {
 	public void playPlayerBrawlBrawl(PlayerBrawl brawl)
 	{
 		brawl.start();
+	}
+	
+	public Player randomBrawlVictim(Player sender)
+	{
+		int r = random.nextInt(players.size());
+		boolean isNotSender = false;
+		while(!isNotSender)
+		{
+			if(!players.get(r).equals(sender.getUniqueId()))
+			{
+				if(Bukkit.getOfflinePlayer(players.get(r)).isOnline())
+				{
+					isNotSender=true;					
+				}
+			}
+			else
+			{
+				r = random.nextInt(players.size());
+			}
+		}
+//		
+//		while(!Bukkit.getOfflinePlayer(players.get(r)).isOnline() && sender.getUniqueId().equals(players.get(r)))
+//		{
+//			r = random.nextInt(players.size());
+//		}
+		
+		return Bukkit.getPlayer(players.get(r));
+		
 	}
 	
 

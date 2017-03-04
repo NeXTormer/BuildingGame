@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -27,6 +31,7 @@ public class BlockEvents implements Listener {
 	private List<Byte> replaceDatas = new ArrayList<>();
 	private int blockAmount = 1;
 	public static boolean brawlReplace;
+	public static boolean brawlPolymorph;
 	public static Player brawlStarter;
 	
 	public BlockEvents(Game game)
@@ -93,6 +98,19 @@ public class BlockEvents implements Listener {
 						e.getBlock().setTypeId(r);
 					}
 				}
+				
+				if(brawlPolymorph)
+				{
+					if(e.getPlayer().getUniqueId()==brawlStarter.getUniqueId())
+					{
+						e.setCancelled(true);
+						Location polymorphLoc = e.getBlock().getLocation();
+						World world = Bukkit.getWorld(game.locationCfg.getString("locations.lobby.world"));
+						Sheep sheep = world.spawn(polymorphLoc, Sheep.class);
+				        sheep.setColor(game.randomDyeColor());
+					}
+				}
+				
 				}
 				else if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE && e.getBlock().getLocation().getBlockY()>4)
 				{

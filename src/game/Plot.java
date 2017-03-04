@@ -2,10 +2,12 @@ package game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Plot {
 
@@ -13,7 +15,7 @@ public class Plot {
 	public Location spawnLocation = new Location(Bukkit.getWorld("BuildingBrawl"), 1, 1, 1);
 	
 
-	public Player p;
+	public UUID owner;
 	
 	private int finalGradeCreativity;
 	private int finalGradeLook;
@@ -61,14 +63,18 @@ public class Plot {
 		
 	}
 	
-	public Player getOwner()
+	public OfflinePlayer getOwner()
 	{
-		return p;
+		
+		if(owner == null) return null;
+		OfflinePlayer op = Bukkit.getOfflinePlayer(owner);
+		
+		return op;
 	}
 	
-	public void setOwner(Player player)
+	public void setOwner(OfflinePlayer p)
 	{
-		this.p = player;
+		this.owner = p.getUniqueId();
 	}
 
 	public void addGradeCreativity(int g)
