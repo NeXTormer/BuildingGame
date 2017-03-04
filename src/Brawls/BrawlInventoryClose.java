@@ -5,6 +5,7 @@ import static org.bukkit.Bukkit.getScheduler;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,8 +36,13 @@ public class BrawlInventoryClose extends PlayerBrawl {
 		{
 			if(!(starter.getUniqueId() == uuid))
 			{
-				Player p = Bukkit.getPlayer(uuid);
-				p.playSound(p.getLocation(), Sound.VILLAGER_IDLE, 1, 1);
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				
+				if(op.isOnline())
+				{
+					Player p = Bukkit.getPlayer(uuid);
+					p.playSound(p.getLocation(), Sound.VILLAGER_IDLE, 1, 1);
+				}
 			}
 
 		}
@@ -49,8 +55,13 @@ public class BrawlInventoryClose extends PlayerBrawl {
 				{
 					if(!(starter.getUniqueId() == uuid))
 					{
-						Player p = Bukkit.getPlayer(uuid);
-						p.closeInventory();
+						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+						
+						if(op.isOnline())
+						{
+							Player p = Bukkit.getPlayer(uuid);
+							p.closeInventory();
+						}
 					}
 
 				}
@@ -64,8 +75,13 @@ public class BrawlInventoryClose extends PlayerBrawl {
 				{
 					if(!(starter.getUniqueId() == uuid))
 					{
-						Player p = Bukkit.getPlayer(uuid);
-						p.playSound(p.getLocation(), Sound.HORSE_DEATH, 1, 1);
+						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+						
+						if(op.isOnline())
+						{
+							Player p = Bukkit.getPlayer(uuid);
+							p.playSound(p.getLocation(), Sound.HORSE_DEATH, 1, 1);
+						}
 					}
 
 				}

@@ -569,8 +569,12 @@ public class Game {
 		buildingTime--;
 		for(UUID uuid : players)
 		{
-			Player p = Bukkit.getPlayer(uuid);
-			if(buildingTime<=10) p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1.0f, 1.0f);
+			OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+			if(op.isOnline())
+			{
+				Player p = Bukkit.getPlayer(uuid);
+				if(buildingTime<=10 && p.isOnline()) p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1.0f, 1.0f);				
+			}
 		}
 		if(buildingTime <= 0)
 		{
@@ -599,8 +603,14 @@ public class Game {
 	{
 		for(UUID uuid : players)
 		{
-			Player p = Bukkit.getPlayer(uuid);
-			p.sendTitle("§6§lPlots bewerten", "§7Bewerte die Bauwerke mit der Prismarin-Scherbe");
+			OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+			
+			if(op.isOnline())
+			{
+				Player p = Bukkit.getPlayer(uuid);
+				p.sendTitle("§6§lPlots bewerten", "§7Bewerte die Bauwerke mit der Prismarin-Scherbe");				
+			}
+			
 		}
 		for(UUID uuid : spectators)
 		{
@@ -625,10 +635,15 @@ public class Game {
 
 		for(UUID uuid : players)
 		{
-			Player p = Bukkit.getPlayer(uuid);
-			p.teleport(plotArray[id].getSpawnLocation());
-			gradingInventories.put(p, new VotingInventory());
-			gradingInventories.get(p).resetInventory();
+			OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+			
+			if(op.isOnline())
+			{
+				Player p = Bukkit.getPlayer(uuid);
+				p.teleport(plotArray[id].getSpawnLocation());
+				gradingInventories.put(p, new VotingInventory());
+				gradingInventories.get(p).resetInventory();
+			}
 		}
 		for(UUID uuid : spectators)
 		{
@@ -662,26 +677,31 @@ public class Game {
 		is.setItemMeta(im);
 		for(UUID uuid : players)
 		{
-			Player p = Bukkit.getPlayer(uuid);
-			for(PotionEffect e : p.getActivePotionEffects())
-			{
-				p.removePotionEffect(e.getType());
-			}
-			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
-			p.getInventory().clear();
-			p.getInventory().setHelmet(null);
-			p.getInventory().setChestplate(null);
-			p.getInventory().setLeggings(null);
-			p.getInventory().setBoots(null);	
+			OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
 			
-			if(plotArray[id].getOwner().getPlayer().getName().equals(p.getName()))
+			if(op.isOnline())
 			{
-				//pfusch
-            }
-            else 
-            {
-            	p.getInventory().setItem(4, is);
-            }		
+				Player p = Bukkit.getPlayer(uuid);
+				for(PotionEffect e : p.getActivePotionEffects())
+				{
+					p.removePotionEffect(e.getType());
+				}
+				p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+				p.getInventory().clear();
+				p.getInventory().setHelmet(null);
+				p.getInventory().setChestplate(null);
+				p.getInventory().setLeggings(null);
+				p.getInventory().setBoots(null);	
+				
+				if(plotArray[id].getOwner().getPlayer().getName().equals(p.getName()))
+				{
+					//pfusch
+	            }
+	            else 
+	            {
+	            	p.getInventory().setItem(4, is);
+	            }	
+			}
 		}
 
 		scoreboard.resetScores(scoreboardPlotOwner);
@@ -697,8 +717,13 @@ public class Game {
 				{
 					for(UUID uuid : players)
 					{
-						Player p = Bukkit.getPlayer(uuid);
-						p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1, 1);
+						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+						
+						if(op.isOnline())
+						{
+							Player p = Bukkit.getPlayer(uuid);
+							p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 1, 1);
+						}
 					}
 					
 				}
@@ -734,11 +759,17 @@ public class Game {
 				//remove prismarine shard
 				for(UUID uuid : players)
 				{
-					Player p = Bukkit.getPlayer(uuid);
-					p.sendTitle("§6§l" + plotArray[id].getOwner().getName(), "§7hat dieses Bauwerk errichtet");
-					p.getInventory().setItem(4, null);
-					p.getInventory().setItem(0, null);					
-					p.closeInventory();
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					
+					if(op.isOnline())
+					{
+	
+						Player p = Bukkit.getPlayer(uuid);
+						p.sendTitle("§6§l" + plotArray[id].getOwner().getName(), "§7hat dieses Bauwerk errichtet");
+						p.getInventory().setItem(4, null);
+						p.getInventory().setItem(0, null);					
+						p.closeInventory();
+					}
 				}
 				
 				for(UUID uuid : spectators)
@@ -750,10 +781,15 @@ public class Game {
 				//save rating
 				for(UUID uuid : players)
 				{
-					Player p = Bukkit.getPlayer(uuid);
-					plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0])); //TODO: nullpointer wenn ein spieler waehrend der voting phase leavt
-					plotArray[id].addGradeLook(convertGrade(gradingInventories.get(p).voteBuffer[1]));
-					plotArray[id].addGradeFitting(convertGrade(gradingInventories.get(p).voteBuffer[2]));
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					
+					if(op.isOnline())
+					{
+						Player p = Bukkit.getPlayer(uuid);
+						plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0])); //TODO: nullpointer wenn ein spieler waehrend der voting phase leavt
+						plotArray[id].addGradeLook(convertGrade(gradingInventories.get(p).voteBuffer[1]));
+						plotArray[id].addGradeFitting(convertGrade(gradingInventories.get(p).voteBuffer[2]));
+					}
 				}
 				
 				
@@ -833,13 +869,19 @@ public class Game {
 		
 		for(UUID uuid : players)
 		{
-			Player p = Bukkit.getPlayer(uuid);
-			p.sendTitle("§6" + winner.getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
-			p.teleport(plotArray[maxindex].spawnLocation);
-			for(UUID uuid2 : spectators)
+			OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+			
+			if(op.isOnline())
 			{
-				Player z = Bukkit.getPlayer(uuid2);
-				p.showPlayer(z);
+				Player p = Bukkit.getPlayer(uuid);
+				p.sendTitle("§6" + winner.getName(), "§7hat das Spiel gewonnen (§6" + maxvalue + "§7)! Glueckwunsch!");
+				p.teleport(plotArray[maxindex].spawnLocation);
+			
+				for(UUID uuid2 : spectators)
+				{
+					Player z = Bukkit.getPlayer(uuid2);
+					p.showPlayer(z);
+				}
 			}
 			
 		}

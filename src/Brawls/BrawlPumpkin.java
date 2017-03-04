@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -32,10 +33,15 @@ public class BrawlPumpkin extends PlayerBrawl {
 		{
 			if(!(starter.getUniqueId() == uuid))
 			{
-				Player p = Bukkit.getPlayer(uuid);
-				ItemStack pumpkin = new ItemStack(Material.PUMPKIN);
-				p.getInventory().setItem(39, pumpkin);
-				p.playSound(p.getLocation(), Sound.BAT_HURT, 1, 1);
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				
+				if(op.isOnline())
+				{
+					Player p = Bukkit.getPlayer(uuid);
+					ItemStack pumpkin = new ItemStack(Material.PUMPKIN);
+					p.getInventory().setItem(39, pumpkin);
+					p.playSound(p.getLocation(), Sound.BAT_HURT, 1, 1);
+				}
 			}
 			
 		}

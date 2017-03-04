@@ -18,10 +18,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import Brawls.Animation;
 import Brawls.BrawlBlindness;
+import Brawls.BrawlFly;
 import Brawls.BrawlFreeze;
 import Brawls.BrawlInventoryClear;
 import Brawls.BrawlInventoryClose;
 import Brawls.BrawlPumpkin;
+import Brawls.BrawlReplace;
 import Brawls.BrawlSpeed;
 import game.EndReason;
 import game.Game;
@@ -264,6 +266,16 @@ public class BBCommand implements CommandExecutor {
 						if(s.equalsIgnoreCase("blindness"))
 						{
 							game.playPlayerBrawlBrawl(new BrawlBlindness(p, game));
+						}
+						
+						if(s.equalsIgnoreCase("fly"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlFly(p, game));
+						}
+						
+						if(s.equalsIgnoreCase("replace"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlReplace(p, game));
 						}
 					
 						return true;

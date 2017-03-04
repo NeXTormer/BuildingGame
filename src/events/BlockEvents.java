@@ -26,6 +26,8 @@ public class BlockEvents implements Listener {
 	private List<Integer> replaceBlocks = new ArrayList<>();
 	private List<Byte> replaceDatas = new ArrayList<>();
 	private int blockAmount = 1;
+	public static boolean brawlReplace;
+	public static Player brawlStarter;
 	
 	public BlockEvents(Game game)
 	{
@@ -83,6 +85,14 @@ public class BlockEvents implements Listener {
 					{
 						if(e.getBlock().getLocation().getY() == 1) e.setCancelled(true);
 					}
+				if(brawlReplace)
+				{
+					int r = random.nextInt(197);
+					if(e.getPlayer().getUniqueId()==brawlStarter.getUniqueId())
+					{
+						e.getBlock().setTypeId(r);
+					}
+				}
 				}
 				else if(p.getWorld().getBlockAt(blocklocation).getType() == Material.SPONGE && e.getBlock().getLocation().getBlockY()>4)
 				{

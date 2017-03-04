@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -29,11 +30,16 @@ public class BrawlInventoryClear extends PlayerBrawl {
 		{
 			if(!(starter.getUniqueId() == uuid))
 			{
-				Player p = Bukkit.getPlayer(uuid);
-				p.getInventory().clear();
-				p.getEquipment().clear();
-				p.playSound(p.getLocation(), Sound.GHAST_SCREAM, 1, 1);
-				p.playEffect(p.getLocation(), Effect.MAGIC_CRIT, 1);
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				
+				if(op.isOnline())
+				{
+					Player p = Bukkit.getPlayer(uuid);
+					p.getInventory().clear();
+					p.getEquipment().clear();
+					p.playSound(p.getLocation(), Sound.GHAST_SCREAM, 1, 1);
+					p.playEffect(p.getLocation(), Effect.MAGIC_CRIT, 1);
+				}
 			}
 			
 		}

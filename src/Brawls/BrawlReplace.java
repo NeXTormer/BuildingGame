@@ -6,18 +6,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
+import events.BlockEvents;
 import game.Game;
 
-public class BrawlSpeed extends PlayerBrawl {
+public class BrawlReplace extends PlayerBrawl {
 
 	private Game game;
 	private Player starter;
 	private int duration;
 	
-	public BrawlSpeed(Player starter, Game game)
+	public BrawlReplace(Player starter, Game game)
 	{
 		super();
 		this.game = game;
@@ -27,7 +26,7 @@ public class BrawlSpeed extends PlayerBrawl {
 	@Override
 	public void start()
 	{	
-		duration = game.configCfg.getInt("brawlDurationSpeed");
+		duration = game.configCfg.getInt("brawlDurationReplace");
 		Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 			
 			@Override
@@ -40,12 +39,10 @@ public class BrawlSpeed extends PlayerBrawl {
 						
 						if(op.isOnline())
 						{
-							Player p = Bukkit.getPlayer(uuid);
-					    	p.setFlySpeed(0.1f);
-					    	p.setWalkSpeed(0.2f);
-					    	p.playSound(p.getLocation(), Sound.ENDERMAN_DEATH, 1, 1);
-					    	p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
-						}
+							Player p = Bukkit.getPlayer(uuid); 
+							BlockEvents.brawlReplace = false;
+							p.playSound(p.getLocation(), Sound.BLAZE_DEATH, 1, 1);
+						}						
 					}
 				}
 				
@@ -62,10 +59,9 @@ public class BrawlSpeed extends PlayerBrawl {
 				if(op.isOnline())
 				{
 					Player p = Bukkit.getPlayer(uuid);
-					p.setFlySpeed(1.0f);
-					p.setWalkSpeed(1.0f);
-					p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
-					p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
+					BlockEvents.brawlStarter = p;
+					BlockEvents.brawlReplace = true;
+					p.playSound(p.getLocation(), Sound.CHICKEN_HURT, 1, 1);
 				}
 			}
 			

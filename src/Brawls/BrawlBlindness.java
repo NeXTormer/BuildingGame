@@ -3,6 +3,7 @@ package Brawls;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -31,10 +32,14 @@ public class BrawlBlindness extends PlayerBrawl {
 		{
 			if(!(starter.getUniqueId() == uuid))
 			{
-				Player p = Bukkit.getPlayer(uuid);
-				p.playSound(p.getLocation(), Sound.CAT_MEOW, 1, 1);
-				p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 1));
-				p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, duration, 1));
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = Bukkit.getPlayer(uuid);
+					p.playSound(p.getLocation(), Sound.CAT_MEOW, 1, 1);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 1));
+					p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, duration, 1));
+				}
 			}
 			
 		}

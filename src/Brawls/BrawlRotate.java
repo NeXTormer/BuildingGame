@@ -11,13 +11,13 @@ import org.bukkit.potion.PotionEffectType;
 
 import game.Game;
 
-public class BrawlSpeed extends PlayerBrawl {
+public class BrawlRotate extends PlayerBrawl {
 
 	private Game game;
 	private Player starter;
 	private int duration;
 	
-	public BrawlSpeed(Player starter, Game game)
+	public BrawlRotate(Player starter, Game game)
 	{
 		super();
 		this.game = game;
@@ -27,7 +27,7 @@ public class BrawlSpeed extends PlayerBrawl {
 	@Override
 	public void start()
 	{	
-		duration = game.configCfg.getInt("brawlDurationSpeed");
+		duration = game.configCfg.getInt("brawlDurationRotate");
 		Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 			
 			@Override
@@ -41,10 +41,8 @@ public class BrawlSpeed extends PlayerBrawl {
 						if(op.isOnline())
 						{
 							Player p = Bukkit.getPlayer(uuid);
-					    	p.setFlySpeed(0.1f);
-					    	p.setWalkSpeed(0.2f);
-					    	p.playSound(p.getLocation(), Sound.ENDERMAN_DEATH, 1, 1);
-					    	p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
+							p.setAllowFlight(true);
+					    	p.playSound(p.getLocation(), Sound.BAT_DEATH, 1, 1);
 						}
 					}
 				}
@@ -62,10 +60,8 @@ public class BrawlSpeed extends PlayerBrawl {
 				if(op.isOnline())
 				{
 					Player p = Bukkit.getPlayer(uuid);
-					p.setFlySpeed(1.0f);
-					p.setWalkSpeed(1.0f);
-					p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
-					p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
+					p.setAllowFlight(false);
+					p.playSound(p.getLocation(), Sound.ZOMBIE_PIG_HURT, 1, 1);
 				}
 			}
 			
