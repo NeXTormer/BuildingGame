@@ -1,5 +1,7 @@
 package events;
 
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,8 +21,13 @@ import game.GameState;
 public class ItemEvents implements Listener {
 	
 	private Game game;
+	public static boolean brawlRandomTP = false;
+	public static boolean brawlRotate = false;
+	public static Player brawlStarter;
+	private Random random;
 	public ItemEvents(Game game)
 	{
+		random = new Random();
 		this.game = game;
 	}
 	
@@ -138,6 +145,44 @@ public class ItemEvents implements Listener {
 						p.sendMessage(game.playerprefix+"Das Feuerwerk wurde eingeschalten");
 					}
 					game.launchFirework = !game.launchFirework;
+				}
+				if(brawlRotate)
+				{
+					if(e.getPlayer().getUniqueId()!=brawlStarter.getUniqueId())
+					{
+						Location currentLoc = e.getPlayer().getLocation();
+						int rYaw = random.nextInt(360);
+						currentLoc.setYaw(rYaw);
+						Location blocklocation = e.getPlayer().getLocation();
+						blocklocation.setY(1);
+						if(e.getPlayer().getWorld().getBlockAt(blocklocation).getType() == Material.BEDROCK)
+						{
+							e.getPlayer().teleport(currentLoc);
+						}
+					}
+				}
+			}
+			
+			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK)
+			{
+				if(brawlRandomTP)
+				{
+					if(e.getPlayer().getUniqueId()!=brawlStarter.getUniqueId())
+					{
+						Location currentLoc = e.getPlayer().getLocation();
+						int rX = random.nextInt(7)-3;
+						int rY = random.nextInt(3)+1;
+						int rZ = random.nextInt(7)-3;
+						currentLoc.setX(currentLoc.getX()+rX);
+						currentLoc.setY(currentLoc.getY()+rY);
+						currentLoc.setZ(currentLoc.getZ()+rZ);
+						Location blocklocation = e.getPlayer().getLocation();
+						blocklocation.setY(1);
+						if(e.getPlayer().getWorld().getBlockAt(blocklocation).getType() == Material.BEDROCK)
+						{
+							e.getPlayer().teleport(currentLoc);
+						}
+					}
 				}
 			}
 		}

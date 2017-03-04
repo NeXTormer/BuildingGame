@@ -26,7 +26,9 @@ import Brawls.BrawlInventoryClose;
 import Brawls.BrawlJump;
 import Brawls.BrawlPolymorph;
 import Brawls.BrawlPumpkin;
+import Brawls.BrawlRandomTP;
 import Brawls.BrawlReplace;
+import Brawls.BrawlRotate;
 import Brawls.BrawlSpeed;
 import game.EndReason;
 import game.Game;
@@ -290,6 +292,16 @@ public class BBCommand implements CommandExecutor {
 						if(s.equalsIgnoreCase("jump"))
 						{
 							game.playPlayerBrawlBrawl(new BrawlJump(game.randomBrawlVictim(p), game));
+						}
+						
+						if(s.equalsIgnoreCase("randomtp"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlRandomTP(p, game));
+						}
+						
+						if(s.equalsIgnoreCase("rotate"))
+						{
+							game.playPlayerBrawlBrawl(new BrawlRotate(p, game));
 						}
 					
 						return true;

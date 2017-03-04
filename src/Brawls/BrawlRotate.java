@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import events.BlockEvents;
+import events.ItemEvents;
 import game.Game;
 
 public class BrawlRotate extends PlayerBrawl {
@@ -40,10 +42,10 @@ public class BrawlRotate extends PlayerBrawl {
 						
 						if(op.isOnline())
 						{
-							Player p = Bukkit.getPlayer(uuid);
-							p.setAllowFlight(true);
-					    	p.playSound(p.getLocation(), Sound.BAT_DEATH, 1, 1);
-						}
+							Player p = Bukkit.getPlayer(uuid); 
+							ItemEvents.brawlRotate = false;
+							p.playSound(p.getLocation(), Sound.CHEST_OPEN, 1, 1);
+						}	
 					}
 				}
 				
@@ -53,15 +55,16 @@ public class BrawlRotate extends PlayerBrawl {
 		
 		for(UUID uuid : game.players)
 		{
-			if(!(starter.getUniqueId() == uuid))
+			if(!(starter.getUniqueId().equals(uuid)))
 			{
 				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
 				
 				if(op.isOnline())
 				{
 					Player p = Bukkit.getPlayer(uuid);
-					p.setAllowFlight(false);
-					p.playSound(p.getLocation(), Sound.ZOMBIE_PIG_HURT, 1, 1);
+					ItemEvents.brawlStarter = starter;
+					ItemEvents.brawlRotate = true;
+					p.playSound(p.getLocation(), Sound.WOLF_HOWL, 1, 1);
 				}
 			}
 			

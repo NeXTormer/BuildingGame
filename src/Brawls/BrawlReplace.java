@@ -59,7 +59,7 @@ public class BrawlReplace extends PlayerBrawl {
 				if(op.isOnline())
 				{
 					Player p = Bukkit.getPlayer(uuid);
-					BlockEvents.brawlStarter = p;
+					BlockEvents.brawlStarter = starter;
 					BlockEvents.brawlReplace = true;
 					p.playSound(p.getLocation(), Sound.CHICKEN_HURT, 1, 1);
 				}
