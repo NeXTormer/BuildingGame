@@ -93,7 +93,7 @@ public class BlockEvents implements Listener {
 				if(brawlReplace)
 				{
 					int r = random.nextInt(197);
-					if(e.getPlayer().getUniqueId()==brawlStarter.getUniqueId())
+					if(e.getPlayer().getUniqueId()!=brawlStarter.getUniqueId())
 					{
 						e.getBlock().setTypeId(r);
 					}
@@ -101,7 +101,7 @@ public class BlockEvents implements Listener {
 				
 				if(brawlPolymorph)
 				{
-					if(e.getPlayer().getUniqueId()==brawlStarter.getUniqueId())
+					if(e.getPlayer().getUniqueId()!=brawlStarter.getUniqueId())
 					{
 						e.setCancelled(true);
 						Location polymorphLoc = e.getBlock().getLocation();
