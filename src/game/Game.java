@@ -23,6 +23,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -39,6 +40,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 import Brawls.PlayerBrawl;
+import Brawls.PlotBrawl;
 
 public class Game {
 	
@@ -1073,6 +1075,30 @@ public class Game {
 		
 	}
 	
+	public EntityType randomEntity()
+	{
+		int r = random.nextInt(13);
+		
+		switch(r)
+		{
+			case 0: return EntityType.BAT;
+			case 1: return EntityType.CHICKEN;
+			case 2: return EntityType.COW;
+			case 3: return EntityType.PIG;
+			case 4: return EntityType.SQUID;
+			case 5: return EntityType.HORSE;
+			case 6: return EntityType.IRON_GOLEM;
+			case 7: return EntityType.WOLF;
+			case 8: return EntityType.VILLAGER;
+			case 9: return EntityType.SNOWMAN;
+			case 10: return EntityType.SHEEP;
+			case 11: return EntityType.RABBIT;
+			case 12: return EntityType.OCELOT;
+			default: return EntityType.SHEEP;
+		}
+		
+	}
+	
 	public void openTeleportInventory(Player p)
 	{
 		Inventory inv = Bukkit.createInventory(null, 18, "§6§lSpieler beobachten");
@@ -1085,6 +1111,11 @@ public class Game {
 	}
 		
 	public void playPlayerBrawlBrawl(PlayerBrawl brawl)
+	{
+		brawl.start();
+	}
+	
+	public void playPlotBrawlBrawl(PlotBrawl brawl)
 	{
 		brawl.start();
 	}
@@ -1107,6 +1138,7 @@ public class Game {
 				r = random.nextInt(players.size());
 			}
 		}
+		
 //		
 //		while(!Bukkit.getOfflinePlayer(players.get(r)).isOnline() && sender.getUniqueId().equals(players.get(r)))
 //		{
@@ -1115,6 +1147,21 @@ public class Game {
 		
 		return Bukkit.getPlayer(players.get(r));
 		
+	}
+	
+	public Plot getPlot(Player owner)
+	{
+		for(int i = 0; i<plotArray.length; i++)
+		{
+			if(plotArray[i].getOwner()!=null)
+			{
+				if(plotArray[i].getOwner().getUniqueId().equals(owner.getUniqueId()))
+				{
+					return plotArray[i];
+				}
+			}
+		}
+		return null;
 	}
 	
 

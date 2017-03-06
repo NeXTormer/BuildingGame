@@ -21,10 +21,10 @@ public class BrawlJump extends PlayerBrawl {
 	private int duration;
 	
 	
-	public BrawlJump(Player randomPlayer, Game game)
+	public BrawlJump(Player victim, Game game)
 	{
 		super();
-		this.randomPlayer=randomPlayer;
+		this.randomPlayer=victim;
 		this.game = game;
 	}
 	

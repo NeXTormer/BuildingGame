@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import Brawls.Animation;
 import Brawls.BrawlBlindness;
+import Brawls.BrawlEntity;
 import Brawls.BrawlFly;
 import Brawls.BrawlFreeze;
 import Brawls.BrawlInventoryClear;
@@ -29,6 +30,7 @@ import Brawls.BrawlPumpkin;
 import Brawls.BrawlRandomTP;
 import Brawls.BrawlReplace;
 import Brawls.BrawlRotate;
+import Brawls.BrawlSandstorm;
 import Brawls.BrawlSpeed;
 import game.EndReason;
 import game.Game;
@@ -302,6 +304,16 @@ public class BBCommand implements CommandExecutor {
 						if(s.equalsIgnoreCase("rotate"))
 						{
 							game.playPlayerBrawlBrawl(new BrawlRotate(p, game));
+						}
+						
+						if(s.equalsIgnoreCase("sandstorm"))
+						{
+							game.playPlotBrawlBrawl(new BrawlSandstorm(game.getPlot(game.randomBrawlVictim(p)), game));
+						}
+						
+						if(s.equalsIgnoreCase("entity"))
+						{
+							game.playPlotBrawlBrawl(new BrawlEntity(game.getPlot(game.randomBrawlVictim(p)), game));
 						}
 					
 						return true;
