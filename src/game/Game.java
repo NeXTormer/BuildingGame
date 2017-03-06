@@ -23,7 +23,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -706,14 +705,17 @@ public class Game {
 				p.getInventory().setLeggings(null);
 				p.getInventory().setBoots(null);	
 				
-				if(plotArray[id].getOwner().getPlayer().getName().equals(p.getName()))
+				if(plotArray[i].getOwner()!=null)
 				{
-					//pfusch
-	            }
-	            else 
-	            {
-	            	p.getInventory().setItem(4, is);
-	            }	
+					if(plotArray[id].getOwner().getPlayer().getName().equals(p.getName()))
+					{
+						//pfusch
+		            }
+		            else 
+		            {
+		            	p.getInventory().setItem(4, is);
+		            }	
+				}
 			}
 		}
 

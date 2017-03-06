@@ -68,8 +68,14 @@ public class Plot {
 		
 		if(owner == null) return null;
 		OfflinePlayer op = Bukkit.getOfflinePlayer(owner);
-		
-		return op;
+//		if(op.isOnline())
+//		{
+			return op;	
+//		}
+//		else
+//		{
+//			return null;
+//		}
 	}
 	
 	public void setOwner(OfflinePlayer p)
