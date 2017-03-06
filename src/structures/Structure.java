@@ -1,31 +1,41 @@
 package structures;
 
-import java.io.File;
-
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Structure {
 
 
-	public static File structuresFile = new File("plugins/BuildingGame", "structures.yml");
-	public static FileConfiguration cfg = YamlConfiguration.loadConfiguration(structuresFile);
-
 	public int size = 3;
+	public String name;
 	
 	private Material[][][] blocks;
 	
-	public Structure()
+	
+	public Structure(String name, int size)
 	{
+		blocks = new Material[size][size][size];	
+		this.name = name;
 		
 	}
 	
-	public void loadFromConfig(String name)
+	
+	public void setStructure(Location origin)
 	{
-		cfg.get("structures." + name + ".size");
-		
-		blocks = new Material[size][size][size];
+		for(int x = 0; x < size; x++)
+        {
+            for(int y = 0; y < size; y++)
+            {
+                for(int z = 0; z < size; z++)
+                {
+                    int relx = ((int) (size / 2)) - x;
+                    int rely = ((int) (size / 2)) - y;
+                    int relz = ((int) (size / 2)) - z;
+                    blocks[x][y][z] = origin.getBlock().getRelative(relx, rely, relz).getType();
+                }
+            }
+        }
 	}
+	
 	
 }
