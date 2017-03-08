@@ -18,7 +18,7 @@ public class StructureSerializer {
 	
 	private StructureSerializer() { 
 		//TODO: check if file exists
-		database = RCDatabase.DeserializeFromFile("BuildingGame/structures.bbschem");
+		database = RCDatabase.DeserializeFromFile("structures.bbschem");
 	
 	}
 
@@ -33,7 +33,7 @@ public class StructureSerializer {
 			database.addObject(o);
 		}
 		
-		database.serializeToFile("buidingGame/structures.bbschem");
+		database.serializeToFile("structures.bbschem");
 		
 	}
 	
@@ -44,7 +44,7 @@ public class StructureSerializer {
 
 	public void saveToFile(String name)
 	{
-		database.serializeToFile("buildingGame/" + name + ".bbschem");
+		database.serializeToFile("" + name + ".bbschem");
 	}
 	
 	
