@@ -38,7 +38,6 @@ public class StructureSerializer {
 					}	
 				}	
 			}
-			RCArray array = RCArray.Byte("", data)
 		
 		}
 	}
