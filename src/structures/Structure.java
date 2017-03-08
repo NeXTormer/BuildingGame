@@ -3,22 +3,17 @@ package structures;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+import com.thecherno.raincloud.serialization.RCArray;
+import com.thecherno.raincloud.serialization.RCField;
+
 public class Structure {
 
 
-	public int size = 3;
+	public byte size = 3;
 	public String name;
 	
-	private Material[][][] blocks;
-	
-	
-	public Structure(String name, int size)
-	{
-		blocks = new Material[size][size][size];	
-		this.name = name;
-		
-	}
-	
+	public Material[][][] blocks;
+	private RCField field;
 	
 	public void setStructure(Location origin)
 	{
@@ -35,7 +30,32 @@ public class Structure {
                 }
             }
         }
+		
 	}
+	
+	/**
+	 * [0] size (1B)
+	 * [..] id (1B)
+	 * @param blocks
+	 * @return
+	 */
+	public byte[] getBytes()
+	{
+		byte[] bytes = new byte[(int) Math.pow(size, 3) + 1];
+		bytes[0] = size;
+		for(int x = 0; x < size; x++)
+		{
+			for(int y = 0; y < size; y++)
+			{
+				for(int z = 0; z < size; z++)
+				{
+					bytes[(x + size * (y + size * z)) + 1] = (byte) blocks[x][y][z].getId();
+				}
+			}
+		}
+		return bytes;
+	}
+	
 	
 	
 }
