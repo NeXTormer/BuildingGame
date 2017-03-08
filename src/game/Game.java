@@ -636,7 +636,7 @@ public class Game {
 	private void gradePlot(int i)
 	{
 		int id = i;
-		if(plotArray[id+1].ownerLeft)
+		if(plotArray[id+1].ownerLeft) //TODO: Doppelter Sceduler Ablauf
 		{
 			gradePlot(id+1);
 		}
@@ -705,9 +705,9 @@ public class Game {
 				p.getInventory().setLeggings(null);
 				p.getInventory().setBoots(null);	
 				
-				if(plotArray[i].getOwner()!=null)
-				{
-					if(plotArray[id].getOwner().getPlayer().getName().equals(p.getName()))
+//				if(plotArray[i].getOwner().isOnline())
+//				{
+					if(plotArray[id].getOwner().getName().equals(p.getName()))
 					{
 						//pfusch
 		            }
@@ -715,7 +715,7 @@ public class Game {
 		            {
 		            	p.getInventory().setItem(4, is);
 		            }	
-				}
+//				}
 			}
 		}
 
@@ -871,16 +871,18 @@ public class Game {
 		}
 
 		Bukkit.broadcastMessage(prefix + "Das Spiel ist zu Ende");
-		
-		Player winner = plotArray[maxindex].getOwner().getPlayer();
-		ItemStack winnerHelmet = new ItemStack(Material.GOLD_HELMET);
-		ItemStack firework = new ItemStack(Material.FIREWORK);
-		ItemMeta fireworkMeta = firework.getItemMeta();
-		fireworkMeta.setDisplayName("§6§lFeuerwerk ein/aus");
-		firework.setItemMeta(fireworkMeta);
-		winner.getInventory().setItem(39, winnerHelmet);
-		winner.getInventory().setItem(4, firework);
-		
+		OfflinePlayer winner = plotArray[maxindex].getOwner();
+		if(winner.isOnline())
+		{
+			ItemStack winnerHelmet = new ItemStack(Material.GOLD_HELMET);
+			ItemStack firework = new ItemStack(Material.FIREWORK);
+			ItemMeta fireworkMeta = firework.getItemMeta();
+			fireworkMeta.setDisplayName("§6§lFeuerwerk ein/aus");
+			firework.setItemMeta(fireworkMeta);
+			winner.getPlayer().getInventory().setItem(39, winnerHelmet);
+			winner.getPlayer().getInventory().setItem(4, firework);
+			
+		}
 		
 		for(UUID uuid : players)
 		{
@@ -927,7 +929,7 @@ public class Game {
 		
 		for(Plot p : plotArray)
 		{
-			if(p.getOwner()!=null && !p.ownerLeft)
+			if(p.getOwner()!=null)
 			{
 			Score score = bgObjective.getScore("§7"+p.getOwner().getName());
 			score.setScore(p.getFinalTotalGrade());
@@ -979,34 +981,37 @@ public class Game {
 	private void launchFirework()
 	{
 		
-		Player p = plotArray[maxindex].getOwner().getPlayer();
-		 //Spawn the Firework, get the FireworkMeta.
-        Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
-        FireworkMeta fwm = fw.getFireworkMeta();
-
-        //Get the type
-        int rt = random.nextInt(4) + 1;
-        Type type = Type.BALL;
-        if (rt == 1) type = Type.BALL;
-        if (rt == 2) type = Type.BALL_LARGE;
-        if (rt == 3) type = Type.BURST;
-        if (rt == 4) type = Type.CREEPER;
-        if (rt == 5) type = Type.STAR;
-        Color c1 = randomColor();
-        Color c2 = randomColor();
-       
-        //Create our effect with this
-        FireworkEffect effect = FireworkEffect.builder().flicker(random.nextBoolean()).withColor(c1).withFade(c2).with(type).trail(random.nextBoolean()).build();
-       
-        //Then apply the effect to the meta
-        fwm.addEffect(effect);
-       
-        //Generate some random power and set it
-        //int rp = random.nextInt(2) + 1;
-        fwm.setPower(1);
-       
-        //Then apply this to our rocket
-        fw.setFireworkMeta(fwm);
+		OfflinePlayer p = plotArray[maxindex].getOwner();
+		if(p.isOnline())
+		{
+			 //Spawn the Firework, get the FireworkMeta.
+	        Firework fw = (Firework) p.getPlayer().getWorld().spawnEntity(p.getPlayer().getLocation(), EntityType.FIREWORK);
+	        FireworkMeta fwm = fw.getFireworkMeta();
+	        //Get the type
+	        int rt = random.nextInt(4) + 1;
+	        Type type = Type.BALL;
+	        if (rt == 1) type = Type.BALL;
+	        if (rt == 2) type = Type.BALL_LARGE;
+	        if (rt == 3) type = Type.BURST;
+	        if (rt == 4) type = Type.CREEPER;
+	        if (rt == 5) type = Type.STAR;
+	        Color c1 = randomColor();
+	        Color c2 = randomColor();
+	       
+	        //Create our effect with this
+	        FireworkEffect effect = FireworkEffect.builder().flicker(random.nextBoolean()).withColor(c1).withFade(c2).with(type).trail(random.nextBoolean()).build();
+	       
+	        //Then apply the effect to the meta
+	        fwm.addEffect(effect);
+	       
+	        //Generate some random power and set it
+	        //int rp = random.nextInt(2) + 1;
+	        fwm.setPower(1);
+	       
+	        //Then apply this to our rocket
+	        fw.setFireworkMeta(fwm);
+	        
+		}
 		
 	}
 	
