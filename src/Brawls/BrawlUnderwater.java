@@ -37,11 +37,11 @@ public class BrawlUnderwater extends PlotBrawl {
 		duration = game.configCfg.getInt("brawlDurationUnderwater");
 		replaceLoc = victimPlot.getSpawnLocation();
 		replaceLoc.setY(1);
-		replaceLoc.setX(replaceLoc.getX()-1);
-		replaceLoc.setZ(replaceLoc.getZ()+1);
+		replaceLoc.setX(replaceLoc.getX());
+		replaceLoc.setZ(replaceLoc.getZ());
 		world = Bukkit.getWorld(game.locationCfg.getString("locations.lobby.world"));
 		edgeMin = new Location(world, replaceLoc.getX(), replaceLoc.getY(), replaceLoc.getZ());
-		edgeMax = new Location(world, replaceLoc.getX()-32, replaceLoc.getY()+50, replaceLoc.getZ()+32);   
+		edgeMax = new Location(world, replaceLoc.getX()-34, replaceLoc.getY()+50, replaceLoc.getZ()+34);   
 		for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --)
 		{
 			for (int y = edgeMin.getBlockY(); y < edgeMax.getBlockY(); y ++)
@@ -49,7 +49,7 @@ public class BrawlUnderwater extends PlotBrawl {
 				for (int z = edgeMin.getBlockZ(); z < edgeMax.getBlockZ(); z ++)
 				{
 					Location currentLocation = new Location(world, x, y, z);
-					if(currentLocation.getBlock().getType().equals(Material.WATER) || currentLocation.getBlock().getType().equals(Material.STATIONARY_WATER))
+					if(currentLocation.getBlock().getType().equals(Material.STATIONARY_WATER))
 					{
 						currentLocation.getBlock().setType(Material.BARRIER);
 					}
@@ -80,18 +80,35 @@ public class BrawlUnderwater extends PlotBrawl {
 						{
 							currentLocation.getBlock().setType(Material.AIR);
 						}
-						if(currentLocation.getBlock().getType().equals(Material.BARRIER))
-						{
-							currentLocation.getBlock().setType(Material.WATER);
-						}
-						if(currentLocation.getBlock().getType().equals(Material.MOB_SPAWNER))
-						{
-							currentLocation.getBlock().setType(Material.LAVA);
-					    }
 					 }
 				}
 			}			
 			}
 		}, 20 * duration);
+		
+		Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
+			
+		@Override
+		public void run() {
+			for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --)
+			{
+				for (int y = edgeMin.getBlockY(); y < edgeMax.getBlockY(); y ++)
+				{
+					for (int z = edgeMin.getBlockZ(); z < edgeMax.getBlockZ(); z ++)
+					{
+						Location currentLocation = new Location(world, x, y, z);
+						if(currentLocation.getBlock().getType().equals(Material.MOB_SPAWNER))
+						{
+							currentLocation.getBlock().setType(Material.LAVA);
+					    }
+						if(currentLocation.getBlock().getType().equals(Material.BARRIER))
+						{
+							currentLocation.getBlock().setType(Material.WATER);
+						}
+					 }
+				}
+			}			
+			}
+		}, 20 * duration+2);
 	}
 }
