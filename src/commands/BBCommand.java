@@ -32,6 +32,7 @@ import Brawls.BrawlReplace;
 import Brawls.BrawlRotate;
 import Brawls.BrawlSandstorm;
 import Brawls.BrawlSpeed;
+import Brawls.BrawlUnderwater;
 import game.EndReason;
 import game.Game;
 import game.GameState;
@@ -314,6 +315,11 @@ public class BBCommand implements CommandExecutor {
 						if(s.equalsIgnoreCase("entity"))
 						{
 							game.playPlotBrawlBrawl(new BrawlEntity(game.getPlot(game.randomBrawlVictim(p)), game));
+						}
+						
+						if(s.equalsIgnoreCase("underwater"))
+						{
+							game.playPlotBrawlBrawl(new BrawlUnderwater(game.getPlot(game.randomBrawlVictim(p)), game));
 						}
 					
 						return true;
