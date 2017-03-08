@@ -38,6 +38,8 @@ import game.Game;
 import game.GameState;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import structures.Structure;
+import structures.StructureSerializer;
 import utils.DeleteWorld;
 
 public class BBCommand implements CommandExecutor {
@@ -220,6 +222,34 @@ public class BBCommand implements CommandExecutor {
 						Bukkit.getServer().broadcastMessage(game.prefix+"Das Spiel startet in §6"+args[1]+"§7 Sekunden");
 						game.voteTimer = Integer.valueOf(args[1])+1;
 						game.start(p);
+						return true;
+					}
+					
+					if(args[0].equalsIgnoreCase("serialize"))
+					{
+						Material[][][] blocks =
+				            {
+				                    {
+				                            {Material.STONE, Material.STONE, Material.STONE},
+				                            {Material.STONE, Material.STONE, Material.STONE},
+				                            {Material.STONE, Material.STONE, Material.STONE}
+				                    },
+				                    {
+				                            {Material.WOOD, Material.WOOD, Material.WOOD},
+				                            {Material.WOOD, Material.WOOD, Material.WOOD},
+				                            {Material.WOOD, Material.WOOD, Material.WOOD}
+				                    },
+				                    {
+				                            {Material.ANVIL, Material.ANVIL, Material.ANVIL},
+				                            {Material.ANVIL, Material.ANVIL, Material.ANVIL},
+				                            {Material.ANVIL, Material.ANVIL, Material.ANVIL}
+				                    }
+				            };
+						
+						Structure s = new Structure();
+						s.blocks = blocks;
+						StructureSerializer.getInstance().structures.add(s);
+						StructureSerializer.getInstance().save();
 						return true;
 					}
 					

@@ -18,28 +18,23 @@ public class StructureSerializer {
 	
 	private StructureSerializer() { 
 		//TODO: check if file exists
-		database = RCDatabase.DeserializeFromFile("buildingGame/structures.bbschem");
+		database = RCDatabase.DeserializeFromFile("BuildingGame/structures.bbschem");
 	
 	}
 
 	public void save()
 	{
+		database = new RCDatabase("blocks");
 		for(Structure s : structures)
 		{
-			database = new RCDatabase("blocks");
 			RCObject o = new RCObject(s.name);
-			for(int x = 0; x < s.size; x++)
-			{
-				for(int y = 0; x < s.size; y++)
-				{
-					for(int z = 0; x < s.size; z++)
-					{
-						
-					}	
-				}	
-			}
-		
+			RCArray bdata = RCArray.Byte("", s.getBytes());
+			o.addArray(bdata);
+			database.addObject(o);
 		}
+		
+		database.serializeToFile("buidingGame/structures.bbschem");
+		
 	}
 	
 	public void load()
