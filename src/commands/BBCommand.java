@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -50,6 +51,7 @@ public class BBCommand implements CommandExecutor {
 	private Game game;
 	private boolean saveState = true;
 	private Random random;
+	private Location loc1, loc2;
 	public BBCommand(Game game)
 	{
 		this.game = game;
@@ -398,9 +400,14 @@ public class BBCommand implements CommandExecutor {
 			}
 			else
 			{
-				if(args[0].equalsIgnoreCase("test"))
+				if(args[0].equalsIgnoreCase("animation"))
 				{
-					Animation animation = new Animation(game.plotArray[Integer.parseInt(args[1])], game.plotArray[Integer.parseInt(args[2])], game);
+					loc1 = p.getLocation();
+					loc2 = game.plotArray[Integer.parseInt(args[1])].getSpawnLocation();
+//					Location loc2 = game.lobbyLocation;
+					loc2.setX(loc2.getX()-17);
+					loc2.setZ(loc2.getZ()+17);
+					Animation animation = new Animation(loc1, loc2, game);
 					animation.start();
 				}
 			}

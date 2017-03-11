@@ -569,7 +569,7 @@ public class Game {
 		return (String) finalThemes.get(maxindex.get(random.nextInt(maxindex.size())));
 	}
 
-	private void cancelScheduler(int id)
+	public void cancelScheduler(int id)
 	{
 		Bukkit.getScheduler().cancelTask(id);
 	}
