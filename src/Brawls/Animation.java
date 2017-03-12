@@ -5,41 +5,83 @@ import static org.bukkit.Bukkit.getScheduler;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
 
 import game.Game;
 import game.Plot;
+import net.minecraft.server.v1_8_R3.EntityLiving;
 
 public class Animation {
 	
 	private Location sourceLocation;
 	private Location destinationLocation;
 	private Location currentLocation;
-	private int startSceduler, flySceduler;
+	private Location astLocation;
+	private int startSceduler, flySceduler, prepareSceduler;
 	private World world;
 	private Player p;
-	private int i;
+	private Material material;
+	private int i, prepCounter;
+	private ArmorStand ast;
+	private FallingBlock fallingBlock;
+	private String brawl;
 	private double x, y, z, dx, dy, dz, aP, bP, aL, xS, yS, zS, xD, yD, zD, yOffset, startHeight, velocity, deltaz, deltay, deltax;
 	private Game game;
 	
-	public Animation(Location l1, Location l2, Game game)
+	public Animation(Location l1, Location l2, String brawl, Material material, Game game)
 	{
 		sourceLocation = l1;
 		destinationLocation = l2;
+		this.brawl = brawl;
+		this.material = material;
 		this.game = game;
 	}
+	
 	
 	public void prepare()
 	{
 		world = sourceLocation.getWorld();
-		ArmorStand ast = (ArmorStand) world.spawnEntity(sourceLocation, EntityType.ARMOR_STAND);
+		Location temp = sourceLocation;
+        astLocation = new Location(temp.getWorld(), temp.getX(), temp.getY(), temp.getZ());
+        astLocation.setY(astLocation.getY()-1);
+		ast = world.spawn(astLocation, ArmorStand.class);
+		fallingBlock = world.spawnFallingBlock(sourceLocation, material, (byte) 0);
+		ast.setPassenger(fallingBlock);
+		ast.setVisible(false);
+		ast.setGravity(false);
+		prepCounter = 0;
+		astLocation.setY(astLocation.getY()+2);
+		prepareSceduler = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
+			@Override
+			public void run() {
+				{
+					prepCounter+=1;
+					world.playEffect(astLocation, Effect.SPELL, 5);
+					world.playEffect(astLocation, Effect.COLOURED_DUST, 1);
+					world.playEffect(astLocation, Effect.FIREWORKS_SPARK, 1);
+					world.playSound(astLocation, Sound.FIREWORK_TWINKLE, 1, 1);
+					if(prepCounter>=50)
+					{
+						world.playSound(astLocation, Sound.FIREWORK_LAUNCH, 1, 1);
+						world.playSound(astLocation, Sound.LEVEL_UP, 1, 1);
+						start();
+						game.cancelScheduler(prepareSceduler);						
+					}
+				}
+			}
+		}, 0, 2);
 		
+
 		
 	}
 	
@@ -57,8 +99,9 @@ public class Animation {
 			public void run() {
 				y+=velocity;
 				currentLocation.setY(y); 
-				p.teleport(currentLocation);
-				//TODO: Teleportieren
+				//p.teleport(currentLocation);
+				//ast.teleport(currentLocation);
+				move(currentLocation);
 				if(y>=71)
 				{
 					fly();
@@ -72,7 +115,7 @@ public class Animation {
 	
 	public void fly()
 	{
-		yOffset = 50;
+		yOffset = 30;
 		xS = currentLocation.getX();
 		zS = currentLocation.getZ();
 		yS = currentLocation.getY();
@@ -106,11 +149,13 @@ public class Animation {
 				currentLocation.setX(x+xS);
 				currentLocation.setY(y+yS);
 				currentLocation.setZ(z+zS);
-				//TODO: Tp
-				p.teleport(currentLocation);
-
+				//ast.teleport(currentLocation);
+				//p.teleport(currentLocation);
+				move(currentLocation);
 				if(i>=100)
 				{
+					ast.remove();
+					fallingBlock.remove();
 					game.cancelScheduler(flySceduler);
 				}
 			}
@@ -121,7 +166,9 @@ public class Animation {
 	
 	private void move(Location loc)
 	{
-		
+		ast.eject();
+		ast.teleport(loc);
+		ast.setPassenger(fallingBlock);
 	}
 	
 	

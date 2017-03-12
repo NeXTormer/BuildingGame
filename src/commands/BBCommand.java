@@ -403,12 +403,13 @@ public class BBCommand implements CommandExecutor {
 				if(args[0].equalsIgnoreCase("animation"))
 				{
 					loc1 = p.getLocation();
-					loc2 = game.plotArray[Integer.parseInt(args[1])].getSpawnLocation();
+					Location temp = game.plotArray[Integer.parseInt(args[1])].getSpawnLocation();
+                    loc2 = new Location(temp.getWorld(), temp.getX(), temp.getY(), temp.getZ());
 //					Location loc2 = game.lobbyLocation;
 					loc2.setX(loc2.getX()-17);
 					loc2.setZ(loc2.getZ()+17);
-					Animation animation = new Animation(loc1, loc2, game);
-					animation.start();
+					Animation animation = new Animation(loc1, loc2, args[2], Material.PUMPKIN, game);
+					animation.prepare();
 				}
 			}
 			sender.sendMessage(game.playerprefix + "Nicht vorhandener oder nicht vollstaendiger Befehl");
@@ -416,7 +417,7 @@ public class BBCommand implements CommandExecutor {
 		
 		
 		return true;
+	
 	}
-
 
 }
