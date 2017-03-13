@@ -15,6 +15,12 @@ public class Structure {
 	public Material[][][] blocks;
 	private RCField field;
 	
+	public Structure()
+	{
+		blocks = new Material[size][size][size];
+	}
+	
+	
 	public void setStructure(Location origin)
 	{
 		for(int x = 0; x < size; x++)

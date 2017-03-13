@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginManager;
@@ -17,6 +18,8 @@ import events.PlayerEvents;
 import events.PlayerJoin;
 import events.PlayerQuit;
 import game.Game;
+import structures.Structure;
+import structures.StructureParser;
 import utils.DeleteWorld;
 
 public class Main extends JavaPlugin {
@@ -38,6 +41,12 @@ public class Main extends JavaPlugin {
 	public void onEnable()
 	{
 		new WorldCreator("BuildingGame").createWorld();
+		
+		Structure s = new Structure();
+		s.setStructure(new Location(Bukkit.getWorld("BuildingGame"), 2, 2, 2));
+		StructureParser.addStructure(s);
+		
+		
 		game = new Game(this);
 		playerjoinevent = new PlayerJoin(game);
 		playerquitevent = new PlayerQuit(game);
