@@ -3,9 +3,6 @@ package structures;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import com.thecherno.raincloud.serialization.RCArray;
-import com.thecherno.raincloud.serialization.RCField;
-
 public class Structure {
 
 
@@ -13,7 +10,6 @@ public class Structure {
 	public String name;
 	
 	public Material[][][] blocks;
-	private RCField field;
 	
 	public Structure(String name)
 	{

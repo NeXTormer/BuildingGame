@@ -11,14 +11,17 @@ public class StructureParser {
 	public static File configFile = new File("plugins/BuildingGame", "structures.yml");
 	public static FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
+	public static int index;
 	
 	public static Structure[] getStructures()
 	{
 		return null;
+	
 	}
 	
 	public static void saveStructures(Structure[] structures)
 	{
+		index = config.getInt("index");
 		for(Structure s : structures)
 		{
 			for(int x = 0; x < s.size; x++)
