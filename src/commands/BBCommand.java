@@ -39,8 +39,6 @@ import game.Game;
 import game.GameState;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import structures.Structure;
-import structures.StructureSerializer;
 import utils.DeleteWorld;
 
 public class BBCommand implements CommandExecutor {
@@ -227,33 +225,6 @@ public class BBCommand implements CommandExecutor {
 						return true;
 					}
 					
-					if(args[0].equalsIgnoreCase("serialize"))
-					{
-						Material[][][] blocks =
-				            {
-				                    {
-				                            {Material.STONE, Material.STONE, Material.STONE},
-				                            {Material.STONE, Material.STONE, Material.STONE},
-				                            {Material.STONE, Material.STONE, Material.STONE}
-				                    },
-				                    {
-				                            {Material.WOOD, Material.WOOD, Material.WOOD},
-				                            {Material.WOOD, Material.WOOD, Material.WOOD},
-				                            {Material.WOOD, Material.WOOD, Material.WOOD}
-				                    },
-				                    {
-				                            {Material.ANVIL, Material.ANVIL, Material.ANVIL},
-				                            {Material.ANVIL, Material.ANVIL, Material.ANVIL},
-				                            {Material.ANVIL, Material.ANVIL, Material.ANVIL}
-				                    }
-				            };
-						
-						Structure s = new Structure();
-						s.blocks = blocks;
-						StructureSerializer.getInstance().structures.add(s);
-						StructureSerializer.getInstance().save();
-						return true;
-					}
 					
 					if(args[0].equalsIgnoreCase("tp") && args[1] instanceof String)
 					{

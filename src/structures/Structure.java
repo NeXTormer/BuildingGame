@@ -15,9 +15,34 @@ public class Structure {
 	public Material[][][] blocks;
 	private RCField field;
 	
-	public Structure()
+	public Structure(String name)
 	{
 		blocks = new Material[size][size][size];
+		this.name = name;
+	}
+	
+	public void testStructure()
+	{
+		Material[][][] blocks =
+            {
+                    {
+                            {Material.STONE, Material.STONE, Material.STONE},
+                            {Material.STONE, Material.STONE, Material.STONE},
+                            {Material.STONE, Material.STONE, Material.STONE}
+                    },
+                    {
+                            {Material.WOOD, Material.WOOD, Material.WOOD},
+                            {Material.WOOD, Material.WOOD, Material.WOOD},
+                            {Material.WOOD, Material.WOOD, Material.WOOD}
+                    },
+                    {
+                            {Material.ANVIL, Material.ANVIL, Material.ANVIL},
+                            {Material.ANVIL, Material.ANVIL, Material.ANVIL},
+                            {Material.ANVIL, Material.ANVIL, Material.ANVIL}
+                    }
+            };
+		
+		this.blocks = blocks;
 	}
 	
 	

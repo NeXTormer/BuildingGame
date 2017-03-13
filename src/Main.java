@@ -42,7 +42,7 @@ public class Main extends JavaPlugin {
 	{
 		new WorldCreator("BuildingGame").createWorld();
 		
-		Structure s = new Structure();
+		Structure s = new Structure("lex ist lustig");
 		s.setStructure(new Location(Bukkit.getWorld("BuildingGame"), 2, 2, 2));
 		StructureParser.addStructure(s);
 		
