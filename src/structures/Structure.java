@@ -5,7 +5,6 @@ import org.bukkit.Material;
 
 public class Structure {
 
-
 	public byte size = 3;
 	public String name;
 	
@@ -59,7 +58,7 @@ public class Structure {
         }
 		
 	}
-	
+	@Deprecated
 	/**
 	 * [0] size (1B)
 	 * [..] id (1B)
