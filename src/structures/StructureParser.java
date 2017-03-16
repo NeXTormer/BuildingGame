@@ -11,7 +11,7 @@ public class StructureParser {
 	public static File configFile = new File("plugins/BuildingGame", "structures.yml");
 	public static FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
-	public static int index;
+	private static int index;
 	
 	public static Structure[] getStructures()
 	{
@@ -24,6 +24,7 @@ public class StructureParser {
 		index = config.getInt("index");
 		for(Structure s : structures)
 		{
+			index++;
 			for(int x = 0; x < s.size; x++)
 			{
 				for(int y = 0; y < s.size; y++)
@@ -45,6 +46,7 @@ public class StructureParser {
 	
 	public static void addStructure(Structure s)
 	{
+		index = config.getInt("index");
 		for(int x = 0; x < s.size; x++)
 		{
 			for(int y = 0; y < s.size; y++)
@@ -57,6 +59,7 @@ public class StructureParser {
 		}
 		try {
 			config.save(configFile);
+			index++;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

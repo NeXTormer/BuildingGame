@@ -17,6 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.metadata.MetadataValue;
 
 import Brawls.Animation;
 import Brawls.BrawlBlindness;
@@ -223,6 +224,29 @@ public class BBCommand implements CommandExecutor {
 						game.voteTimer = Integer.valueOf(args[1])+1;
 						game.start(p);
 						return true;
+					}
+					
+					if(args[0].equalsIgnoreCase("savestructure"))
+					{
+						p.sendMessage(game.playerprefix + "Klicke auf den §6Mittelpunkt §7der Struktur");
+						p.sendMessage(game.playerprefix + "Du hast §610 Sekunden§7 Zeit");
+						game.setMetadata(p, "savingStructureName", args[1]);
+						game.setMetadata(p, "savingStructure", true);
+						
+						Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
+							
+							@Override
+							public void run() {
+								if(game.getMetadataBoolean(p, "savingStructure"))
+								{
+									game.setMetadata(p, "savingStructure", false);
+									p.sendMessage(game.playerprefix + "Die Zeit ist abgelaufen");
+									//TODO: play sounds?
+								}
+								
+								
+							}
+						}, 20 * 10);
 					}
 					
 					

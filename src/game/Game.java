@@ -31,6 +31,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -1169,6 +1171,21 @@ public class Game {
 			}
 		}
 		return null;
+	}
+	
+	public void setMetadata(Player p, String key, Object value)
+	{
+		p.setMetadata(key, new FixedMetadataValue(plugin, value));
+	}
+	
+	public List<MetadataValue> getMetadata(Player p, String key)
+	{
+		return p.getMetadata(key);
+	}
+	
+	public boolean getMetadataBoolean(Player p, String key)
+	{
+		return p.getMetadata(key).get(0).asBoolean();
 	}
 	
 
