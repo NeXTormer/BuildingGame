@@ -3,6 +3,8 @@ package structures;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -36,6 +38,7 @@ public class StructureParser {
 				}
 			}
 			try {
+				config.set("index", index);
 				config.save(configFile);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -47,19 +50,20 @@ public class StructureParser {
 	public static void addStructure(Structure s)
 	{
 		index = config.getInt("index");
+		index++;		
 		for(int x = 0; x < s.size; x++)
 		{
 			for(int y = 0; y < s.size; y++)
 			{
 				for(int z = 0; z < s.size; z++)
 				{
-					config.set(s.name + "." + String.valueOf(x) + "." + String.valueOf(y) + "." + String.valueOf(z), s.blocks[x][y][z].name());
+					config.set(index + "." + s.name + "." + x + "." + y + "." + z, s.blocks[x][y][z].name().toString());
 				}
 			}
 		}
 		try {
+			config.set("index", index);
 			config.save(configFile);
-			index++;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

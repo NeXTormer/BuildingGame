@@ -233,7 +233,7 @@ public class BBCommand implements CommandExecutor {
 						game.setMetadata(p, "savingStructureName", args[1]);
 						game.setMetadata(p, "savingStructure", true);
 						
-						Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
+						int scheduler = Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 							
 							@Override
 							public void run() {
@@ -241,14 +241,14 @@ public class BBCommand implements CommandExecutor {
 								{
 									game.setMetadata(p, "savingStructure", false);
 									p.sendMessage(game.playerprefix + "Die Zeit ist abgelaufen");
-									//TODO: play sounds?
+									
 								}
 								
 								
 							}
 						}, 20 * 10);
+						game.setMetadata(p, "savingStructureScheduler", scheduler);
 					}
-					
 					
 					if(args[0].equalsIgnoreCase("tp") && args[1] instanceof String)
 					{

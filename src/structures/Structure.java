@@ -58,6 +58,7 @@ public class Structure {
         }
 		
 	}
+	
 	@Deprecated
 	/**
 	 * [0] size (1B)

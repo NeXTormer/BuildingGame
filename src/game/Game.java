@@ -1188,6 +1188,16 @@ public class Game {
 		return p.getMetadata(key).get(0).asBoolean();
 	}
 	
+	public String getMetadataString(Player p, String key)
+	{
+		return p.getMetadata(key).get(0).asString();	
+	}
+	
+	public int getMetadataInteger(Player p, String key)
+	{
+		return p.getMetadata(key).get(0).asInt();
+	}
+	
 
 
 }

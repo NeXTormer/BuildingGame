@@ -75,15 +75,16 @@ public class PlayerEvents implements Listener {
     	if(e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_BLOCK)
 		{
 			Player p = e.getPlayer();
-			Bukkit.broadcastMessage("peter: " + game.getMetadataBoolean(p, "savingStructure"));
 			if(game.getMetadataBoolean(p, "savingStructure"))
 			{
-				String name = game.getMetadata(p, "savingStructureName").get(0).asString();
+				String name = game.getMetadataString(p, "savingStructureName");
 				Structure s = new Structure(name);
+				s.setStructure(e.getClickedBlock().getLocation());
 				StructureParser.addStructure(s);
 				game.setMetadata(p, "savingStructure", false);
 				p.sendMessage(game.playerprefix + "Die Struktur wurde unter dem Namen §6\"" + name + "\" §7gespeichert");
 				e.setCancelled(true);
+				Bukkit.getScheduler().cancelTask(game.getMetadataInteger(p, "savingStructureScheduler"));
 			}
 		}
     	
