@@ -8,16 +8,23 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.metadata.Metadatable;
 
 import game.Game;
 import game.GameState;
@@ -138,6 +145,66 @@ public class PlayerEvents implements Listener {
 		{
 			e.setCancelled(true);
 		}
+    }
+    
+    @EventHandler
+    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent e)
+    {
+		if(game.gamestate == GameState.BUILDING)
+		{
+	    	ItemStack nametag = new ItemStack(Material.NAME_TAG);
+	    	ItemStack potion = new ItemStack(Material.POTION);
+	    	ItemStack woodenhoe = new ItemStack(Material.WOOD_HOE);
+	    	if(e.getRightClicked().getType() == EntityType.ARMOR_STAND)
+	    	{
+	    		ArmorStand ast = (ArmorStand) e.getRightClicked();
+	    		if(e.getPlayer().getItemInHand().getType() == nametag.getType())
+	    		{
+	    			String name = e.getPlayer().getItemInHand().getItemMeta().getDisplayName();
+	    			e.getRightClicked().setCustomName(name);
+	    			e.getRightClicked().setCustomNameVisible(true);
+	    		}
+	    		
+	    		if(e.getPlayer().getItemInHand().getType() == potion.getType())
+	    		{
+	    			ast.setCustomNameVisible(true);
+	    			if(!ast.isVisible())
+	    			{
+	    				ast.setVisible(true);
+	    			}
+	    			else
+	    			{
+		    			ast.setVisible(false);
+	    			}
+	    		}
+	    		
+	    		if(e.getPlayer().getItemInHand().getType() == woodenhoe.getType())
+	    		{
+	    			ast.setArms(true);
+	    			if(!ast.isSmall())
+	    			{
+	    				ast.setSmall(true);
+	    			}
+	    			else
+	    			{
+	    				ast.setSmall(false);
+	    			}
+	    		}
+    	}
+    	}
+		else
+		{
+			e.setCancelled(true);
+		}
+    }
+    
+    @EventHandler
+    public void onEntityDamage(EntityDamageByEntityEvent e)
+    {
+    	if(e.getDamager() instanceof Player && game.gamestate != GameState.BUILDING)
+    	{
+    		e.setCancelled(true);
+    	}
     }
 
 }
