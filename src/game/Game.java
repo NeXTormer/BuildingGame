@@ -345,6 +345,9 @@ public class Game {
 			}
 			else
 			{
+				setMetadata(p, "savingStructureName", "NULL");
+				setMetadata(p, "savingStructureScheduler", 0);
+				setMetadata(p, "savingStructure", false);
 				players.add(p.getUniqueId());
 				p.sendMessage(prefix + "Du bist dem Spiel beigetreten");
 				p.teleport(lobbyLocation);

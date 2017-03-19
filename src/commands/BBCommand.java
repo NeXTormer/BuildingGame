@@ -248,6 +248,7 @@ public class BBCommand implements CommandExecutor {
 							}
 						}, 20 * 10);
 						game.setMetadata(p, "savingStructureScheduler", scheduler);
+						return true;
 					}
 					
 					if(args[0].equalsIgnoreCase("tp") && args[1] instanceof String)
