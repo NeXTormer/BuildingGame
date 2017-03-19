@@ -17,6 +17,8 @@ import org.bukkit.material.MaterialData;
 
 import game.Game;
 import game.GameState;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class ItemEvents implements Listener {
 	
@@ -145,6 +147,12 @@ public class ItemEvents implements Listener {
 						p.sendMessage(game.playerprefix+"Das Feuerwerk wurde eingeschalten");
 					}
 					game.launchFirework = !game.launchFirework;
+				}
+				if(e.getMaterial().equals(Material.INK_SACK))
+				{
+					Player p = e.getPlayer();
+					p.closeInventory();
+					p.openInventory(game.resetInventory);
 				}
 				if(brawlRotate)
 				{

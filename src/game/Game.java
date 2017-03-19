@@ -21,6 +21,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
@@ -66,6 +67,8 @@ public class Game {
 	public boolean globalBuildMode = false;
 	public GameState gamestate = GameState.LOBBY; //default gamestate
 	public Inventory votingInventory; //voting inventory preset
+	public Inventory resetInventory;
+	private ItemStack resetIS;
 	public int[] votes; //theme votes
 	public List<String> themes;
 	public Map<OfflinePlayer, Score> buildingScoreboard = new HashMap<>();
@@ -132,12 +135,44 @@ public class Game {
 		loadPlots();
 		loadBuildThemes();
 		loadForbiddenBlocks();
+		createResetInv();
 		this.plugin = plugin;
 		
 		compassmeta.setDisplayName("§6Spieler beobachten");
 		compass.setItemMeta(compassmeta);
 		
 		random = new Random();
+	}
+	
+	private void createResetInv()
+	{
+		resetIS = createItemStackColor(Material.INK_SACK, 1, (short)1, "§4§lGrundstück zurücksetzen", null);
+		ItemStack greenGlassIS = createItemStackColor(Material.STAINED_GLASS_PANE, 1, (short)5, "", null);
+		ItemStack redGlassIS = createItemStackColor(Material.STAINED_GLASS_PANE, 1, (short)14, "", null);
+		ItemStack jaIS = createItemStack(Material.EMERALD_BLOCK, "§2§lJa", "§aDieser Vorgang kann nicht mehr Rückgängig gemacht werden!");
+		ItemStack neinIS = createItemStack(Material.REDSTONE_BLOCK, "§4§lNein", "§cAbbrechen");
+		resetInventory = Bukkit.createInventory(null, 27, "§6Wirklich zurücksetzen?");
+		
+		resetInventory.setItem(1, greenGlassIS);
+		resetInventory.setItem(2, greenGlassIS);
+		resetInventory.setItem(3, greenGlassIS);
+		resetInventory.setItem(10, greenGlassIS);
+		resetInventory.setItem(12, greenGlassIS);
+		resetInventory.setItem(19, greenGlassIS);
+		resetInventory.setItem(20, greenGlassIS);
+		resetInventory.setItem(21, greenGlassIS);
+		
+		resetInventory.setItem(5, redGlassIS);
+		resetInventory.setItem(6, redGlassIS);
+		resetInventory.setItem(7, redGlassIS);
+		resetInventory.setItem(14, redGlassIS);
+		resetInventory.setItem(16, redGlassIS);
+		resetInventory.setItem(23, redGlassIS);
+		resetInventory.setItem(24, redGlassIS);
+		resetInventory.setItem(25, redGlassIS);
+		
+		resetInventory.setItem(11, jaIS);
+		resetInventory.setItem(15, neinIS);
 	}
 	
 	private void loadConfig()
@@ -228,6 +263,7 @@ public class Game {
 		
 		for (int i = 0; i < players.size(); i++) {
 			Player p = Bukkit.getPlayer(players.get(i));
+			p.getInventory().setItem(8, resetIS);
 			p.setLevel(buildingTime);
 			plotArray[i].setOwner(p);
 			p.teleport(plotArray[i].getSpawnLocation());
@@ -247,11 +283,7 @@ public class Game {
 
 		}
 		
-		ItemStack compass = new ItemStack(Material.COMPASS);
-		ItemMeta compassMeta = compass.getItemMeta();
-		compassMeta.setDisplayName("§6§l - Spieler beobachten - ");
-		compass.setItemMeta(compassMeta);
-		
+		ItemStack compass = createItemStack(Material.COMPASS, "§6§l - Spieler beobachten - ", null);
 
 		for(UUID uuid : spectators)
 		{
@@ -530,11 +562,8 @@ public class Game {
 				else
 				{
 					finalThemes.add(themes.get(r));
-					ItemStack is = new ItemStack(Material.PAPER);
-					ItemMeta im = is.getItemMeta();
-					im.setDisplayName("§7" + themes.get(r));
-					is.setItemMeta(im);
-					votingInventory.addItem(is);
+					ItemStack themeIS = createItemStack(Material.PAPER, "§7" + themes.get(r), null);
+					votingInventory.addItem(themeIS);
 				}
 
 			}
@@ -543,12 +572,9 @@ public class Game {
 		{
 			for(int i = 0; i < themes.size(); i++)
 			{
-				ItemStack is = new ItemStack(Material.PAPER);
-				ItemMeta im = is.getItemMeta();
-				im.setDisplayName("§7" + themes.get(i));
-				is.setItemMeta(im);
+				ItemStack themeIS = createItemStack(Material.PAPER, "§7" + themes.get(i), null);
 				finalThemes.add(themes.get(i));
-				votingInventory.addItem(is);
+				votingInventory.addItem(themeIS);
 			}
 		}
 	}
@@ -685,13 +711,7 @@ public class Game {
 		
 		Bukkit.getScheduler().cancelTask(buildingTimerScheduler);
 		
-		ItemStack is = new ItemStack(Material.PRISMARINE_SHARD);
-		ItemMeta im = is.getItemMeta();
-		im.setDisplayName("§6§lBewerten");
-		List<String> lore = new ArrayList<>();
-		lore.add("§7Rechtsklicke um das Plot zu bewerten");
-		im.setLore(lore);
-		is.setItemMeta(im);
+		ItemStack prismarinIS = createItemStack(Material.PRISMARINE_SHARD, "§6§lBewerten", "§7Rechtsklicke um das Plot zu bewerten");
 		for(UUID uuid : players)
 		{
 			OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
@@ -718,7 +738,7 @@ public class Game {
 		            }
 		            else 
 		            {
-		            	p.getInventory().setItem(4, is);
+		            	p.getInventory().setItem(4, prismarinIS);
 		            }	
 //				}
 			}
@@ -880,10 +900,7 @@ public class Game {
 		if(winner.isOnline())
 		{
 			ItemStack winnerHelmet = new ItemStack(Material.GOLD_HELMET);
-			ItemStack firework = new ItemStack(Material.FIREWORK);
-			ItemMeta fireworkMeta = firework.getItemMeta();
-			fireworkMeta.setDisplayName("§6§lFeuerwerk ein/aus");
-			firework.setItemMeta(fireworkMeta);
+			ItemStack firework = createItemStack(Material.FIREWORK, "§6§lFeuerwerk ein/aus", null);
 			winner.getPlayer().getInventory().setItem(39, winnerHelmet);
 			winner.getPlayer().getInventory().setItem(4, firework);
 			
@@ -1199,6 +1216,63 @@ public class Game {
 	public int getMetadataInteger(Player p, String key)
 	{
 		return p.getMetadata(key).get(0).asInt();
+	}
+	
+	private static ItemStack createItemStack(Material material, String name, String lore) {
+		ItemStack is = new ItemStack(material);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName(name);
+		if(lore!=null)
+		{
+			List<String> loreText = new ArrayList<>();
+			loreText.add(lore);			
+			im.setLore(loreText);
+		}
+		is.setItemMeta(im);
+		return is;
+	}
+	
+	private static ItemStack createItemStackColor(Material material, int amount, short damage, String name, String lore) {
+		ItemStack is = new ItemStack(material, amount, damage);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName(name);
+		if(lore!=null)
+		{
+			List<String> loreText = new ArrayList<>();
+			loreText.add(lore);
+			im.setLore(loreText);			
+		}
+		is.setItemMeta(im);
+		return is;
+	}
+	
+	public void resetPlot(Player p)
+	{
+		Plot plot = getPlot(p);
+		Location temp = plot.getSpawnLocation();
+		Location replaceLoc = new Location(temp.getWorld(), temp.getX(), temp.getY(), temp.getZ());
+		replaceLoc.setY(5);
+		replaceLoc.setX(replaceLoc.getX()-1);
+		replaceLoc.setZ(replaceLoc.getZ()+1);
+		replaceLoc.setY(replaceLoc.getY()-3);
+	    World world = Bukkit.getWorld(locationCfg.getString("locations.lobby.world"));
+	    Location edgeMin = new Location(world, replaceLoc.getX(), replaceLoc.getY(), replaceLoc.getZ());
+	    Location edgeMax = new Location(world, replaceLoc.getX()-32, replaceLoc.getY()+52, replaceLoc.getZ()+32);
+	    for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --) {
+	        for (int y = edgeMin.getBlockY(); y < edgeMax.getBlockY(); y ++) {
+	            for (int z = edgeMin.getBlockZ(); z < edgeMax.getBlockZ(); z ++) {
+	            	if(y<4)
+	            	{
+	            		new Location(world, x, y, z).getBlock().setType(Material.STAINED_CLAY);	            		
+	            	}
+	            	else
+	            	{
+	            		new Location(world, x, y, z).getBlock().setType(Material.AIR);	    
+	            	}
+	            }
+	        }
+	    }	    
+	    p.sendMessage(playerprefix+"Dein Grundstück wurde erfolgreich zurückgesetzt");
 	}
 	
 

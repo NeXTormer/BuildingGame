@@ -59,6 +59,23 @@ public class InventoryEvents implements Listener {
 	                e.getWhoClicked().closeInventory();
 	            }
 	        }
+	        if(game.gamestate == GameState.BUILDING)
+	        {
+	            if(e.getInventory().getTitle().equals(game.resetInventory.getTitle())) {
+		            e.setCancelled(true);
+	            	if(e.getRawSlot() == 11)
+	            	{
+	            		game.resetPlot(p); 	            		
+	            		p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+	            		e.getWhoClicked().closeInventory();
+	            	}
+	            	if(e.getRawSlot() == 15)
+	            	{	            		
+	            		p.playSound(p.getLocation(), Sound.BURP, 1, 1);
+	            		e.getWhoClicked().closeInventory();
+	            	}              
+	            }
+	        }
 	        else if (game.gamestate == GameState.GRADING)
 	        {
 	            e.setCancelled(true);

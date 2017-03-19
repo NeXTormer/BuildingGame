@@ -171,10 +171,12 @@ public class PlayerEvents implements Listener {
 	    			if(!ast.isVisible())
 	    			{
 	    				ast.setVisible(true);
+	    				ast.setGravity(false);
 	    			}
 	    			else
 	    			{
 		    			ast.setVisible(false);
+		    			ast.setGravity(true);
 	    			}
 	    		}
 	    		
