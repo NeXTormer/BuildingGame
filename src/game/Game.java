@@ -43,6 +43,8 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import Brawls.PlayerBrawl;
 import Brawls.PlotBrawl;
+import structures.Structure;
+import structures.StructureParser;
 
 public class Game {
 	
@@ -59,6 +61,8 @@ public class Game {
 	
 	public List<UUID> players = new ArrayList<>();
 	public List<UUID> spectators = new ArrayList<>();
+	
+	public Structure[] structures;
 	
 	public Plot[] plotArray = new Plot[16];
 
@@ -125,6 +129,7 @@ public class Game {
 
 	public Game(Plugin plugin)
 	{
+		structures = StructureParser.loadStructures();
 		loadConfig();
 		lobbyLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
 		jumpLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
