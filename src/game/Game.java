@@ -1302,7 +1302,7 @@ public class Game {
 			{
 				Player p = Bukkit.getPlayer(uuid);
 				if(uuid.equals(starter.getUniqueId())) continue;
-				new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFreeze(starter, this), Material.ICE, this).start();
+				new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFreeze(p, this), Material.ICE, this).prepare();
 			}
 			break;
 		case "speed":
