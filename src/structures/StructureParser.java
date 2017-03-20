@@ -29,13 +29,14 @@ public class StructureParser {
 	public static Structure loadStructure(int index)
 	{
 		Structure s = new Structure(config.getString(index + ".name"));
+		s.blocks = new Material[3][3][3];
 		for(int x = 0; x < s.size; x++)
 		{
 			for(int y = 0; y < s.size; y++)
 			{
 				for(int z = 0; z < s.size; z++)
 				{
-					s.blocks[x][y][z] = Material.getMaterial(index + "." + s.name + "." + config.getString(x + "." + y + "." + z, s.blocks[x][y][z].name()));
+					s.blocks[x][y][z] = Material.getMaterial(config.getString(index + "." + s.name + "." + x + "." + y + "." + z));
 				}
 			}
 		}

@@ -91,6 +91,12 @@ public class BBCommand implements CommandExecutor {
 						p.sendMessage(game.playerprefix + "GameState: §6" + game.gamestate.toString());
 						return true;
 					}
+					
+					if(args[0].equalsIgnoreCase("reload"))
+					{
+						game = new Game(game.plugin);
+					}
+					
 					if(args[0].equalsIgnoreCase("mode"))
 					{
 						game.globalBuildMode = !game.globalBuildMode;

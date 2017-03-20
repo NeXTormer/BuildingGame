@@ -9,7 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,8 +22,6 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.metadata.Metadatable;
 
 import game.Game;
 import game.GameState;
@@ -94,6 +91,26 @@ public class PlayerEvents implements Listener {
 				Bukkit.getScheduler().cancelTask(game.getMetadataInteger(p, "savingStructureScheduler"));
 			}
 		}
+    	
+    	if(e.getAction() == Action.RIGHT_CLICK_BLOCK)
+    	{
+    		Block block = e.getClickedBlock();
+    		if(block.getType().equals(Material.GOLD_BLOCK))
+    		{
+    			String structureName = "";
+    			for(Structure s : game.structures)
+    			{
+    				if(s.compareTo(block.getLocation()))
+    				{
+    					structureName = s.name;
+    					e.getPlayer().sendMessage(game.playerprefix + "Du hast das Brawl §6" + structureName + "§7 aktiviert");
+    					//TODO: Insert Brawl to activate: switch?
+    					break;
+    				}
+    			}
+    			
+    		}
+    	}
     	
     	if(e.getAction().equals(Action.PHYSICAL))
     	{
