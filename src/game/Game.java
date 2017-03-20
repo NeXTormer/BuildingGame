@@ -1265,10 +1265,13 @@ public class Game {
 		replaceLoc.setX(replaceLoc.getX()-1);
 		replaceLoc.setZ(replaceLoc.getZ()+1);
 		replaceLoc.setY(replaceLoc.getY()-3);
-		Collection<Entity> entities = world.getNearbyEntities(replaceLoc, -32, 50, 32);
+		Collection<Entity> entities = world.getNearbyEntities(replaceLoc, -37, 50, 37);
 		for(Entity e : entities)
 		{
-			e.remove();
+			if(!(e instanceof Player))
+			{
+				e.remove();
+			}
 		}
 	    Location edgeMin = new Location(world, replaceLoc.getX(), replaceLoc.getY(), replaceLoc.getZ());
 	    Location edgeMax = new Location(world, replaceLoc.getX()-32, replaceLoc.getY()+52, replaceLoc.getZ()+32);

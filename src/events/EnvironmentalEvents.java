@@ -1,5 +1,7 @@
 package events;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
@@ -78,6 +80,17 @@ public class EnvironmentalEvents implements Listener{
     public void onBlockFade(BlockFadeEvent e)
     {
     	e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onEntitySpawn(EntitySpawnEvent e)
+    {
+    	Location spawnLocation = e.getLocation();
+    	spawnLocation.setY(1);
+    	if(e.getLocation().getWorld().getBlockAt(spawnLocation).getType() != Material.BEDROCK)
+    	{
+    		e.setCancelled(true);    		
+    	}
     }
     
 }

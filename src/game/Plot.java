@@ -24,6 +24,7 @@ public class Plot {
 	public int finalTotalGrade;
 	
 	public boolean ownerLeft = false;
+	private boolean protect = false;
 	
 	private ArrayList<Integer> gradesCreativity = new ArrayList<>();
 	private ArrayList<Integer> gradesLook= new ArrayList<>();
@@ -140,6 +141,16 @@ public class Plot {
 	public int getFinalTotalGrade()
 	{
 		return finalTotalGrade;
+	}
+	
+	public void setProtected(boolean b)
+	{
+		protect=b;
+	}
+	
+	public boolean isProtected()
+	{
+		return protect;
 	}
 	
 	
