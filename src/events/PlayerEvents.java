@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
+import Brawls.Animation;
 import game.Game;
 import game.GameState;
 import structures.Structure;
@@ -104,8 +105,9 @@ public class PlayerEvents implements Listener {
     				{
     					structureName = s.name;
     					e.getPlayer().sendMessage(game.playerprefix + "Du hast das Brawl §6" + structureName + "§7 aktiviert");
-    					//TODO: Insert Brawl to activate: switch?
-    					break;
+    					//TODO: fix brawl amount
+    					game.startBrawl(structureName, e.getPlayer(), block.getLocation());
+       					break;
     				}
     			}
     			

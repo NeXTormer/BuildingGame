@@ -43,6 +43,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
+import Brawls.Animation;
+import Brawls.BrawlFreeze;
 import Brawls.PlayerBrawl;
 import Brawls.PlotBrawl;
 import structures.Structure;
@@ -1287,6 +1289,61 @@ public class Game {
 	    p.sendMessage(playerprefix+"Dein Grundstück wurde erfolgreich zurückgesetzt");
 	}
 	
+	public void startBrawl(String name, Player starter, Location startlocation)
+	{
+		switch (name)
+		{
+		case "freeze":
+			//
+			for(UUID uuid : players)
+			{
+				Player p = Bukkit.getPlayer(uuid);
+				if(uuid.equals(starter.getUniqueId())) continue;
+				new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFreeze(starter, this), Material.ICE, this).start();
+			}
+			break;
+		case "speed":
+			//
+			break;
+		case "clearinv":
+			//
+			break;
+		case "pumpkin":
+			//
+			break;
+		case "blindness":
+			//
+			break;
+		case "fly":
+			//
+			break;
+		case "replace":
+			//
+			break;
+		case "polymorph":
+			//
+			break;
+		case "jump":
+			//
+			break;
+		case "randomtp":
+			//
+			break;
+		case "rotate":
+			//
+			break;
+		case "entity":
+			//
+			break;
+		case "underwater":
+			//
+			break;
+			
+		default:
+			Bukkit.broadcastMessage(prefix + "Der Brawl " + name + " ist nicht verfuegbar");
+			
+		}
+	}
 
 
 }

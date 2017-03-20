@@ -410,8 +410,8 @@ public class BBCommand implements CommandExecutor {
 //					Location loc2 = game.lobbyLocation;
 					loc2.setX(loc2.getX()-17);
 					loc2.setZ(loc2.getZ()+17);
-					Animation animation = new Animation(loc1, loc2, args[2], Material.PUMPKIN, game);
-					animation.prepare();
+					//Animation animation = new Animation(loc1, loc2, args[2], Material.PUMPKIN, game);
+					//animation.prepare();
 				}
 			}
 			sender.sendMessage(game.playerprefix + "Nicht vorhandener oder nicht vollstaendiger Befehl");

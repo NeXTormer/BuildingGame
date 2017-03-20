@@ -34,11 +34,11 @@ public class Animation {
 	private int i, prepCounter;
 	private ArmorStand ast;
 	private FallingBlock fallingBlock;
-	private String brawl;
 	private double x, y, z, dx, dy, dz, aP, bP, aL, xS, yS, zS, xD, yD, zD, yOffset, startHeight, velocity, deltaz, deltay, deltax;
 	private Game game;
+	private Brawl brawl;
 	
-	public Animation(Location l1, Location l2, String brawl, Material material, Game game)
+	public Animation(Location l1, Location l2, Brawl brawl, Material material, Game game)
 	{
 		sourceLocation = l1;
 		destinationLocation = l2;
@@ -156,6 +156,7 @@ public class Animation {
 				{
 					ast.remove();
 					fallingBlock.remove();
+					brawl.start();
 					game.cancelScheduler(flySceduler);
 				}
 			}
