@@ -5,6 +5,7 @@ import static org.bukkit.Bukkit.getScheduler;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -1255,12 +1257,17 @@ public class Game {
 	{
 		Plot plot = getPlot(p);
 		Location temp = plot.getSpawnLocation();
+		World world = Bukkit.getWorld(locationCfg.getString("locations.lobby.world"));
 		Location replaceLoc = new Location(temp.getWorld(), temp.getX(), temp.getY(), temp.getZ());
 		replaceLoc.setY(5);
 		replaceLoc.setX(replaceLoc.getX()-1);
 		replaceLoc.setZ(replaceLoc.getZ()+1);
 		replaceLoc.setY(replaceLoc.getY()-3);
-	    World world = Bukkit.getWorld(locationCfg.getString("locations.lobby.world"));
+		Collection<Entity> entities = world.getNearbyEntities(replaceLoc, -32, 50, 32);
+		for(Entity e : entities)
+		{
+			e.remove();
+		}
 	    Location edgeMin = new Location(world, replaceLoc.getX(), replaceLoc.getY(), replaceLoc.getZ());
 	    Location edgeMax = new Location(world, replaceLoc.getX()-32, replaceLoc.getY()+52, replaceLoc.getZ()+32);
 	    for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --) {
