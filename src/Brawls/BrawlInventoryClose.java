@@ -18,73 +18,36 @@ import game.Game;
 public class BrawlInventoryClose extends PlayerBrawl {
 
 	private Game game;
-	private Player starter;
+	private Player victim;
 	private int duration;
 	
-	public BrawlInventoryClose(Player starter, Game game)
+	public BrawlInventoryClose(Player victim, Game game)
 	{
 		super();
 		this.game = game;
-		this.starter = starter;
+		this.victim = victim;
 	}
 	
 	@Override
 	public void start()
 	{	
 		duration = game.configCfg.getInt("brawlDurationInventoryClose");
-		for(UUID uuid : game.players)
-		{
-			if(!(starter.getUniqueId() == uuid))
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				
-				if(op.isOnline())
-				{
-					Player p = Bukkit.getPlayer(uuid);
-					p.playSound(p.getLocation(), Sound.VILLAGER_IDLE, 1, 1);
-				}
-			}
-
-		}
-		
+		victim.playSound(victim.getLocation(), Sound.VILLAGER_IDLE, 1, 1);
+					
 		final int votingTimerTask;
 		votingTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
 			@Override
-			public void run() {
-				for(UUID uuid : game.players)
-				{
-					if(!(starter.getUniqueId() == uuid))
-					{
-						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-						
-						if(op.isOnline())
-						{
-							Player p = Bukkit.getPlayer(uuid);
-							p.closeInventory();
-						}
-					}
-
-				}
+			public void run()
+			{
+				victim.closeInventory();
 			}
 		}, 0, 10);
 
 		getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 			@Override
-			public void run() {
-				for(UUID uuid : game.players)
-				{
-					if(!(starter.getUniqueId() == uuid))
-					{
-						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-						
-						if(op.isOnline())
-						{
-							Player p = Bukkit.getPlayer(uuid);
-							p.playSound(p.getLocation(), Sound.HORSE_DEATH, 1, 1);
-						}
-					}
-
-				}
+			public void run()
+			{
+				victim.playSound(victim.getLocation(), Sound.HORSE_DEATH, 1, 1);
 				Bukkit.getScheduler().cancelTask(votingTimerTask);
 			}
 		}, 20 * duration);

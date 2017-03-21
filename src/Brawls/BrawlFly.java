@@ -14,14 +14,14 @@ import game.Game;
 public class BrawlFly extends PlayerBrawl {
 
 	private Game game;
-	private Player starter;
+	private Player victim;
 	private int duration;
 	
-	public BrawlFly(Player starter, Game game)
+	public BrawlFly(Player victim, Game game)
 	{
 		super();
 		this.game = game;
-		this.starter = starter;
+		this.victim = victim;
 	}
 	
 	@Override
@@ -31,41 +31,14 @@ public class BrawlFly extends PlayerBrawl {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 			
 			@Override
-			public void run() {
-				for(UUID uuid : game.players)
-				{
-					if(!(starter.getUniqueId() == uuid))
-					{
-						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-						
-						if(op.isOnline())
-						{
-							Player p = Bukkit.getPlayer(uuid);
-							p.setAllowFlight(true);
-					    	p.playSound(p.getLocation(), Sound.BAT_DEATH, 1, 1);
-						}
-					}
-				}
-				
-				
+			public void run()
+			{
+				victim.setAllowFlight(true);
+				victim.playSound(victim.getLocation(), Sound.BAT_DEATH, 1, 1);
 			}
 		}, 20 * duration);
 		
-		for(UUID uuid : game.players)
-		{
-			if(!(starter.getUniqueId() == uuid))
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				
-				if(op.isOnline())
-				{
-					Player p = Bukkit.getPlayer(uuid);
-					p.setAllowFlight(false);
-					p.playSound(p.getLocation(), Sound.ZOMBIE_PIG_HURT, 1, 1);
-				}
-			}
-			
-		}
-		
+		victim.setAllowFlight(false);
+		victim.playSound(victim.getLocation(), Sound.ZOMBIE_PIG_HURT, 1, 1);
 	}
 }

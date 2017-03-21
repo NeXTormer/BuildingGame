@@ -13,35 +13,22 @@ import game.Game;
 public class BrawlInventoryClear extends PlayerBrawl {
 
 	private Game game;
-	private Player starter;
+	private Player victim;
 	
 	
-	public BrawlInventoryClear(Player starter, Game game)
+	public BrawlInventoryClear(Player victim, Game game)
 	{
 		super();
 		this.game = game;
-		this.starter = starter;
+		this.victim = victim;
 	}
 	
 	@Override
 	public void start()
 	{	
-		for(UUID uuid : game.players)
-		{
-			if(!(starter.getUniqueId() == uuid))
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				
-				if(op.isOnline())
-				{
-					Player p = Bukkit.getPlayer(uuid);
-					p.getInventory().clear();
-					p.getEquipment().clear();
-					p.playSound(p.getLocation(), Sound.GHAST_SCREAM, 1, 1);
-					p.playEffect(p.getLocation(), Effect.MAGIC_CRIT, 1);
-				}
-			}
-			
-		}
+		victim.getInventory().clear();
+		victim.getEquipment().clear();
+		victim.playSound(victim.getLocation(), Sound.GHAST_SCREAM, 1, 1);
+		victim.playEffect(victim.getLocation(), Effect.MAGIC_CRIT, 1);
 	}
 }

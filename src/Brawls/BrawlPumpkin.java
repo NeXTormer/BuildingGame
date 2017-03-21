@@ -16,34 +16,22 @@ import game.Game;
 public class BrawlPumpkin extends PlayerBrawl {
 
 	private Game game;
-	private Player starter;
+	private Player victim;
 	
 	
-	public BrawlPumpkin(Player starter, Game game)
+	public BrawlPumpkin(Player victim, Game game)
 	{
 		super();
 		this.game = game;
-		this.starter = starter;
+		this.victim = victim;
 	}
 	
 	@Override
 	public void start()
 	{	
-		for(UUID uuid : game.players)
-		{
-			if(!(starter.getUniqueId() == uuid))
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				
-				if(op.isOnline())
-				{
-					Player p = Bukkit.getPlayer(uuid);
-					ItemStack pumpkin = new ItemStack(Material.PUMPKIN);
-					p.getInventory().setItem(39, pumpkin);
-					p.playSound(p.getLocation(), Sound.BAT_HURT, 1, 1);
-				}
-			}
-			
-		}
+		ItemStack pumpkin = new ItemStack(Material.PUMPKIN);
+		victim.getInventory().setItem(39, pumpkin);
+		victim.playSound(victim.getLocation(), Sound.BAT_HURT, 1, 1);
+
 	}
 }

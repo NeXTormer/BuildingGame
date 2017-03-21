@@ -14,14 +14,14 @@ import game.Game;
 public class BrawlSpeed extends PlayerBrawl {
 
 	private Game game;
-	private Player starter;
+	private Player victim;
 	private int duration;
 	
-	public BrawlSpeed(Player starter, Game game)
+	public BrawlSpeed(Player victim, Game game)
 	{
 		super();
 		this.game = game;
-		this.starter = starter;
+		this.victim = victim;
 	}
 	
 	@Override
@@ -31,45 +31,17 @@ public class BrawlSpeed extends PlayerBrawl {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 			
 			@Override
-			public void run() {
-				for(UUID uuid : game.players)
-				{
-					if(!(starter.getUniqueId() == uuid))
-					{
-						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-						
-						if(op.isOnline())
-						{
-							Player p = Bukkit.getPlayer(uuid);
-					    	p.setFlySpeed(0.1f);
-					    	p.setWalkSpeed(0.2f);
-					    	p.playSound(p.getLocation(), Sound.ENDERMAN_DEATH, 1, 1);
-					    	p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
-						}
-					}
-				}
-				
-				
+			public void run()
+			{
+				victim.setFlySpeed(0.1f);
+				victim.setWalkSpeed(0.2f);
+				victim.playSound(victim.getLocation(), Sound.ENDERMAN_DEATH, 1, 1);
+				victim.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));	
 			}
 		}, 20 * duration);
-		
-		for(UUID uuid : game.players)
-		{
-			if(!(starter.getUniqueId() == uuid))
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				
-				if(op.isOnline())
-				{
-					Player p = Bukkit.getPlayer(uuid);
-					p.setFlySpeed(1.0f);
-					p.setWalkSpeed(1.0f);
-					p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
-					p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
-				}
-			}
-			
-		}
-		
+		victim.setFlySpeed(1.0f);
+		victim.setWalkSpeed(1.0f);
+		victim.playSound(victim.getLocation(), Sound.LEVEL_UP, 1, 1);
+		victim.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
 	}
 }
