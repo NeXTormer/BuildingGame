@@ -57,8 +57,6 @@ public class Game {
 	public static int secondsToGrade = 25;
 	public static int MAX_PLAYERS = 16;
 	
-	
-	
 	public static List<Material> forbiddenBlocks = new ArrayList<>();
 
 	public Plugin plugin;
@@ -70,8 +68,6 @@ public class Game {
 	
 	public Plot[] plotArray = new Plot[16];
 
-	public Map<Player, PlayerData> playerdata = new HashMap<>();
-	
 	public boolean globalBuildMode = false;
 	public GameState gamestate = GameState.LOBBY; //default gamestate
 	public Inventory votingInventory; //voting inventory preset
@@ -443,7 +439,7 @@ public class Game {
 			}
 			if(gamestate == GameState.LOBBY)
 			{				
-				players.remove(p.getUniqueId()); //TODO: make this good, don't remove while game is running, let him reconnect
+				players.remove(p.getUniqueId());
 			}
 		}
 		else
@@ -458,13 +454,7 @@ public class Game {
 		//Check if there are no players left
 		if(players.size() == 0)
 		{
-			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-				
-				@Override
-				public void run() {
-					
-				}
-			}, 20, 20);
+			Bukkit.broadcastMessage(prefix + "Alle Spieler haben das Spiel verlassen!");
 		}
 		
 	}

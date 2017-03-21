@@ -38,8 +38,9 @@ public class Animation {
 	private Game game;
 	private Brawl brawl;
 	
-	public Animation(Location l1, Location l2, Brawl brawl, Material material, Game game)
+	public Animation(Location l1, Location targetorigin, Brawl brawl, Material material, Game game)
 	{
+		Location l2 = new Location(targetorigin.getWorld(), targetorigin.getX() - 17, targetorigin.getY(), targetorigin.getZ() + 17);
 		sourceLocation = l1;
 		destinationLocation = l2;
 		this.brawl = brawl;

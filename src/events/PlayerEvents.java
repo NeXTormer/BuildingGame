@@ -105,7 +105,6 @@ public class PlayerEvents implements Listener {
     				{
     					structureName = s.name;
     					e.getPlayer().sendMessage(game.playerprefix + "Du hast das Brawl §6" + structureName + "§7 aktiviert");
-    					//TODO: fix brawl amount
     					game.startBrawl(structureName, e.getPlayer(), block.getLocation());
        					break;
     				}

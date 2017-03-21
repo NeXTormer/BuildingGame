@@ -11,6 +11,8 @@ public class Structure {
 	
 	public Material[][][] blocks;
 	
+	Location origin;
+	
 	public Structure(String name)
 	{
 		blocks = new Material[size][size][size];
@@ -60,6 +62,11 @@ public class Structure {
             }
         }
 		return true;
+	}
+	
+	public void destroy()
+	{
+		
 	}
 	
 	public void setStructure(Location origin)
