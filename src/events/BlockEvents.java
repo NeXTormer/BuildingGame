@@ -34,8 +34,8 @@ public class BlockEvents implements Listener {
 	public static boolean brawlReplace;
 	public static boolean brawlPolymorph;
 	public static Player brawlStarter;
-	public static List<Player> victimsPolymorph;
-	public static List<Player> victimsReplace;
+	public static List<Player> victimsPolymorph = new ArrayList<>();
+	public static List<Player> victimsReplace = new ArrayList<>();
 	
 	public BlockEvents(Game game)
 	{
@@ -96,7 +96,7 @@ public class BlockEvents implements Listener {
 				if(brawlReplace)
 				{
 					int r = random.nextInt(197);
-					if(e.getPlayer().getUniqueId()!=brawlStarter.getUniqueId())
+					if(victimsReplace.contains(e.getPlayer()))
 					{
 						e.getBlock().setTypeId(r);
 					}

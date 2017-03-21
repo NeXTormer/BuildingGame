@@ -1,5 +1,6 @@
 package events;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -27,8 +28,8 @@ public class ItemEvents implements Listener {
 	public static boolean brawlRandomTP = false;
 	public static boolean brawlRotate = false;
 	public static Player brawlStarter;
-	public static List<Player> victimRandomTP;
-	public static List<Player> victimRotate;
+	public static List<Player> victimRandomTP = new ArrayList<>();
+	public static List<Player> victimRotate = new ArrayList<>();
 	private Random random;
 	public ItemEvents(Game game)
 	{
