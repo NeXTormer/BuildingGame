@@ -16,14 +16,14 @@ import game.Game;
 public class BrawlRandomTP extends PlayerBrawl {
 
 	private Game game;
-	private Player starter;
+	private Player victim;
 	private int duration;
 	
-	public BrawlRandomTP(Player starter, Game game)
+	public BrawlRandomTP(Player victim, Game game)
 	{
 		super();
 		this.game = game;
-		this.starter = starter;
+		this.victim = victim;
 	}
 	
 	@Override
@@ -34,41 +34,16 @@ public class BrawlRandomTP extends PlayerBrawl {
 			
 			@Override
 			public void run() {
-				for(UUID uuid : game.players)
-				{
-					if(!(starter.getUniqueId() == uuid))
-					{
-						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-						
-						if(op.isOnline())
-						{
-							Player p = Bukkit.getPlayer(uuid); 
-							ItemEvents.brawlRandomTP = false;
-							p.playSound(p.getLocation(), Sound.ZOMBIE_PIG_ANGRY, 1, 1);
-						}	
-					}
-				}
-				
-				
+				ItemEvents.victimRandomTP.remove(victim);
+				ItemEvents.brawlRandomTP = false;
+				victim.playSound(victim.getLocation(), Sound.ZOMBIE_PIG_ANGRY, 1, 1);
+
 			}
 		}, 20 * duration);
 		
-		for(UUID uuid : game.players)
-		{
-			if(!(starter.getUniqueId().equals(uuid)))
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				
-				if(op.isOnline())
-				{
-					Player p = Bukkit.getPlayer(uuid);
-					ItemEvents.brawlStarter = starter;
-					ItemEvents.brawlRandomTP = true;
-					p.playSound(p.getLocation(), Sound.ANVIL_BREAK, 1, 1);
-				}
-			}
-			
-		}
+		ItemEvents.victimRandomTP.add(victim);
+		ItemEvents.brawlRandomTP = true;
+		victim.playSound(victim.getLocation(), Sound.ANVIL_BREAK, 1, 1);
 		
 	}
 }

@@ -3,6 +3,7 @@ package events;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
@@ -33,6 +34,8 @@ public class BlockEvents implements Listener {
 	public static boolean brawlReplace;
 	public static boolean brawlPolymorph;
 	public static Player brawlStarter;
+	public static List<Player> victimsPolymorph;
+	public static List<Player> victimsReplace;
 	
 	public BlockEvents(Game game)
 	{
@@ -101,7 +104,7 @@ public class BlockEvents implements Listener {
 				
 				if(brawlPolymorph)
 				{
-					if(e.getPlayer().getUniqueId()!=brawlStarter.getUniqueId())
+					if(victimsPolymorph.contains(e.getPlayer()))
 					{
 						e.setCancelled(true);
 						Location polymorphLoc = e.getBlock().getLocation();

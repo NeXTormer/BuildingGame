@@ -16,14 +16,14 @@ import game.Game;
 public class BrawlRotate extends PlayerBrawl {
 
 	private Game game;
-	private Player starter;
+	private Player victim;
 	private int duration;
 	
-	public BrawlRotate(Player starter, Game game)
+	public BrawlRotate(Player victim, Game game)
 	{
 		super();
 		this.game = game;
-		this.starter = starter;
+		this.victim = victim;
 	}
 	
 	@Override
@@ -33,42 +33,16 @@ public class BrawlRotate extends PlayerBrawl {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 			
 			@Override
-			public void run() {
-				for(UUID uuid : game.players)
-				{
-					if(!(starter.getUniqueId() == uuid))
-					{
-						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-						
-						if(op.isOnline())
-						{
-							Player p = Bukkit.getPlayer(uuid); 
-							ItemEvents.brawlRotate = false;
-							p.playSound(p.getLocation(), Sound.CHEST_OPEN, 1, 1);
-						}	
-					}
-				}
-				
-				
+			public void run() 
+			{
+				ItemEvents.victimRotate.remove(victim);
+				ItemEvents.brawlRotate = false;
+				victim.playSound(victim.getLocation(), Sound.CHEST_OPEN, 1, 1);
 			}
 		}, 20 * duration);
-		
-		for(UUID uuid : game.players)
-		{
-			if(!(starter.getUniqueId().equals(uuid)))
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				
-				if(op.isOnline())
-				{
-					Player p = Bukkit.getPlayer(uuid);
-					ItemEvents.brawlStarter = starter;
-					ItemEvents.brawlRotate = true;
-					p.playSound(p.getLocation(), Sound.WOLF_HOWL, 1, 1);
-				}
-			}
-			
-		}
+		ItemEvents.victimRotate.add(victim);
+		ItemEvents.brawlRotate = true;
+		victim.playSound(victim.getLocation(), Sound.WOLF_HOWL, 1, 1);
 		
 	}
 }

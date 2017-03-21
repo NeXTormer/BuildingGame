@@ -13,14 +13,14 @@ import game.Game;
 public class BrawlReplace extends PlayerBrawl {
 
 	private Game game;
-	private Player starter;
+	private Player victim;
 	private int duration;
 	
-	public BrawlReplace(Player starter, Game game)
+	public BrawlReplace(Player victim, Game game)
 	{
 		super();
 		this.game = game;
-		this.starter = starter;
+		this.victim = victim;
 	}
 	
 	@Override
@@ -31,41 +31,15 @@ public class BrawlReplace extends PlayerBrawl {
 			
 			@Override
 			public void run() {
-				for(UUID uuid : game.players)
-				{
-					if(!(starter.getUniqueId() == uuid))
-					{
-						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-						
-						if(op.isOnline())
-						{
-							Player p = Bukkit.getPlayer(uuid); 
-							BlockEvents.brawlReplace = false;
-							p.playSound(p.getLocation(), Sound.BLAZE_DEATH, 1, 1);
-						}						
-					}
-				}
-				
-				
+				BlockEvents.brawlReplace = false;
+				victim.playSound(victim.getLocation(), Sound.BLAZE_DEATH, 1, 1);
+				BlockEvents.victimsReplace.remove(victim);
 			}
 		}, 20 * duration);
-		
-		for(UUID uuid : game.players)
-		{
-			if(!(starter.getUniqueId() == uuid))
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				
-				if(op.isOnline())
-				{
-					Player p = Bukkit.getPlayer(uuid);
-					BlockEvents.brawlStarter = starter;
-					BlockEvents.brawlReplace = true;
-					p.playSound(p.getLocation(), Sound.CHICKEN_HURT, 1, 1);
-				}
-			}
-			
-		}
+
+		BlockEvents.victimsReplace.add(victim);
+		BlockEvents.brawlReplace = true;
+		victim.playSound(victim.getLocation(), Sound.CHICKEN_HURT, 1, 1);
 		
 	}
 }

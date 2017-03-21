@@ -1,5 +1,6 @@
 package events;
 
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -26,6 +27,8 @@ public class ItemEvents implements Listener {
 	public static boolean brawlRandomTP = false;
 	public static boolean brawlRotate = false;
 	public static Player brawlStarter;
+	public static List<Player> victimRandomTP;
+	public static List<Player> victimRotate;
 	private Random random;
 	public ItemEvents(Game game)
 	{
@@ -156,7 +159,7 @@ public class ItemEvents implements Listener {
 				}
 				if(brawlRotate)
 				{
-					if(e.getPlayer().getUniqueId()!=brawlStarter.getUniqueId())
+					if(victimRotate.contains(e.getPlayer()))
 					{
 						Location currentLoc = e.getPlayer().getLocation();
 						int rYaw = random.nextInt(360);
@@ -175,7 +178,7 @@ public class ItemEvents implements Listener {
 			{
 				if(brawlRandomTP)
 				{
-					if(e.getPlayer().getUniqueId()!=brawlStarter.getUniqueId())
+					if(victimRandomTP.contains(e.getPlayer()))
 					{
 						Location currentLoc = e.getPlayer().getLocation();
 						int rX = random.nextInt(7)-3;

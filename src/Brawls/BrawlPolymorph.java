@@ -13,14 +13,14 @@ import game.Game;
 public class BrawlPolymorph extends PlayerBrawl {
 
 	private Game game;
-	private Player starter;
+	private Player victim;
 	private int duration;
 	
-	public BrawlPolymorph(Player starter, Game game)
+	public BrawlPolymorph(Player victim, Game game)
 	{
 		super();
 		this.game = game;
-		this.starter = starter;
+		this.victim = victim;
 	}
 	
 	@Override
@@ -31,41 +31,14 @@ public class BrawlPolymorph extends PlayerBrawl {
 			
 			@Override
 			public void run() {
-				for(UUID uuid : game.players)
-				{
-					if(!(starter.getUniqueId() == uuid))
-					{
-						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-						
-						if(op.isOnline())
-						{
-							Player p = Bukkit.getPlayer(uuid); 
-							BlockEvents.brawlPolymorph = false;
-							p.playSound(p.getLocation(), Sound.SHEEP_WALK, 1, 1);
-						}						
-					}
-				}
-				
-				
+				BlockEvents.brawlPolymorph = false;
+				victim.playSound(victim.getLocation(), Sound.SHEEP_WALK, 1, 1);
+				BlockEvents.victimsPolymorph.remove(victim);
 			}
 		}, 20 * duration);
 		
-		for(UUID uuid : game.players)
-		{
-			if(!(starter.getUniqueId() == uuid))
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				
-				if(op.isOnline())
-				{
-					Player p = Bukkit.getPlayer(uuid);
-					BlockEvents.brawlStarter = starter;
-					BlockEvents.brawlPolymorph = true;
-					p.playSound(p.getLocation(), Sound.SHEEP_IDLE, 1, 1);
-				}
-			}
-			
-		}
-		
+		BlockEvents.victimsPolymorph.add(victim);
+		BlockEvents.brawlPolymorph = true;
+		victim.playSound(victim.getLocation(), Sound.SHEEP_IDLE, 1, 1);
 	}
 }
