@@ -1,0 +1,8 @@
+language: java
+sudo: true
+
+compiler:
+  - javac
+
+notifications:
+    email: false
