@@ -1306,8 +1306,9 @@ public class Game {
 	    p.sendMessage(playerprefix+"Dein Grundstück wurde erfolgreich zurückgesetzt");
 	}
 	
-	public void startBrawl(String name, Player starter, Location startlocation)
+	public void startBrawl(String name, Player starter, Location startlocation, Structure s)
 	{
+		
 		switch (name)
 		{
 		case "freeze":
@@ -1322,6 +1323,7 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFreeze(p, this), Material.ICE, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "speed":
 			//
@@ -1335,6 +1337,7 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlSpeed(p, this), Material.SUGAR_CANE_BLOCK, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "invclear":
 			//
@@ -1348,6 +1351,7 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClear(p, this), Material.WORKBENCH, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "pumpkin":
 			//
@@ -1361,6 +1365,7 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPumpkin(p, this), Material.PUMPKIN, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "blindness":
 			//
@@ -1374,6 +1379,7 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlBlindness(p, this), Material.SOUL_SAND, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "fly":
 			//
@@ -1387,6 +1393,7 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFly(p, this), Material.STAINED_GLASS, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "replace":
 			//
@@ -1400,6 +1407,7 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlReplace(p, this), Material.PRISMARINE, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "polymorph":
 			//
@@ -1413,11 +1421,13 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPolymorph(p, this), Material.WOOL, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "jump":
 			//
 			Player p1 = randomBrawlVictim(starter);
 			new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlJump(p1, this), Material.QUARTZ_BLOCK, this).prepare();					
+			s.destroy();
 			break;
 		case "randomtp":
 			//
@@ -1431,6 +1441,7 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRandomTP(p, this), Material.ENDER_STONE, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "rotate":
 			//
@@ -1444,6 +1455,7 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRotate(p, this), Material.LOG, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "entity":
 			//
@@ -1457,11 +1469,13 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlEntity(getPlot(p), this), Material.ICE, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "underwater":
 			//
 			Player p2 = randomBrawlVictim(starter);
 			new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlUnderwater(getPlot(p2), this), Material.ICE, this).prepare();					
+			s.destroy();
 			break;
 		case "invclose":
 			//
@@ -1475,16 +1489,17 @@ public class Game {
 					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClose(p, this), Material.ICE, this).prepare();					
 				}
 			}
+			s.destroy();
 			break;
 		case "sandstorm":
 			//
 			Player p3 = randomBrawlVictim(starter);
 			new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlSandstorm(getPlot(p3), this), Material.ICE, this).prepare();					
+			s.destroy();
 			break;
 			
 		default:
 			Bukkit.broadcastMessage(prefix + "Der Brawl " + name + " ist nicht verfuegbar");
-			
 		}
 	}
 

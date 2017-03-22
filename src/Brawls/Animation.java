@@ -54,7 +54,8 @@ public class Animation {
 		world = sourceLocation.getWorld();
 		Location temp = sourceLocation;
         astLocation = new Location(temp.getWorld(), temp.getX(), temp.getY(), temp.getZ());
-        astLocation.setY(astLocation.getY()-1);
+        astLocation.setX(astLocation.getX() + 0.5);
+        astLocation.setZ(astLocation.getZ() + 0.5);
 		ast = world.spawn(astLocation, ArmorStand.class);
 		fallingBlock = world.spawnFallingBlock(sourceLocation, material, (byte) 0);
 		ast.setPassenger(fallingBlock);

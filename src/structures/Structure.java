@@ -12,12 +12,17 @@ public class Structure {
 	
 	public Material[][][] blocks;
 	
-	Location origin;
+	private Location origin;
 	
 	public Structure(String name)
 	{
 		blocks = new Material[size][size][size];
 		this.name = name;
+	}
+	
+	public void setOrigin(Location origin1)
+	{
+		origin = origin1;
 	}
 	
 	public void testStructure()
@@ -80,16 +85,13 @@ public class Structure {
                     int rely = ((int) (size / 2)) - y;
                     int relz = ((int) (size / 2)) - z;
          
-                    if(!(relx == 0) && !(rely == 0) && !(relz == 0))
-                    {
-                    	origin.getBlock().getRelative(relx, rely, relz).setType(Material.AIR);
-                    	origin.getWorld().playEffect(origin.getBlock().getRelative(relx, rely, relz).getLocation(), Effect.EXPLOSION_LARGE, 1);
-                    }
-                    else
-                    {
-                    	origin.getBlock().setType(Material.AIR);
-                    	origin.getWorld().playEffect(origin, Effect.COLOURED_DUST, 1);
-                    }
+                    	//origin.getWorld().playEffect(origin.getBlock().getRelative(relx, rely, relz).getLocation(), Effect.EXPLOSION_LARGE, 1);
+                    	if(origin.getBlock().getType() != Material.ARMOR_STAND)
+                    	{
+                    		origin.getBlock().getRelative(relx, rely, relz).setType(Material.AIR);                    		
+                    	}
+                    	//origin.getWorld().playEffect(origin, Effect.COLOURED_DUST, 1);
+                    
                 }
             }
         }
