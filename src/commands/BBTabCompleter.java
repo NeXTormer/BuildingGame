@@ -45,7 +45,11 @@ public class BBTabCompleter implements TabCompleter {
 		arg1def.add("addtheme");
 		arg1def.add("removetheme");
 		arg1def.add("spectate");
+		arg1def.add("savestructure");
+		arg1def.add("reload");
+		arg1def.add("animation");
 
+		
 		Collections.sort(arg1def);
 
 		
@@ -102,6 +106,27 @@ public class BBTabCompleter implements TabCompleter {
 						temp.add(theme);
 					}
 				}
+				Collections.sort(temp);
+				return temp;
+			}
+			if(args[0].equalsIgnoreCase("brawl"))
+			{
+				temp.clear();
+				temp.add("speed");
+				temp.add("clearinv");
+				temp.add("freeze");
+				temp.add("closeinv");
+				temp.add("pumpkin");
+				temp.add("blindness");
+				temp.add("fly");
+				temp.add("replace");
+				temp.add("polymorph");
+				temp.add("jump");
+				temp.add("randomtp");
+				temp.add("rotate");
+				temp.add("sandstorm");
+				temp.add("entity");
+				temp.add("underwater");
 				Collections.sort(temp);
 				return temp;
 			}

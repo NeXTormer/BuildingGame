@@ -60,6 +60,10 @@ public class Structure {
                     int relx = ((int) (size / 2)) - x;
                     int rely = ((int) (size / 2)) - y;
                     int relz = ((int) (size / 2)) - z;
+                    if(origin.getBlock().getRelative(relx, rely, relz).getType() == Material.BARRIER)
+                    {
+                    	continue;
+                    }
                     if(!(blocks[x][y][z].equals(origin.getBlock().getRelative(relx, rely, relz).getType())))
                     {
                     	return false;
@@ -85,13 +89,11 @@ public class Structure {
                     int rely = ((int) (size / 2)) - y;
                     int relz = ((int) (size / 2)) - z;
          
-                    	//origin.getWorld().playEffect(origin.getBlock().getRelative(relx, rely, relz).getLocation(), Effect.EXPLOSION_LARGE, 1);
                     	if(origin.getBlock().getType() != Material.ARMOR_STAND)
                     	{
                     		origin.getBlock().getRelative(relx, rely, relz).setType(Material.AIR);                    		
-                    	}
-                    	//origin.getWorld().playEffect(origin, Effect.COLOURED_DUST, 1);
-                    
+                    		origin.getWorld().playEffect(origin.getBlock().getRelative(relx, rely, relz).getLocation(), Effect.EXPLOSION_LARGE, 1);
+                    	}    
                 }
             }
         }
