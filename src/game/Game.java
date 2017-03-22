@@ -44,7 +44,21 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 import Brawls.Animation;
+import Brawls.BrawlBlindness;
+import Brawls.BrawlEntity;
+import Brawls.BrawlFly;
 import Brawls.BrawlFreeze;
+import Brawls.BrawlInventoryClear;
+import Brawls.BrawlInventoryClose;
+import Brawls.BrawlJump;
+import Brawls.BrawlPolymorph;
+import Brawls.BrawlPumpkin;
+import Brawls.BrawlRandomTP;
+import Brawls.BrawlReplace;
+import Brawls.BrawlRotate;
+import Brawls.BrawlSandstorm;
+import Brawls.BrawlSpeed;
+import Brawls.BrawlUnderwater;
 import Brawls.PlayerBrawl;
 import Brawls.PlotBrawl;
 import structures.Structure;
@@ -57,6 +71,8 @@ public class Game {
 	public static int secondsToGrade = 25;
 	public static int MAX_PLAYERS = 16;
 	
+	
+	
 	public static List<Material> forbiddenBlocks = new ArrayList<>();
 
 	public Plugin plugin;
@@ -68,6 +84,8 @@ public class Game {
 	
 	public Plot[] plotArray = new Plot[16];
 
+	public Map<Player, PlayerData> playerdata = new HashMap<>();
+	
 	public boolean globalBuildMode = false;
 	public GameState gamestate = GameState.LOBBY; //default gamestate
 	public Inventory votingInventory; //voting inventory preset
@@ -439,7 +457,7 @@ public class Game {
 			}
 			if(gamestate == GameState.LOBBY)
 			{				
-				players.remove(p.getUniqueId());
+				players.remove(p.getUniqueId()); //TODO: make this good, don't remove while game is running, let him reconnect
 			}
 		}
 		else
@@ -454,7 +472,13 @@ public class Game {
 		//Check if there are no players left
 		if(players.size() == 0)
 		{
-			Bukkit.broadcastMessage(prefix + "Alle Spieler haben das Spiel verlassen!");
+			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+				
+				@Override
+				public void run() {
+					
+				}
+			}, 20, 20);
 		}
 		
 	}
@@ -1290,46 +1314,172 @@ public class Game {
 			//
 			for(UUID uuid : players)
 			{
-				Player p = Bukkit.getPlayer(uuid);
-				if(uuid.equals(starter.getUniqueId())) continue;
-				new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFreeze(p, this), Material.ICE, this).prepare();
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFreeze(p, this), Material.ICE, this).prepare();					
+				}
 			}
 			break;
 		case "speed":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlSpeed(p, this), Material.SUGAR_CANE_BLOCK, this).prepare();					
+				}
+			}
 			break;
-		case "clearinv":
+		case "invclear":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClear(p, this), Material.WORKBENCH, this).prepare();					
+				}
+			}
 			break;
 		case "pumpkin":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPumpkin(p, this), Material.PUMPKIN, this).prepare();					
+				}
+			}
 			break;
 		case "blindness":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlBlindness(p, this), Material.SOUL_SAND, this).prepare();					
+				}
+			}
 			break;
 		case "fly":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFly(p, this), Material.STAINED_GLASS, this).prepare();					
+				}
+			}
 			break;
 		case "replace":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlReplace(p, this), Material.PRISMARINE, this).prepare();					
+				}
+			}
 			break;
 		case "polymorph":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPolymorph(p, this), Material.WOOL, this).prepare();					
+				}
+			}
 			break;
 		case "jump":
 			//
+			Player p1 = randomBrawlVictim(starter);
+			new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlJump(p1, this), Material.QUARTZ_BLOCK, this).prepare();					
 			break;
 		case "randomtp":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRandomTP(p, this), Material.ENDER_STONE, this).prepare();					
+				}
+			}
 			break;
 		case "rotate":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRotate(p, this), Material.LOG, this).prepare();					
+				}
+			}
 			break;
 		case "entity":
 			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlEntity(getPlot(p), this), Material.ICE, this).prepare();					
+				}
+			}
 			break;
 		case "underwater":
 			//
+			Player p2 = randomBrawlVictim(starter);
+			new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlUnderwater(getPlot(p2), this), Material.ICE, this).prepare();					
+			break;
+		case "invclose":
+			//
+			for(UUID uuid : players)
+			{
+				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+				if(op.isOnline())
+				{
+					Player p = op.getPlayer();
+					if(uuid.equals(starter.getUniqueId())) continue;
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClose(p, this), Material.ICE, this).prepare();					
+				}
+			}
+			break;
+		case "sandstorm":
+			//
+			Player p3 = randomBrawlVictim(starter);
+			new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlSandstorm(getPlot(p3), this), Material.ICE, this).prepare();					
 			break;
 			
 		default:
