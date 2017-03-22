@@ -1,6 +1,7 @@
 package structures;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -64,9 +65,34 @@ public class Structure {
 		return true;
 	}
 	
+	/**
+	 * Sets the blocks around the origin to air and plays an effect
+	 */
 	public void destroy()
 	{
-		
+		for(int x = 0; x < size; x++)
+        {
+            for(int y = 0; y < size; y++)
+            {
+                for(int z = 0; z < size; z++)
+                {
+                    int relx = ((int) (size / 2)) - x;
+                    int rely = ((int) (size / 2)) - y;
+                    int relz = ((int) (size / 2)) - z;
+         
+                    if(!(relx == 0) && !(rely == 0) && !(relz == 0))
+                    {
+                    	origin.getBlock().getRelative(relx, rely, relz).setType(Material.AIR);
+                    	origin.getWorld().playEffect(origin.getBlock().getRelative(relx, rely, relz).getLocation(), Effect.EXPLOSION_LARGE, 1);
+                    }
+                    else
+                    {
+                    	origin.getBlock().setType(Material.AIR);
+                    	origin.getWorld().playEffect(origin, Effect.COLOURED_DUST, 1);
+                    }
+                }
+            }
+        }
 	}
 	
 	public void setStructure(Location origin)
