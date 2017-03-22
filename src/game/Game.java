@@ -1466,7 +1466,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
-					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlEntity(getPlot(p), this), Material.ICE, this).prepare();					
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlEntity(getPlot(p), this), Material.GRASS, this).prepare();					
 				}
 			}
 			s.destroy();
@@ -1474,7 +1474,7 @@ public class Game {
 		case "underwater":
 			//
 			Player p2 = randomBrawlVictim(starter);
-			new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlUnderwater(getPlot(p2), this), Material.ICE, this).prepare();					
+			new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlUnderwater(getPlot(p2), this), Material.STATIONARY_WATER, this).prepare();					
 			s.destroy();
 			break;
 		case "invclose":
@@ -1486,7 +1486,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
-					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClose(p, this), Material.ICE, this).prepare();					
+					new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClose(p, this), Material.CHEST, this).prepare();					
 				}
 			}
 			s.destroy();
@@ -1494,7 +1494,7 @@ public class Game {
 		case "sandstorm":
 			//
 			Player p3 = randomBrawlVictim(starter);
-			new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlSandstorm(getPlot(p3), this), Material.ICE, this).prepare();					
+			new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlSandstorm(getPlot(p3), this), Material.SAND, this).prepare();					
 			s.destroy();
 			break;
 			
