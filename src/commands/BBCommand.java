@@ -94,7 +94,7 @@ public class BBCommand implements CommandExecutor {
 					
 					if(args[0].equalsIgnoreCase("reload"))
 					{
-						game = new Game(game.plugin);
+						game.plugin.onEnable();
 						return true;
 					}
 					
