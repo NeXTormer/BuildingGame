@@ -56,7 +56,7 @@ public class Animation {
         astLocation = new Location(temp.getWorld(), temp.getX(), temp.getY(), temp.getZ());
         astLocation.setX(astLocation.getX() + 0.5);
         astLocation.setZ(astLocation.getZ() + 0.5);
-        astLocation.setY(astLocation.getY() - 0.4);
+        astLocation.setY(astLocation.getY() - 1);
 		ast = world.spawn(astLocation, ArmorStand.class);
 		fallingBlock = world.spawnFallingBlock(sourceLocation, material, (byte) 0);
 		ast.setPassenger(fallingBlock);
@@ -108,7 +108,6 @@ public class Animation {
 				if(y>=71)
 				{
 					fly();
-					System.out.println("stopppedStart");
 					game.cancelScheduler(startSceduler);
 				}
 			}
@@ -159,7 +158,7 @@ public class Animation {
 				{
 					ast.remove();
 					fallingBlock.remove();
-					brawl.start();
+					brawl.start();						
 					game.cancelScheduler(flySceduler);
 				}
 			}

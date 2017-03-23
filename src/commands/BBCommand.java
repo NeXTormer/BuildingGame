@@ -98,6 +98,12 @@ public class BBCommand implements CommandExecutor {
 						return true;
 					}
 					
+					if(args[0].equalsIgnoreCase("damage"))
+					{
+						game.plotArray[0].damageShield();
+						return true;
+					}
+					
 					if(args[0].equalsIgnoreCase("mode"))
 					{
 						game.globalBuildMode = !game.globalBuildMode;
