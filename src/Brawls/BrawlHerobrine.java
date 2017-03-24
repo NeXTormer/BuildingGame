@@ -2,6 +2,7 @@ package Brawls;
 
 import static org.bukkit.Bukkit.getScheduler;
 
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -26,6 +27,7 @@ public class BrawlHerobrine extends PlayerBrawl {
 	private int duration;
 	private ArmorStand ast;
 	private World world;
+	private Random random;
 	
 	public BrawlHerobrine(Player victim, Game game)
 	{
@@ -37,44 +39,52 @@ public class BrawlHerobrine extends PlayerBrawl {
 	@Override
 	public void start()
 	{	
+		random = new Random();
 		world = victim.getLocation().getWorld();
 		game.herobrineCounter++;
+		ast = world.spawn(victim.getLocation(), ArmorStand.class);
+		ast.setVisible(false);
+		ast.setGravity(false);
 					
 		final int herobrineTimerTask;
 		herobrineTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
 			@Override
 			public void run()
 			{
+				ast.remove();
 				victim.closeInventory();
+				world.strikeLightning(victim.getLocation());
 				victim.playSound(victim.getLocation(), Sound.ENDERMAN_DEATH, 5, 1);
+				victim.playSound(victim.getLocation(), Sound.WITHER_SPAWN, 7, 1);
 				ast = world.spawn(victim.getLocation(), ArmorStand.class);
 				ast.setVisible(false);
 				ast.setGravity(false);
 				SkullMeta  meta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
-				meta.setOwner("Username");
+				meta.setOwner("Herobrine");
 				ItemStack stack = new ItemStack(Material.SKULL_ITEM,1 , (byte)3);
 				stack.setItemMeta(meta);
 				ast.setHelmet(stack);
-				victim.sendMessage(herobrineText(game.herobrineCounter));
+				victim.sendMessage(herobrineText());
 				victim.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*game.herobrineCounter, 1));
 				victim.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20*game.herobrineCounter, 1));
 			}
-		}, 0, 100);
+		}, 0, 120);
 
 		getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 			@Override
 			public void run()
 			{
 				ast.remove();
-				victim.playSound(victim.getLocation(), Sound.HORSE_DEATH, 1, 1);
+				victim.playSound(victim.getLocation(), Sound.WITHER_DEATH, 1, 1);
 				Bukkit.getScheduler().cancelTask(herobrineTimerTask);
 			}
-		}, 101 * game.herobrineCounter);
+		}, 100 * game.herobrineCounter);
 		
 	}
 	
-	private String herobrineText(int i)
+	private String herobrineText()
 	{
+		int i = random.nextInt(6);
 		if(i==1)
 		{
 			return "§4§lEr beobachtet dich...";
@@ -91,9 +101,13 @@ public class BrawlHerobrine extends PlayerBrawl {
 		{
 			return "§4§lEr kann deinen Atem spüren...";
 		}
-		if(i>=5)
+		if(i==5)
 		{
 			return "§4§lEr wird dich holen...";
+		}
+		if(i==0)
+		{
+			return "§4§lEr kann deine Angst spüren...";
 		}
 		return null;
 	}
