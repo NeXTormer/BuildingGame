@@ -98,17 +98,25 @@ public class PlayerEvents implements Listener {
     		Block block = e.getClickedBlock();
     		if(block.getType().equals(Material.GOLD_BLOCK))
     		{
-    			String structureName = "";
-    			for(Structure s : game.structures)
+    			//spectators can't activate brawls
+    			if(game.spectators.contains(e.getPlayer().getUniqueId()))
     			{
-    				if(s.compareTo(block.getLocation()))
+    				//pfusch
+    			}
+    			else
+    			{
+    				String structureName = "";
+    				for(Structure s : game.structures)
     				{
-    					structureName = s.name;
-    					e.getPlayer().sendMessage(game.playerprefix + "Du hast das Brawl §6" + structureName + "§7 aktiviert");
-    					s.setOrigin(e.getClickedBlock().getLocation());
-    					game.startBrawl(structureName, e.getPlayer(), block.getLocation(), s);
-       					break;
-    				}
+    					if(s.compareTo(block.getLocation()))
+    					{
+    						structureName = s.name;
+    						e.getPlayer().sendMessage(game.playerprefix + "Du hast das Brawl §6" + structureName + "§7 aktiviert");
+    						s.setOrigin(e.getClickedBlock().getLocation());
+    						game.startBrawl(structureName, e.getPlayer(), block.getLocation(), s);
+    						break;
+    					}
+    				}    				
     			}
     			
     		}
@@ -171,47 +179,51 @@ public class PlayerEvents implements Listener {
     {
 		if(game.gamestate == GameState.BUILDING)
 		{
-	    	ItemStack nametag = new ItemStack(Material.NAME_TAG);
-	    	ItemStack potion = new ItemStack(Material.POTION);
-	    	ItemStack woodenhoe = new ItemStack(Material.WOOD_HOE);
-	    	if(e.getRightClicked().getType() == EntityType.ARMOR_STAND)
-	    	{
-	    		ArmorStand ast = (ArmorStand) e.getRightClicked();
-	    		if(e.getPlayer().getItemInHand().getType() == nametag.getType())
-	    		{
-	    			String name = e.getPlayer().getItemInHand().getItemMeta().getDisplayName();
-	    			e.getRightClicked().setCustomName(name);
-	    			e.getRightClicked().setCustomNameVisible(true);
-	    		}
-	    		
-	    		if(e.getPlayer().getItemInHand().getType() == potion.getType())
-	    		{
-	    			ast.setCustomNameVisible(true);
-	    			if(!ast.isVisible())
-	    			{
-	    				ast.setVisible(true);
-	    				ast.setGravity(false);
-	    			}
-	    			else
-	    			{
-		    			ast.setVisible(false);
-		    			ast.setGravity(true);
-	    			}
-	    		}
-	    		
-	    		if(e.getPlayer().getItemInHand().getType() == woodenhoe.getType())
-	    		{
-	    			ast.setArms(true);
-	    			if(!ast.isSmall())
-	    			{
-	    				ast.setSmall(true);
-	    			}
-	    			else
-	    			{
-	    				ast.setSmall(false);
-	    			}
-	    		}
-    	}
+			if(game.spectators.contains(e.getPlayer().getUniqueId()))
+			{
+				e.setCancelled(true);
+			}
+			ItemStack nametag = new ItemStack(Material.NAME_TAG);
+			ItemStack potion = new ItemStack(Material.POTION);
+			ItemStack woodenhoe = new ItemStack(Material.WOOD_HOE);
+			if(e.getRightClicked().getType() == EntityType.ARMOR_STAND)
+			{
+				ArmorStand ast = (ArmorStand) e.getRightClicked();
+				if(e.getPlayer().getItemInHand().getType() == nametag.getType())
+				{
+					String name = e.getPlayer().getItemInHand().getItemMeta().getDisplayName();
+					e.getRightClicked().setCustomName(name);
+					e.getRightClicked().setCustomNameVisible(true);
+				}
+				
+				if(e.getPlayer().getItemInHand().getType() == potion.getType())
+				{
+					ast.setCustomNameVisible(true);
+					if(!ast.isVisible())
+					{
+						ast.setVisible(true);
+						ast.setGravity(false);
+					}
+					else
+					{
+						ast.setVisible(false);
+						ast.setGravity(true);
+					}
+				}
+				
+				if(e.getPlayer().getItemInHand().getType() == woodenhoe.getType())
+				{
+					ast.setArms(true);
+					if(!ast.isSmall())
+					{
+						ast.setSmall(true);
+					}
+					else
+					{
+						ast.setSmall(false);
+					}
+				}				
+			}
     	}
 		else
 		{
@@ -228,7 +240,7 @@ public class PlayerEvents implements Listener {
     		{
     			e.setCancelled(true);    			
     		}
-        	if(game.spectators.contains(e.getDamager().getUniqueId()))
+        	if(game.spectators.contains(((Player) e.getDamager()).getUniqueId()))
         	{
         		e.setCancelled(true);
         	}
