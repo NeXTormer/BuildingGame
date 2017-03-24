@@ -222,10 +222,18 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent e)
     {
-    	if(e.getDamager() instanceof Player && game.gamestate != GameState.BUILDING)
+    	if(e.getDamager() instanceof Player)
     	{
-    		e.setCancelled(true);
+    		if(game.gamestate != GameState.BUILDING)
+    		{
+    			e.setCancelled(true);    			
+    		}
+        	if(game.spectators.contains(e.getDamager().getUniqueId()))
+        	{
+        		e.setCancelled(true);
+        	}
     	}
+
     }
 
 }
