@@ -53,7 +53,7 @@ public class ItemEvents implements Listener {
 	@EventHandler
 	public void playerInteractEvent(PlayerInteractEvent e)
 	{
-		if(!game.spectators.contains(e.getPlayer()))
+		if(!game.spectators.contains(e.getPlayer().getUniqueId()))
 		{
 			if(game.gamestate == GameState.GRADING)
 			{
@@ -225,6 +225,7 @@ public class ItemEvents implements Listener {
 			{
 				if(e.getMaterial() == Material.COMPASS)
 				{
+					Bukkit.broadcastMessage("compass clicked");				
 					game.openTeleportInventory(e.getPlayer());
 				}
 			}

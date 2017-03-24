@@ -313,8 +313,6 @@ public class Game {
 
 		}
 		
-		ItemStack compass = createItemStack(Material.COMPASS, "§6§l - Spieler beobachten - ", null);
-
 		for(UUID uuid : spectators)
 		{
 			Player p = Bukkit.getPlayer(uuid);
@@ -332,6 +330,21 @@ public class Game {
 			@Override
 			public void run() {
 				updateScoreboard();
+				
+				//Brawl Cooldowns
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = Bukkit.getPlayer(uuid);
+						if(getBrawlCooldown(p) > 0)
+						{
+							addBrawlCooldown(p, -1);
+						}
+					}
+				}
+				
 			}
 		}, 0, 20);
 		buildingTimerScheduler = buildingTimerTask;
@@ -351,6 +364,7 @@ public class Game {
 				Bukkit.getServer().broadcastMessage(prefix + "257"); //============debug
 			}
 			spectators.add(p.getUniqueId());
+			p.getInventory().setItem(4, compass);
 			p.sendMessage(playerprefix + msg);
 			p.teleport(lobbyLocation);
 			p.setGameMode(GameMode.ADVENTURE);
@@ -401,15 +415,13 @@ public class Game {
 		}
 		else
 		{
+			setDefaultMetadataValues(p);
 			if(!(gamestate == GameState.LOBBY))
 			{
 				addSpectator(p, "Da das Spiel bereits laeuft wurdest du den Zuschauern hinzugefuegt");
 			}
 			else
 			{
-				setMetadata(p, "savingStructureName", "NULL");
-				setMetadata(p, "savingStructureScheduler", 0);
-				setMetadata(p, "savingStructure", false);
 				players.add(p.getUniqueId());
 				p.sendMessage(prefix + "Du bist dem Spiel beigetreten");
 				p.teleport(lobbyLocation);
@@ -1236,22 +1248,37 @@ public class Game {
 	
 	public List<MetadataValue> getMetadata(Player p, String key)
 	{
-		return p.getMetadata(key);
+		if(p.hasMetadata(key))
+		{
+			return p.getMetadata(key);			
+		}
+		else 
+		{
+			return null;
+		}
 	}
 	
 	public boolean getMetadataBoolean(Player p, String key)
 	{
-		return p.getMetadata(key).get(0).asBoolean();
+		if(p.hasMetadata(key))
+		{
+			return p.getMetadata(key).get(0).asBoolean();
+		}
+		else
+		{
+			setMetadata(p, key, false);
+			return p.getMetadata(key).get(0).asBoolean();
+		}
 	}
 	
 	public String getMetadataString(Player p, String key)
 	{
-		return p.getMetadata(key).get(0).asString();	
+		return p.hasMetadata(key) ? p.getMetadata(key).get(0).asString() : null;	
 	}
 	
 	public int getMetadataInteger(Player p, String key)
 	{
-		return p.getMetadata(key).get(0).asInt();
+		return p.hasMetadata(key) ? p.getMetadata(key).get(0).asInt() : null;
 	}
 	
 	private static ItemStack createItemStack(Material material, String name, String lore) {
@@ -1639,6 +1666,44 @@ public class Game {
 			Bukkit.broadcastMessage(prefix + "Der Brawl " + name + " ist nicht verfuegbar");
 		}
 	}
+	
+	public void setBrawlCooldown(Player p, int cooldown)
+	{
+		setMetadata(p, "brawlCooldown", cooldown);
+	}
+	
+	public void addBrawlCooldown(Player p, int acd)
+	{
+		setMetadata(p, "brawlCooldown", getMetadataInteger(p, "brawlCooldown") + acd);
+	}
+	
+	public int getBrawlCooldown(Player p)
+	{
+		return getMetadataInteger(p,"brawlCooldown");
+	}
+	
+	@Deprecated
+	public void setDefaultMetadataValues(Player p)
+	{
+		setMetadata(p, "savingStructureName", "NULL");
+		setMetadata(p, "savingStructureScheduler", 0);
+		setMetadata(p, "savingStructure", false);
+		setMetadata(p, "brawlProtection", false);
+		setMetadata(p, "brawlCooldown", 0);
+	}
+	
+	public void addBrawlProtection(Player p)
+	{
+		setMetadata(p, "brawlProtection", true);
+	}
 
-
+	public void removeBrawlProtection(Player p)
+	{
+		setMetadata(p, "brawlProtection", false);
+	}
+	
+	public boolean isBrawlProtected(Player p)
+	{
+		return p.hasMetadata("brawlProtection") ? getMetadataBoolean(p, "brawlProtection") : null;
+	}
 }
