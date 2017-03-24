@@ -1201,29 +1201,42 @@ public class Game {
 	{
 		int r = random.nextInt(players.size());
 		boolean isNotSender = false;
-		while(!isNotSender)
+		boolean allProtected = true;
+		for(UUID uuid : players)
 		{
-			if(!players.get(r).equals(sender.getUniqueId()))
+			if(!isBrawlProtected(Bukkit.getPlayer(uuid)) && !uuid.equals(sender.getUniqueId()))
 			{
-				if(Bukkit.getOfflinePlayer(players.get(r)).isOnline())
-				{
-					isNotSender=true;					
-				}
-			}
-			else
-			{
-				r = random.nextInt(players.size());
+				allProtected=false;
 			}
 		}
-		
+		if(!allProtected)
+		{	
+			while(!isNotSender)
+			{
+				if(!players.get(r).equals(sender.getUniqueId()))
+				{
+					if(Bukkit.getOfflinePlayer(players.get(r)).isOnline() && !isBrawlProtected(Bukkit.getPlayer(players.get(r))))
+					{
+						isNotSender=true;					
+					}
+				}
+				else
+				{
+					r = random.nextInt(players.size());
+				}
+			}	
+			return Bukkit.getPlayer(players.get(r));
+		}
+		else
+		{
+			return null;
+		}
 //		
 //		while(!Bukkit.getOfflinePlayer(players.get(r)).isOnline() && sender.getUniqueId().equals(players.get(r)))
 //		{
 //			r = random.nextInt(players.size());
 //		}
-		
-		return Bukkit.getPlayer(players.get(r));
-		
+			
 	}
 	
 	public Plot getPlot(Player owner)
@@ -1360,6 +1373,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.ICE, this).prepare();	
@@ -1368,6 +1382,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFreeze(p, this), Material.ICE, this).prepare();											
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownFreeze"));
 				}
 			}
 			s.destroy();
@@ -1381,6 +1396,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.SUGAR_CANE_BLOCK, this).prepare();	
@@ -1389,6 +1405,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlSpeed(p, this), Material.SUGAR_CANE_BLOCK, this).prepare();		
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownSpeed"));
 				}
 			}
 			s.destroy();
@@ -1402,6 +1419,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.WORKBENCH, this).prepare();	
@@ -1409,7 +1427,8 @@ public class Game {
 					else
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClear(p, this), Material.WORKBENCH, this).prepare();					
-					}					
+					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownInvclear"));
 				}
 			}
 			s.destroy();
@@ -1423,6 +1442,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.PUMPKIN, this).prepare();	
@@ -1431,6 +1451,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPumpkin(p, this), Material.PUMPKIN, this).prepare();											
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownPumpkin"));
 				}
 			}
 			s.destroy();
@@ -1444,6 +1465,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.SOUL_SAND, this).prepare();	
@@ -1452,6 +1474,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlBlindness(p, this), Material.SOUL_SAND, this).prepare();											
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownBlindness"));
 				}
 			}
 			s.destroy();
@@ -1465,6 +1488,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.STAINED_GLASS, this).prepare();	
@@ -1473,6 +1497,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFly(p, this), Material.STAINED_GLASS, this).prepare();											
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownFly"));
 				}
 			}
 			s.destroy();
@@ -1486,6 +1511,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.PRISMARINE, this).prepare();	
@@ -1494,6 +1520,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlReplace(p, this), Material.PRISMARINE, this).prepare();											
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownReplace"));
 				}
 			}
 			s.destroy();
@@ -1507,6 +1534,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.WOOL, this).prepare();	
@@ -1515,6 +1543,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPolymorph(p, this), Material.WOOL, this).prepare();											
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownPolymorph"));
 				}
 			}
 			s.destroy();
@@ -1522,29 +1551,47 @@ public class Game {
 		case "jump":
 			//
 			Player p1 = randomBrawlVictim(starter);
-			if(getPlot(p1).getShield()>0)
+			if(p1==null)
 			{
-				new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlNull(getPlot(p1), this), Material.QUARTZ_BLOCK, this).prepare();	
+				starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
+				break;
 			}
 			else
 			{
-				new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlJump(p1, this), Material.QUARTZ_BLOCK, this).prepare();									
+				if(getPlot(p1).getShield()>0)
+				{
+					new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlNull(getPlot(p1), this), Material.QUARTZ_BLOCK, this).prepare();	
+				}
+				else
+				{
+					new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlJump(p1, this), Material.QUARTZ_BLOCK, this).prepare();									
+				}
+				addBrawlCooldown(starter, configCfg.getInt("brawlCooldownJump"));
+				s.destroy();
+				break;	
 			}
-			s.destroy();
-			break;
 		case "herobrine":
 			//
 			Player p0 = randomBrawlVictim(starter);
-			if(getPlot(p0).getShield()>0)
+			if(p0==null)
 			{
-				new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlNull(getPlot(p0), this), Material.FIRE, this).prepare();	
+				starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
+				break;
 			}
 			else
 			{
-				new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlHerobrine(p0, this), Material.FIRE, this).prepare();									
+				if(getPlot(p0).getShield()>0)
+				{
+					new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlNull(getPlot(p0), this), Material.FIRE, this).prepare();	
+				}
+				else
+				{
+					new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlHerobrine(p0, this), Material.FIRE, this).prepare();									
+				}
+				addBrawlCooldown(starter, configCfg.getInt("brawlCooldownHerobrine"));
+				s.destroy();
+				break;
 			}
-			s.destroy();
-			break;
 		case "randomtp":
 			//
 			for(UUID uuid : players)
@@ -1554,6 +1601,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.ENDER_STONE, this).prepare();	
@@ -1562,6 +1610,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRandomTP(p, this), Material.ENDER_STONE, this).prepare();											
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownRandomTP"));
 				}
 			}
 			s.destroy();
@@ -1575,6 +1624,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.LOG, this).prepare();	
@@ -1583,6 +1633,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRotate(p, this), Material.LOG, this).prepare();											
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownRotate"));
 				}
 			}
 			s.destroy();
@@ -1596,6 +1647,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.GRASS, this).prepare();	
@@ -1604,6 +1656,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlEntity(getPlot(p), this), Material.GRASS, this).prepare();										
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownEntity"));
 				}
 			}
 			s.destroy();
@@ -1611,16 +1664,25 @@ public class Game {
 		case "underwater":
 			//
 			Player p2 = randomBrawlVictim(starter);
-			if(getPlot(p2).getShield()>0)
+			if(p2==null)
 			{
-				new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlNull(getPlot(p2), this), Material.STATIONARY_WATER, this).prepare();	
+				starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
+				break;
 			}
 			else
 			{
-				new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlUnderwater(getPlot(p2), this), Material.STATIONARY_WATER, this).prepare();									
+				if(getPlot(p2).getShield()>0)
+				{
+					new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlNull(getPlot(p2), this), Material.STATIONARY_WATER, this).prepare();	
+				}
+				else
+				{
+					new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlUnderwater(getPlot(p2), this), Material.STATIONARY_WATER, this).prepare();									
+				}
+				addBrawlCooldown(starter, configCfg.getInt("brawlCooldownUnderwater"));
+				s.destroy();
+				break;
 			}
-			s.destroy();
-			break;
 		case "invclose":
 			//
 			for(UUID uuid : players)
@@ -1630,6 +1692,7 @@ public class Game {
 				{
 					Player p = op.getPlayer();
 					if(uuid.equals(starter.getUniqueId())) continue;
+					if(isBrawlProtected(p)) continue;
 					if(getPlot(p).getShield()>0)
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.CHEST, this).prepare();	
@@ -1638,6 +1701,7 @@ public class Game {
 					{
 						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClose(p, this), Material.CHEST, this).prepare();											
 					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownInvclose"));
 				}
 			}
 			s.destroy();
@@ -1645,20 +1709,30 @@ public class Game {
 		case "sandstorm":
 			//
 			Player p3 = randomBrawlVictim(starter);
-			if(getPlot(p3).getShield()>0)
+			if(p3==null)
 			{
-				new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlNull(getPlot(p3), this), Material.SAND, this).prepare();	
+				starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
+				break;
 			}
 			else
 			{
-				new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlSandstorm(getPlot(p3), this), Material.SAND, this).prepare();									
+				if(getPlot(p3).getShield()>0)
+				{
+					new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlNull(getPlot(p3), this), Material.SAND, this).prepare();	
+				}
+				else
+				{
+					new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlSandstorm(getPlot(p3), this), Material.SAND, this).prepare();									
+				}
+				addBrawlCooldown(starter, configCfg.getInt("brawlCooldownSandstorm"));
+				s.destroy();
+				break;
 			}
-			s.destroy();
-			break;
 			
 		case "protect":
 			//
-			new Animation(startlocation, getPlot(starter).spawnLocation, new BrawlProtect(getPlot(starter), this), Material.DIAMOND_BLOCK, this).prepare();					
+			new Animation(startlocation, getPlot(starter).spawnLocation, new BrawlProtect(getPlot(starter), this), Material.DIAMOND_BLOCK, this).prepare();		
+			addBrawlCooldown(starter, configCfg.getInt("brawlCooldownProtect"));
 			s.destroy();
 			break;
 			

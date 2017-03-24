@@ -135,6 +135,7 @@ public class PlayerEvents implements Listener {
     				if(playerUUID.equals(game.plotArray[i].getOwner().getUniqueId()))
     				{
     					Bukkit.getPlayer(playerUUID).teleport(game.plotArray[i].getSpawnLocation());
+    					game.removeBrawlProtection(Bukkit.getPlayer(playerUUID));
     				}
     			}
     		}
