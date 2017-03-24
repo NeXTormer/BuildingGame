@@ -43,6 +43,7 @@ public class BrawlRotate extends PlayerBrawl {
 		ItemEvents.victimRotate.add(victim);
 		ItemEvents.brawlRotate = true;
 		victim.playSound(victim.getLocation(), Sound.WOLF_HOWL, 1, 1);
+		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Rotate-Brawl§r§7 getroffen!");
 		
 	}
 }

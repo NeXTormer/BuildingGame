@@ -40,5 +40,6 @@ public class BrawlPolymorph extends PlayerBrawl {
 		BlockEvents.victimsPolymorph.add(victim);
 		BlockEvents.brawlPolymorph = true;
 		victim.playSound(victim.getLocation(), Sound.SHEEP_IDLE, 1, 1);
+		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Polymorph-Brawl§r§7 getroffen!");
 	}
 }

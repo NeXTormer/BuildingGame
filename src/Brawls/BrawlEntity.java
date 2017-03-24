@@ -43,6 +43,7 @@ public class BrawlEntity extends PlotBrawl {
 	{	
 		duration = game.configCfg.getInt("brawlDurationEntity");
 		p = victimPlot.getOwner();
+		p.getPlayer().sendMessage(game.playerprefix+"Du wurdest von einem §l§6Entity-Brawl§r§7 getroffen!");
 		//p.playSound(p.getLocation(), Sound.VILLAGER_IDLE, 1, 1);
 		
 		final int votingTimerTask;

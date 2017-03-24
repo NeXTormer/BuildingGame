@@ -15,6 +15,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import game.Game;
@@ -115,6 +117,14 @@ public class ItemEvents implements Listener {
 							block.setType(Material.REDSTONE_LAMP_OFF);
 						}
 						
+						if(block.getType().equals(Material.DOUBLE_STEP))
+						{
+							if(data==(byte)0)
+							{
+								block.setTypeIdAndData(43, (byte) 8, false);
+							}
+						}
+						
 						if(block.getType().equals(Material.IRON_TRAPDOOR) || block.getType().equals(Material.TRAP_DOOR))
 						{
 							if(data==(byte)0)
@@ -154,9 +164,20 @@ public class ItemEvents implements Listener {
 				}
 				if(e.getMaterial().equals(Material.INK_SACK))
 				{
-					Player p = e.getPlayer();
-					p.closeInventory();
-					p.openInventory(game.resetInventory);
+					if(game.gamestate == GameState.BUILDING)
+					{
+						Player p = e.getPlayer();
+						p.closeInventory();
+						p.openInventory(game.resetInventory);						
+					}
+				}
+				if(e.getMaterial().equals(Material.NETHER_STAR))
+				{
+					if(game.gamestate == GameState.BUILDING)
+					{
+						Player p = e.getPlayer();
+						//TODO: Set Player in Save Mode & TP
+					}
 				}
 				if(brawlRotate)
 				{

@@ -32,6 +32,7 @@ public class BrawlFreeze extends PlayerBrawl {
 		if(victim.isOnline())
 		{
 			victim.playSound(victim.getLocation(), Sound.STEP_SNOW, 1, 1);
+			victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Freeze-Brawl§r§7 getroffen!");
 			Location replaceLoc = victim.getLocation();
 			replaceLoc.setY(victim.getLocation().getY());
 			replaceLoc.setX(victim.getLocation().getX()-2);

@@ -40,6 +40,7 @@ public class BrawlReplace extends PlayerBrawl {
 		BlockEvents.victimsReplace.add(victim);
 		BlockEvents.brawlReplace = true;
 		victim.playSound(victim.getLocation(), Sound.CHICKEN_HURT, 1, 1);
+		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Replace-Brawl§r§7 getroffen!");
 		
 	}
 }

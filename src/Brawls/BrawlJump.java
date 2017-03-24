@@ -33,6 +33,7 @@ public class BrawlJump extends PlayerBrawl {
 	{
 		Player p = randomPlayer;
 		p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+		p.sendMessage(game.playerprefix+"Du wurdest von einem §l§6JumpnRun-Brawl§r§7 getroffen!");
 		p.teleport(game.jumpLocation);
 		p.setGameMode(GameMode.ADVENTURE);			
 	}

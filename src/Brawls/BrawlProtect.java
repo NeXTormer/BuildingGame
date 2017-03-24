@@ -43,7 +43,7 @@ public class BrawlProtect extends PlotBrawl {
 	@Override
 	public void start()
 	{	
-		victimPlot.setShield(3);
+		victimPlot.setShield(game.configCfg.getInt("brawlShieldHealth"));
 		Location temp = victimPlot.getSpawnLocation();
         currentLoc = new Location(temp.getWorld(), temp.getX(), temp.getY(), temp.getZ());
         currentLoc.setX(currentLoc.getX()+4);

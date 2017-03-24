@@ -44,6 +44,7 @@ public class BrawlRandomTP extends PlayerBrawl {
 		ItemEvents.victimRandomTP.add(victim);
 		ItemEvents.brawlRandomTP = true;
 		victim.playSound(victim.getLocation(), Sound.ANVIL_BREAK, 1, 1);
+		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6RandomTP-Brawl§r§7 getroffen!");
 		
 	}
 }

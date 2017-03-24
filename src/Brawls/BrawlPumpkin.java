@@ -32,6 +32,7 @@ public class BrawlPumpkin extends PlayerBrawl {
 		ItemStack pumpkin = new ItemStack(Material.PUMPKIN);
 		victim.getInventory().setItem(39, pumpkin);
 		victim.playSound(victim.getLocation(), Sound.BAT_HURT, 1, 1);
+		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Pumpkin-Brawl§r§7 getroffen!");
 
 	}
 }

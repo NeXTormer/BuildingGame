@@ -28,6 +28,7 @@ public class BrawlSpeed extends PlayerBrawl {
 	public void start()
 	{	
 		duration = game.configCfg.getInt("brawlDurationSpeed");
+		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Speed-Brawl§r§7 getroffen!");
 		Bukkit.getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 			
 			@Override

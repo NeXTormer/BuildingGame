@@ -35,6 +35,7 @@ public class BrawlUnderwater extends PlotBrawl {
 	public void start()
 	{	
 		duration = game.configCfg.getInt("brawlDurationUnderwater");
+		victimPlot.getOwner().getPlayer().sendMessage(game.playerprefix+"Du wurdest von einem §l§6Underwater-Brawl§r§7 getroffen!");
 		replaceLoc = victimPlot.getSpawnLocation();
 		replaceLoc.setY(1);
 		replaceLoc.setX(replaceLoc.getX());

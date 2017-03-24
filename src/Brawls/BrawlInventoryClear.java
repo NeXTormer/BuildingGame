@@ -26,6 +26,7 @@ public class BrawlInventoryClear extends PlayerBrawl {
 	@Override
 	public void start()
 	{	
+		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6InventoryClear-Brawl§r§7 getroffen!");
 		victim.getInventory().clear();
 		victim.getEquipment().clear();
 		victim.playSound(victim.getLocation(), Sound.GHAST_SCREAM, 1, 1);

@@ -33,6 +33,7 @@ public class BrawlInventoryClose extends PlayerBrawl {
 	{	
 		duration = game.configCfg.getInt("brawlDurationInventoryClose");
 		victim.playSound(victim.getLocation(), Sound.VILLAGER_IDLE, 1, 1);
+		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6InventoryClose-Brawl§r§7 getroffen!");
 					
 		final int votingTimerTask;
 		votingTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {

@@ -48,6 +48,7 @@ import Brawls.BrawlBlindness;
 import Brawls.BrawlEntity;
 import Brawls.BrawlFly;
 import Brawls.BrawlFreeze;
+import Brawls.BrawlHerobrine;
 import Brawls.BrawlInventoryClear;
 import Brawls.BrawlInventoryClose;
 import Brawls.BrawlJump;
@@ -108,6 +109,7 @@ public class Game {
 	public String scoreboardPlotOwner = "";
 	
 	public boolean launchFirework = true;
+	public ItemStack brawlIS;
 	
 	public File locationsFile = new File("plugins/BuildingGame", "locations.yml");
 	public FileConfiguration locationCfg = YamlConfiguration.loadConfiguration(locationsFile);
@@ -130,6 +132,7 @@ public class Game {
 	private Random random;
 	
 	public	int voteTimer = 10;
+	public  int herobrineCounter = 0;
 	private int gradeTimer = 0;
 	private int buildingTimerScheduler;
 	private Scoreboard scoreboard;
@@ -165,6 +168,7 @@ public class Game {
 		
 		compassmeta.setDisplayName("§6Spieler beobachten");
 		compass.setItemMeta(compassmeta);
+		brawlIS = createItemStack(Material.NETHER_STAR, "§4§lBrawls anschauen","§7Teleportiere dich für 20 Sekunde zu dem Brawl-Raum");
 		
 		random = new Random();
 	}
@@ -174,8 +178,8 @@ public class Game {
 		resetIS = createItemStackColor(Material.INK_SACK, 1, (short)1, "§4§lGrundstück zurücksetzen", null);
 		ItemStack greenGlassIS = createItemStackColor(Material.STAINED_GLASS_PANE, 1, (short)5, "", null);
 		ItemStack redGlassIS = createItemStackColor(Material.STAINED_GLASS_PANE, 1, (short)14, "", null);
-		ItemStack jaIS = createItemStack(Material.EMERALD_BLOCK, "§2§lJa", "§aDieser Vorgang kann nicht mehr Rückgängig gemacht werden!");
-		ItemStack neinIS = createItemStack(Material.REDSTONE_BLOCK, "§4§lNein", "§cAbbrechen");
+		ItemStack jaIS = createItemStack(Material.EMERALD_BLOCK, "§2§lJa", "§aIch möchte mein Grundstück zurücksetzen (Dieser Vorgang kann nicht mehr Rückgängig gemacht werden)!");
+		ItemStack neinIS = createItemStack(Material.REDSTONE_BLOCK, "§4§lNein", "§cNein, ich möchte die Aktion abbrechen");
 		resetInventory = Bukkit.createInventory(null, 27, "§6Wirklich zurücksetzen?");
 		
 		resetInventory.setItem(1, greenGlassIS);
@@ -289,6 +293,7 @@ public class Game {
 		for (int i = 0; i < players.size(); i++) {
 			Player p = Bukkit.getPlayer(players.get(i));
 			p.getInventory().setItem(8, resetIS);
+			p.getInventory().setItem(7, brawlIS);
 			p.setLevel(buildingTime);
 			plotArray[i].setOwner(p);
 			p.teleport(plotArray[i].getSpawnLocation());
@@ -1497,6 +1502,19 @@ public class Game {
 			else
 			{
 				new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlJump(p1, this), Material.QUARTZ_BLOCK, this).prepare();									
+			}
+			s.destroy();
+			break;
+		case "herobrine":
+			//
+			Player p0 = randomBrawlVictim(starter);
+			if(getPlot(p0).getShield()>0)
+			{
+				new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlNull(getPlot(p0), this), Material.FIRE, this).prepare();	
+			}
+			else
+			{
+				new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlHerobrine(p0, this), Material.FIRE, this).prepare();									
 			}
 			s.destroy();
 			break;
