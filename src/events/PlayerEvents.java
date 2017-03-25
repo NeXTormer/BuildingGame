@@ -21,6 +21,8 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 
 import Brawls.Animation;
@@ -254,6 +256,15 @@ public class PlayerEvents implements Listener {
         	}
     	}
 
+    }
+    
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent e)
+    {
+    	if(e.getCause() == TeleportCause.ENDER_PEARL)
+    	{
+    		e.setCancelled(true);
+    	}
     }
 
 }
