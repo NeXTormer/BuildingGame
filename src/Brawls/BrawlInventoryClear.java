@@ -32,4 +32,10 @@ public class BrawlInventoryClear extends PlayerBrawl {
 		victim.playSound(victim.getLocation(), Sound.GHAST_SCREAM, 1, 1);
 		victim.playEffect(victim.getLocation(), Effect.MAGIC_CRIT, 1);
 	}
+	
+	@Override
+	public void stop()
+	{
+		
+	}
 }

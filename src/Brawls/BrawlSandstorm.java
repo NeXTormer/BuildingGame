@@ -30,6 +30,7 @@ public class BrawlSandstorm extends PlotBrawl {
 	private int x, y, z;
 	private Location spawnLocation, strikeLocation;
 	private World world;
+	private int sandstormTimerTask = 0;
 	
 	public BrawlSandstorm(Plot victimPlot, Game game)
 	{
@@ -46,8 +47,7 @@ public class BrawlSandstorm extends PlotBrawl {
 		p.getPlayer().sendMessage(game.playerprefix+"Du wurdest von einem §l§6Sandstorm-Brawl§r§7 getroffen!");
 		//p.playSound(p.getLocation(), Sound.VILLAGER_IDLE, 1, 1);
 		
-		final int votingTimerTask;
-		votingTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
+		sandstormTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
 			@Override
 			public void run()
 			{
@@ -70,9 +70,16 @@ public class BrawlSandstorm extends PlotBrawl {
 			@Override
 			public void run()
 			{
-				Bukkit.getScheduler().cancelTask(votingTimerTask);
+				Bukkit.getScheduler().cancelTask(sandstormTimerTask);
 			}
 		}, 20 * duration);
 		
 	}
+	
+	@Override
+	public void stop()
+	{
+		Bukkit.getScheduler().cancelTask(sandstormTimerTask);
+	}
+	
 }

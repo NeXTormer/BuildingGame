@@ -112,4 +112,42 @@ public class BrawlUnderwater extends PlotBrawl {
 			}
 		}, 20 * duration+2);
 	}
+	
+	@Override
+	public void stop()
+	{
+		for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --)
+		{
+			for (int y = edgeMin.getBlockY(); y < edgeMax.getBlockY(); y ++)
+			{
+				for (int z = edgeMin.getBlockZ(); z < edgeMax.getBlockZ(); z ++)
+				{
+					Location currentLocation = new Location(world, x, y, z);
+					if(currentLocation.getBlock().getType().equals(Material.WATER) || currentLocation.getBlock().getType().equals(Material.STATIONARY_WATER))
+					{
+						currentLocation.getBlock().setType(Material.AIR);
+					}
+				 }
+			}
+		}
+		for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --)
+		{
+			for (int y = edgeMin.getBlockY(); y < edgeMax.getBlockY(); y ++)
+			{
+				for (int z = edgeMin.getBlockZ(); z < edgeMax.getBlockZ(); z ++)
+				{
+					Location currentLocation = new Location(world, x, y, z);
+					if(currentLocation.getBlock().getType().equals(Material.MOB_SPAWNER))
+					{
+						currentLocation.getBlock().setType(Material.LAVA);
+				    }
+					if(currentLocation.getBlock().getType().equals(Material.BARRIER))
+					{
+						currentLocation.getBlock().setType(Material.WATER);
+					}
+				 }
+			}
+		}		
+		
+	}
 }

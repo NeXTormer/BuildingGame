@@ -32,6 +32,14 @@ public class BrawlBlindness extends PlayerBrawl {
 		victim.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 1));
 		victim.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, duration, 1));	
 		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Blindness-Brawl§r§7 getroffen!");
-
+	}
+	
+	@Override
+	public void stop()
+	{
+		for(PotionEffect e : victim.getActivePotionEffects())
+		{
+			victim.removePotionEffect(e.getType());
+		}
 	}
 }

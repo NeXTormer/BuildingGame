@@ -429,6 +429,8 @@ public class Game {
 				p.setGameMode(GameMode.ADVENTURE);
 		    	p.getInventory().clear();
 		    	
+		    	p.setAllowFlight(true);
+		    	p.setFlying(true);
 		    	p.setFlySpeed(0.1f);
 		    	p.setWalkSpeed(0.2f);
 		    	p.setSaturation(20);

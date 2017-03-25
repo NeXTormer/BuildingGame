@@ -66,4 +66,10 @@ public class BrawlProtect extends PlotBrawl {
 		Player p = op.getPlayer();
 		p.sendMessage(game.playerprefix+"Du hast das §l§6Shield-Brawl§r§7 für dein Grundstück aktiviert!");
 	}
+	
+	@Override
+	public void stop()
+	{
+		
+	}
 }

@@ -30,6 +30,7 @@ public class BrawlEntity extends PlotBrawl {
 	private int x, y, z;
 	private Location spawnLocation;
 	private World world;
+	private int entityTimerTask = 0;
 	
 	public BrawlEntity(Plot victimPlot, Game game)
 	{
@@ -46,8 +47,8 @@ public class BrawlEntity extends PlotBrawl {
 		p.getPlayer().sendMessage(game.playerprefix+"Du wurdest von einem §l§6Entity-Brawl§r§7 getroffen!");
 		//p.playSound(p.getLocation(), Sound.VILLAGER_IDLE, 1, 1);
 		
-		final int votingTimerTask;
-		votingTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
+
+		entityTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
 			@Override
 			public void run()
 			{
@@ -65,9 +66,14 @@ public class BrawlEntity extends PlotBrawl {
 			@Override
 			public void run()
 			{
-				Bukkit.getScheduler().cancelTask(votingTimerTask);
+				Bukkit.getScheduler().cancelTask(entityTimerTask);
 			}
 		}, 20 * duration);
-		
+	}
+	
+	@Override
+	public void stop()
+	{
+		Bukkit.getScheduler().cancelTask(entityTimerTask);
 	}
 }

@@ -45,4 +45,11 @@ public class BrawlSpeed extends PlayerBrawl {
 		victim.playSound(victim.getLocation(), Sound.LEVEL_UP, 1, 1);
 		victim.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 2, 1));
 	}
+	
+	@Override
+	public void stop()
+	{
+		victim.setFlySpeed(0.1f);
+		victim.setWalkSpeed(0.2f);
+	}
 }

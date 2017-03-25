@@ -34,7 +34,10 @@ public class BrawlRandomTP extends PlayerBrawl {
 			
 			@Override
 			public void run() {
-				ItemEvents.victimRandomTP.remove(victim);
+				if(ItemEvents.victimRandomTP.contains(victim))
+				{
+					ItemEvents.victimRandomTP.remove(victim);					
+				}
 				ItemEvents.brawlRandomTP = false;
 				victim.playSound(victim.getLocation(), Sound.ZOMBIE_PIG_ANGRY, 1, 1);
 
@@ -46,5 +49,15 @@ public class BrawlRandomTP extends PlayerBrawl {
 		victim.playSound(victim.getLocation(), Sound.ANVIL_BREAK, 1, 1);
 		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6RandomTP-Brawl§r§7 getroffen!");
 		
+	}
+	
+	@Override
+	public void stop()
+	{
+		if(ItemEvents.victimRandomTP.contains(victim))
+		{
+			ItemEvents.victimRandomTP.remove(victim);					
+		}
+		ItemEvents.brawlRandomTP = false;
 	}
 }

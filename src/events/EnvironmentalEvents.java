@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
@@ -91,6 +92,14 @@ public class EnvironmentalEvents implements Listener{
     	{
     		e.setCancelled(true);    		
     	}
+    }
+    
+    @EventHandler
+    public void onMobDeath(EntityDeathEvent e)
+    {
+    	e.getDrops().clear();
+    	int exp = e.getDroppedExp();
+    	exp = 0;
     }
     
 }

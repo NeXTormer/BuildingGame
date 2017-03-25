@@ -38,4 +38,11 @@ public class BrawlJump extends PlayerBrawl {
 		p.setGameMode(GameMode.ADVENTURE);	
 		game.addBrawlProtection(p);
 	}
+	
+	@Override
+	public void stop()
+	{
+		randomPlayer.setGameMode(GameMode.CREATIVE);
+		game.removeBrawlProtection(randomPlayer);
+	}
 }

@@ -42,4 +42,10 @@ public class BrawlFly extends PlayerBrawl {
 		victim.playSound(victim.getLocation(), Sound.ZOMBIE_PIG_HURT, 1, 1);
 		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6AntiFly-Brawl§r§7 getroffen!");
 	}
+	
+	@Override
+	public void stop()
+	{
+		victim.setAllowFlight(true);
+	}
 }

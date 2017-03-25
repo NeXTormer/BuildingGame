@@ -70,4 +70,10 @@ public class BrawlFreeze extends PlayerBrawl {
 			}
 		}, 20);
 	}
+	
+	@Override
+	public void stop()
+	{
+		
+	}
 }

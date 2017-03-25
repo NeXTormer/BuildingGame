@@ -28,6 +28,7 @@ public class BrawlHerobrine extends PlayerBrawl {
 	private ArmorStand ast;
 	private World world;
 	private Random random;
+	private int herobrineTimerTask = 0;
 	
 	public BrawlHerobrine(Player victim, Game game)
 	{
@@ -46,7 +47,6 @@ public class BrawlHerobrine extends PlayerBrawl {
 		ast.setVisible(false);
 		ast.setGravity(false);
 					
-		final int herobrineTimerTask;
 		herobrineTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
 			@Override
 			public void run()
@@ -110,5 +110,17 @@ public class BrawlHerobrine extends PlayerBrawl {
 			return "§4§lEr kann deine Angst spüren...";
 		}
 		return null;
+	}
+	
+	
+	@Override
+	public void stop()
+	{	
+		ast.remove();
+		Bukkit.getScheduler().cancelTask(herobrineTimerTask);
+		for(PotionEffect e : victim.getActivePotionEffects())
+		{
+			victim.removePotionEffect(e.getType());
+		}
 	}
 }

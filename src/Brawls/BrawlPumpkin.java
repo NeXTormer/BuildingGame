@@ -35,4 +35,10 @@ public class BrawlPumpkin extends PlayerBrawl {
 		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Pumpkin-Brawl§r§7 getroffen!");
 
 	}
+	
+	@Override
+	public void stop()
+	{
+		
+	}
 }

@@ -28,4 +28,10 @@ public class BrawlNull extends PlotBrawl {
 			victimPlot.getOwner().getPlayer().sendMessage(game.playerprefix+"Dein §l§6Shield-Brawl§r§7 wurde beschaedigt!");			
 		}
 	}
+	
+	@Override
+	public void stop()
+	{
+		
+	}
 }

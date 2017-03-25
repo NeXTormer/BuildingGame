@@ -8,6 +8,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import events.BlockEvents;
+import events.ItemEvents;
 import game.Game;
 
 public class BrawlReplace extends PlayerBrawl {
@@ -33,7 +34,10 @@ public class BrawlReplace extends PlayerBrawl {
 			public void run() {
 				BlockEvents.brawlReplace = false;
 				victim.playSound(victim.getLocation(), Sound.BLAZE_DEATH, 1, 1);
-				BlockEvents.victimsReplace.remove(victim);
+				if(BlockEvents.victimsReplace.contains(victim))
+				{
+					BlockEvents.victimsReplace.remove(victim);					
+				}
 			}
 		}, 20 * duration);
 
@@ -42,5 +46,15 @@ public class BrawlReplace extends PlayerBrawl {
 		victim.playSound(victim.getLocation(), Sound.CHICKEN_HURT, 1, 1);
 		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Replace-Brawl§r§7 getroffen!");
 		
+	}
+	
+	@Override
+	public void stop()
+	{
+		if(BlockEvents.victimsReplace.contains(victim))
+		{
+			BlockEvents.victimsReplace.remove(victim);					
+		}
+		BlockEvents.brawlReplace = false;
 	}
 }

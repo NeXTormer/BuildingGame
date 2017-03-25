@@ -20,6 +20,7 @@ public class BrawlInventoryClose extends PlayerBrawl {
 	private Game game;
 	private Player victim;
 	private int duration;
+	private int invcloseTimerTask = 0;
 	
 	public BrawlInventoryClose(Player victim, Game game)
 	{
@@ -35,8 +36,7 @@ public class BrawlInventoryClose extends PlayerBrawl {
 		victim.playSound(victim.getLocation(), Sound.VILLAGER_IDLE, 1, 1);
 		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6InventoryClose-Brawl§r§7 getroffen!");
 					
-		final int votingTimerTask;
-		votingTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
+		invcloseTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
 			@Override
 			public void run()
 			{
@@ -49,9 +49,14 @@ public class BrawlInventoryClose extends PlayerBrawl {
 			public void run()
 			{
 				victim.playSound(victim.getLocation(), Sound.HORSE_DEATH, 1, 1);
-				Bukkit.getScheduler().cancelTask(votingTimerTask);
+				Bukkit.getScheduler().cancelTask(invcloseTimerTask);
 			}
 		}, 20 * duration);
-		
+	}
+	
+	@Override
+	public void stop()
+	{
+		Bukkit.getScheduler().cancelTask(invcloseTimerTask);
 	}
 }
