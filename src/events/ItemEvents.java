@@ -3,8 +3,10 @@ package events;
 import static org.bukkit.Bukkit.getScheduler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -12,21 +14,15 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.material.MaterialData;
 
 import game.Game;
 import game.GameState;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 
 public class ItemEvents implements Listener {
 	
@@ -39,8 +35,9 @@ public class ItemEvents implements Listener {
 	private Random random;
 	private World world;
 	public int brawlLookTime;
-	public int brawlLookTimeTimer;
-	private int brawlLookTimerTask = 0;
+	int brawlLookTimeTimer;
+	private HashMap<UUID, Integer> timertasks = new HashMap<>();
+	
 	public ItemEvents(Game game)
 	{
 		random = new Random();
@@ -194,25 +191,28 @@ public class ItemEvents implements Listener {
 						p.setFlying(true);
 						p.setExp(0);
 						
-						brawlLookTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
+
+						p.setLevel(brawlLookTimeTimer);
+
+						timertasks.put(p.getUniqueId(), Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
 							@Override
 							public void run()
 							{
 								if(game.gamestate==GameState.BUILDING)
 								{
-									p.setLevel(brawlLookTimeTimer);
-									brawlLookTimeTimer =- 1;									
+									p.setLevel(p.getLevel() - 1);
 								}
 								else
 								{
 									game.removeBrawlProtection(p);
 									p.setGameMode(GameMode.CREATIVE);
-									Bukkit.getScheduler().cancelTask(brawlLookTimerTask);
+									game.cancelScheduler(timertasks.get(p.getUniqueId()));
+									timertasks.remove(p.getUniqueId());
 								}
 							}
-						}, 0, 20);
+						}, 0, 20));
 						
-						getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
+						timertasks.put(p.getUniqueId(), getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
 							@Override
 							public void run()
 							{
@@ -221,10 +221,11 @@ public class ItemEvents implements Listener {
 									game.removeBrawlProtection(p);
 									p.setGameMode(GameMode.CREATIVE);
 									p.teleport(game.getPlot(p).getSpawnLocation());
-									Bukkit.getScheduler().cancelTask(brawlLookTimerTask);									
+									Bukkit.getScheduler().cancelTask(timertasks.get(p.getUniqueId()));					
+									timertasks.remove(p.getUniqueId());
 								}
 							}
-						}, 20 * brawlLookTime);
+						}, 20 * brawlLookTime));
 					}
 				}
 				if(brawlRotate)

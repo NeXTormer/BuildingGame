@@ -113,7 +113,7 @@ public class BBCommand implements CommandExecutor {
 					
 					if(args[0].equalsIgnoreCase("end"))
 					{
-						game.endGame(EndReason.NORMAL_END);
+						game.endGame();
 						return true;
 					}
 					

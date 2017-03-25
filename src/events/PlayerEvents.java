@@ -71,7 +71,7 @@ public class PlayerEvents implements Listener {
     			p.setFireTicks(0);
     			e.setCancelled(true);
     		}
-    	}
+    	}                       
     }
     
     @EventHandler
