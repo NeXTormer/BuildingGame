@@ -105,17 +105,24 @@ public class PlayerEvents implements Listener {
     			}
     			else
     			{
-    				String structureName = "";
-    				for(Structure s : game.structures)
+    				if(game.isBrawlProtected(e.getPlayer()))
     				{
-    					if(s.compareTo(block.getLocation()))
+    					//pfusch
+    				}
+    				else
+    				{
+    					String structureName = "";
+    					for(Structure s : game.structures)
     					{
-    						structureName = s.name;
-    						s.setOrigin(e.getClickedBlock().getLocation());
-    						game.startBrawl(structureName, e.getPlayer(), block.getLocation(), s);
-    						break;
-    					}
-    				}    				
+    						if(s.compareTo(block.getLocation()))
+    						{
+    							structureName = s.name;
+    							s.setOrigin(e.getClickedBlock().getLocation());
+    							game.startBrawl(structureName, e.getPlayer(), block.getLocation(), s);
+    							break;
+    						}
+    					}    				    					
+    				}
     			}
     			
     		}

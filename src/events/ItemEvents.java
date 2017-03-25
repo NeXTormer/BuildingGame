@@ -270,7 +270,6 @@ public class ItemEvents implements Listener {
 			{
 				if(e.getMaterial() == Material.COMPASS)
 				{
-					Bukkit.broadcastMessage("compass clicked");				
 					game.openTeleportInventory(e.getPlayer());
 				}
 			}
