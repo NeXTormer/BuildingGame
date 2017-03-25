@@ -324,14 +324,14 @@ public class Game {
 			p.getInventory().setItem(8, compass);
 		}
 
-		
+		//1/s Tick while Building
 		final int buildingTimerTask;
 		buildingTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
 			public void run() {
 				updateScoreboard();
 				
-				//Brawl Cooldowns
+				//Brawl Cooldowns & brawlroom
 				for(UUID uuid : players)
 				{
 					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
@@ -341,6 +341,35 @@ public class Game {
 						if(getBrawlCooldown(p) > 0)
 						{
 							addBrawlCooldown(p, -1);
+						}
+						
+						if(p.hasMetadata("isInBrawlRoom"))
+						{
+							if(getMetadataBoolean(p, "isInBrawlRoom"))
+							{
+								if(p.getLevel() <= 0)
+								{
+									setMetadata(p, "isInBrawlRoom", false);
+									if(gamestate == GameState.BUILDING)
+									{
+										removeBrawlProtection(p);
+										p.setGameMode(GameMode.CREATIVE);
+										p.teleport(getPlot(p).getSpawnLocation());
+									}
+								}
+								else
+								{
+									if(gamestate == GameState.BUILDING)
+									{
+										p.setLevel(p.getLevel() - 1);																			
+									}
+									else
+									{
+										removeBrawlProtection(p);
+										p.setGameMode(GameMode.CREATIVE);
+									}
+								}
+							}
 						}
 					}
 				}
@@ -1886,7 +1915,7 @@ public class Game {
 		return getMetadataInteger(p,"brawlCooldown");
 	}
 	
-	@Deprecated
+	
 	public void setDefaultMetadataValues(Player p)
 	{
 		setMetadata(p, "savingStructureName", "NULL");
@@ -1894,6 +1923,7 @@ public class Game {
 		setMetadata(p, "savingStructure", false);
 		setMetadata(p, "brawlProtection", false);
 		setMetadata(p, "brawlCooldown", 0);
+		setMetadata(p, "isInBrawlRoom", false);
 	}
 	
 	public void addBrawlProtection(Player p)

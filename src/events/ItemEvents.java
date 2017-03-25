@@ -35,8 +35,7 @@ public class ItemEvents implements Listener {
 	private Random random;
 	private World world;
 	public int brawlLookTime;
-	int brawlLookTimeTimer;
-	private HashMap<UUID, Integer> timertasks = new HashMap<>();
+	int brawlLookTimeTimerDefault;
 	
 	public ItemEvents(Game game)
 	{
@@ -44,7 +43,7 @@ public class ItemEvents implements Listener {
 		this.game = game;
 		world = Bukkit.getWorld(game.locationCfg.getString("locations.lobby.world"));
 		brawlLookTime = game.configCfg.getInt("brawlLookTime");
-		brawlLookTimeTimer = game.configCfg.getInt("brawlLookTime");
+		brawlLookTimeTimerDefault = game.configCfg.getInt("brawlLookTime");
 	}
 	
 	@EventHandler
@@ -192,40 +191,9 @@ public class ItemEvents implements Listener {
 						p.setExp(0);
 						
 
-						p.setLevel(brawlLookTimeTimer);
-
-						timertasks.put(p.getUniqueId(), Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
-							@Override
-							public void run()
-							{
-								if(game.gamestate==GameState.BUILDING)
-								{
-									p.setLevel(p.getLevel() - 1);
-								}
-								else
-								{
-									game.removeBrawlProtection(p);
-									p.setGameMode(GameMode.CREATIVE);
-									game.cancelScheduler(timertasks.get(p.getUniqueId()));
-									timertasks.remove(p.getUniqueId());
-								}
-							}
-						}, 0, 20));
-						
-						timertasks.put(p.getUniqueId(), getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
-							@Override
-							public void run()
-							{
-								if(game.gamestate==GameState.BUILDING)
-								{
-									game.removeBrawlProtection(p);
-									p.setGameMode(GameMode.CREATIVE);
-									p.teleport(game.getPlot(p).getSpawnLocation());
-									Bukkit.getScheduler().cancelTask(timertasks.get(p.getUniqueId()));					
-									timertasks.remove(p.getUniqueId());
-								}
-							}
-						}, 20 * brawlLookTime));
+						p.setLevel(brawlLookTimeTimerDefault);
+						game.setMetadata(p, "isInBrawlRoom", true);
+					
 					}
 				}
 				if(brawlRotate)
