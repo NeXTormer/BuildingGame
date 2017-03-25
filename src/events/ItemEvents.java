@@ -37,14 +37,17 @@ public class ItemEvents implements Listener {
 	public static List<Player> victimRandomTP = new ArrayList<>();
 	public static List<Player> victimRotate = new ArrayList<>();
 	private Random random;
-	private World world = Bukkit.getWorld(game.locationCfg.getString("locations.lobby.world"));
-	public int brawlLookTime = game.configCfg.getInt("brawlLookTime");
-	public int brawlLookTimeTimer = game.configCfg.getInt("brawlLookTime");
+	private World world;
+	public int brawlLookTime;
+	public int brawlLookTimeTimer;
 	private int brawlLookTimerTask = 0;
 	public ItemEvents(Game game)
 	{
 		random = new Random();
 		this.game = game;
+		world = Bukkit.getWorld(game.locationCfg.getString("locations.lobby.world"));
+		brawlLookTime = game.configCfg.getInt("brawlLookTime");
+		brawlLookTimeTimer = game.configCfg.getInt("brawlLookTime");
 	}
 	
 	@EventHandler
@@ -197,8 +200,8 @@ public class ItemEvents implements Listener {
 							{
 								if(game.gamestate==GameState.BUILDING)
 								{
-									p.setLevel(brawlLookTime);
-									brawlLookTimeTimer--;									
+									p.setLevel(brawlLookTimeTimer);
+									brawlLookTimeTimer =- 1;									
 								}
 								else
 								{
@@ -270,7 +273,6 @@ public class ItemEvents implements Listener {
 			{
 				if(e.getMaterial() == Material.COMPASS)
 				{
-					Bukkit.broadcastMessage("compass clicked");				
 					game.openTeleportInventory(e.getPlayer());
 				}
 			}

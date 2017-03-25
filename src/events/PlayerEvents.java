@@ -105,11 +105,16 @@ public class PlayerEvents implements Listener {
     			}
     			else
     			{
-    				String structureName = "";
-    				for(Structure s : game.structures)
+    				if(game.isBrawlProtected(e.getPlayer()))
     				{
-    					if(s.compareTo(block.getLocation()))
+    					//pfusch
+    				}
+    				else
+    				{
+    					String structureName = "";
+    					for(Structure s : game.structures)
     					{
+<<<<<<< HEAD
     						structureName = s.name;
     						//e.getPlayer().sendMessage(game.playerprefix + "Du hast das Brawl §6" + structureName + "§7 aktiviert");
     						s.setOrigin(e.getClickedBlock().getLocation());
@@ -117,6 +122,17 @@ public class PlayerEvents implements Listener {
     						break;
     					}
     				}    				
+=======
+    						if(s.compareTo(block.getLocation()))
+    						{
+    							structureName = s.name;
+    							s.setOrigin(e.getClickedBlock().getLocation());
+    							game.startBrawl(structureName, e.getPlayer(), block.getLocation(), s);
+    							break;
+    						}
+    					}    				    					
+    				}
+>>>>>>> origin/master
     			}
     			
     		}

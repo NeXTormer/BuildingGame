@@ -12,6 +12,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.minecraft.server.v1_8_R3.BlockMinecartTrackAbstract.MinecartTrackLogic;
 
+/**
+ * This inventory is used for grading
+ * @author Iris
+ *
+ */
 public class VotingInventory {
 
 	public Inventory inv;

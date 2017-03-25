@@ -412,6 +412,12 @@ public class Game {
 			}
 			
 			p.setScoreboard(scoreboard);
+			
+			if(gamestate == GameState.END)
+			{
+				p.getInventory().clear();
+				p.teleport(plotArray[maxindex].getSpawnLocation());			
+			}
 		}
 		else
 		{
@@ -466,19 +472,19 @@ public class Game {
 	{
 		if(players.contains(p.getUniqueId()))
 		{
-			for(int i = 0; i < players.size(); i++)
-			{
-				if(Bukkit.getPlayer(players.get(i)).getName().equalsIgnoreCase(p.getName())) //check which index in the arraylist the player is
-				{
-					if(!(gamestate == GameState.LOBBY))
-					{
-						plotArray[i].ownerLeft = true; //if the player leaves the plot will know that he has left and will not be graded	
-					}
-				}
-			}
+//			for(int i = 0; i < players.size(); i++)
+//			{
+//				if(Bukkit.getPlayer(players.get(i)).getName().equalsIgnoreCase(p.getName())) //check which index in the arraylist the player is
+//				{
+//					if(!(gamestate == GameState.LOBBY))
+//					{
+//						plotArray[i].ownerLeft = true; //if the player leaves the plot will know that he has left and will not be graded	
+//					}
+//				}
+//			}
 			if(gamestate == GameState.LOBBY)
 			{				
-				players.remove(p.getUniqueId()); //TODO: make this good, don't remove while game is running, let him reconnect
+				players.remove(p.getUniqueId());
 			}
 		}
 		else
@@ -734,7 +740,10 @@ public class Game {
 			{
 				Player p = Bukkit.getPlayer(uuid);
 				p.teleport(plotArray[id].getSpawnLocation());
-				gradingInventories.put(p, new VotingInventory());
+				VotingInventory vi = new VotingInventory();
+				vi.resetInventory();
+				vi.updateInventory();
+				gradingInventories.put(p, vi);
 				gradingInventories.get(p).resetInventory();
 			}
 		}
@@ -876,7 +885,7 @@ public class Game {
 					if(op.isOnline())
 					{
 						Player p = Bukkit.getPlayer(uuid);
-						plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0])); //TODO: nullpointer wenn ein spieler waehrend der voting phase leavt
+						plotArray[id].addGradeCreativity(convertGrade(gradingInventories.get(p).voteBuffer[0]));
 						plotArray[id].addGradeLook(convertGrade(gradingInventories.get(p).voteBuffer[1]));
 						plotArray[id].addGradeFitting(convertGrade(gradingInventories.get(p).voteBuffer[2]));
 					}
@@ -919,11 +928,11 @@ public class Game {
 		
 		
 	}
-	
+
 	public void endGame(EndReason reason)
 	{
 		Bukkit.getServer().getScheduler().cancelAllTasks();
-		
+		gamestate = GameState.END;
 		//calculate winner
 		int[] grades = new int[players.size()];
 		for(int i = 0; i < players.size(); i++)
