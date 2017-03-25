@@ -184,7 +184,7 @@ public class ItemEvents implements Listener {
 					{
 						Player p = e.getPlayer();
 						game.addBrawlProtection(p);
-						p.teleport(new Location(world, 0, 100, -100));
+						p.teleport(new Location(world, 0, 63, 0));
 						p.setGameMode(GameMode.ADVENTURE);
 						p.setAllowFlight(true);
 						p.setFlying(true);
