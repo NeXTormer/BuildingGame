@@ -48,7 +48,7 @@ public class PlayerEvents implements Listener {
 				if(game.spectators.contains(player.getUniqueId())) return;
 				Location blocklocation = e.getPlayer().getLocation();
 				int maxHeight = game.configCfg.getInt("maxHeight");
-				if(blocklocation.getBlockY()>maxHeight)
+				if(blocklocation.getBlockY()>maxHeight && !game.isBrawlProtected(player))
 				{
 				Location targetLocation = player.getLocation();
 				targetLocation.setY(targetLocation.getY() - 3);
@@ -111,7 +111,7 @@ public class PlayerEvents implements Listener {
     					if(s.compareTo(block.getLocation()))
     					{
     						structureName = s.name;
-    						e.getPlayer().sendMessage(game.playerprefix + "Du hast das Brawl §6" + structureName + "§7 aktiviert");
+    						//e.getPlayer().sendMessage(game.playerprefix + "Du hast das Brawl §6" + structureName + "§7 aktiviert");
     						s.setOrigin(e.getClickedBlock().getLocation());
     						game.startBrawl(structureName, e.getPlayer(), block.getLocation(), s);
     						break;
