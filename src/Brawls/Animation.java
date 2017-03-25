@@ -159,7 +159,8 @@ public class Animation {
 				{
 					ast.remove();
 					fallingBlock.remove();
-					brawl.start();						
+					brawl.start();	
+					game.brawlList.add(brawl);
 					game.cancelScheduler(flySceduler);
 				}
 			}

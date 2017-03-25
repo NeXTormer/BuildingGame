@@ -44,6 +44,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 import Brawls.Animation;
+import Brawls.Brawl;
 import Brawls.BrawlBlindness;
 import Brawls.BrawlEntity;
 import Brawls.BrawlFly;
@@ -82,6 +83,7 @@ public class Game {
 	
 	public List<UUID> players = new ArrayList<>();
 	public List<UUID> spectators = new ArrayList<>();
+	public List<Brawl> brawlList = new ArrayList<>();
 	
 	public Structure[] structures;
 	
@@ -168,7 +170,7 @@ public class Game {
 		
 		compassmeta.setDisplayName("§6Spieler beobachten");
 		compass.setItemMeta(compassmeta);
-		brawlIS = createItemStack(Material.NETHER_STAR, "§6§lTeleport zum Brawl Raum","§7Teleportiere dich für 20 Sekunde zu dem Brawl-Raum");
+		brawlIS = createItemStack(Material.NETHER_STAR, "§6§lTeleport zum Brawl Raum","§7Teleportiere dich für 20 Sekunden zu dem Brawl-Raum");
 		
 		random = new Random();
 	}
@@ -178,7 +180,7 @@ public class Game {
 		resetIS = createItemStackColor(Material.INK_SACK, 1, (short)1, "§4§lGrundstück zurücksetzen", null);
 		ItemStack greenGlassIS = createItemStackColor(Material.STAINED_GLASS_PANE, 1, (short)5, "", null);
 		ItemStack redGlassIS = createItemStackColor(Material.STAINED_GLASS_PANE, 1, (short)14, "", null);
-		ItemStack jaIS = createItemStack(Material.EMERALD_BLOCK, "§2§lJa", "§aIch möchte mein Grundstück zurücksetzen (Dieser Vorgang kann nicht mehr Rückgängig gemacht werden)!");
+		ItemStack jaIS = createItemStackBetterLore(Material.EMERALD_BLOCK, "§2§lJa", new String[] { "§aIch möchte mein Grundstück zurücksetzen", "§a(Dieser Vorgang kann nicht mehr Rückgängig", "§agemacht werden)!" });
 		ItemStack neinIS = createItemStack(Material.REDSTONE_BLOCK, "§4§lNein", "§cNein, ich möchte die Aktion abbrechen");
 		resetInventory = Bukkit.createInventory(null, 27, "§6Wirklich zurücksetzen?");
 		
@@ -722,6 +724,13 @@ public class Game {
 	
 	private void startGradingProcess()
 	{
+		//stop all brawls
+		//TODO: maybe brawl used stats?
+		for(Brawl b : brawlList)
+		{
+			b.stop();
+		}
+		brawlList.clear();
 		for(Plot plot : plotArray)
 		{
 			plot.setShield(1);
@@ -1332,6 +1341,24 @@ public class Game {
 	public int getMetadataInteger(Player p, String key)
 	{
 		return p.hasMetadata(key) ? p.getMetadata(key).get(0).asInt() : null;
+	}
+	
+	private static ItemStack createItemStackBetterLore(Material material, String name, String[] lore) {
+		ItemStack is = new ItemStack(material);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName(name);
+		List<String> loreText = new ArrayList<>();
+		if(lore != null)
+		{
+			for(int i = 0; i < lore.length; i++)
+			{
+				loreText.add(lore[i]);
+			}			
+			im.setLore(loreText);
+		}
+		
+		is.setItemMeta(im);
+		return is;
 	}
 	
 	private static ItemStack createItemStack(Material material, String name, String lore) {
