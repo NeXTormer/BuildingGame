@@ -175,7 +175,7 @@ public class ItemEvents implements Listener {
 				}
 				if(e.getMaterial().equals(Material.INK_SACK))
 				{
-					if(game.gamestate == GameState.BUILDING)
+					if(game.gamestate == GameState.BUILDING && !game.isBrawlProtected(e.getPlayer()))
 					{
 						Player p = e.getPlayer();
 						p.closeInventory();
@@ -184,7 +184,7 @@ public class ItemEvents implements Listener {
 				}
 				if(e.getMaterial().equals(Material.NETHER_STAR))
 				{
-					if(game.gamestate == GameState.BUILDING)
+					if(game.gamestate == GameState.BUILDING && !game.isBrawlProtected(e.getPlayer()))
 					{
 						Player p = e.getPlayer();
 						game.addBrawlProtection(p);
