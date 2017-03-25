@@ -129,6 +129,10 @@ public class PlayerEvents implements Listener {
     			}
     			
     		}
+    		if(block.getType().equals(Material.DRAGON_EGG))
+    		{
+    			e.setCancelled(true);
+    		}
     	}
     	
     	if(e.getAction().equals(Action.PHYSICAL))
