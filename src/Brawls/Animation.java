@@ -153,6 +153,7 @@ public class Animation {
 				currentLocation.setZ(z+zS);
 				//ast.teleport(currentLocation);
 				//p.teleport(currentLocation);
+				world.playEffect(currentLocation, Effect.FIREWORKS_SPARK, 1);
 				move(currentLocation);
 				if(i>=100)
 				{
