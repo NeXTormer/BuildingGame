@@ -27,8 +27,8 @@ import game.GameState;
 public class ItemEvents implements Listener {
 	
 	private Game game;
-	public static boolean brawlRandomTP = false;
-	public static boolean brawlRotate = false;
+	public static boolean brawlRandomTP = true;
+	public static boolean brawlRotate = true;
 	public static Player brawlStarter;
 	public static List<Player> victimRandomTP = new ArrayList<>();
 	public static List<Player> victimRotate = new ArrayList<>();

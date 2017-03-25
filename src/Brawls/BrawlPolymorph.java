@@ -31,7 +31,6 @@ public class BrawlPolymorph extends PlayerBrawl {
 			
 			@Override
 			public void run() {
-				BlockEvents.brawlPolymorph = false;
 				victim.playSound(victim.getLocation(), Sound.SHEEP_WALK, 1, 1);
 				if(BlockEvents.victimsPolymorph.contains(victim))
 				{
@@ -41,7 +40,6 @@ public class BrawlPolymorph extends PlayerBrawl {
 		}, 20 * duration);
 		
 		BlockEvents.victimsPolymorph.add(victim);
-		BlockEvents.brawlPolymorph = true;
 		victim.playSound(victim.getLocation(), Sound.SHEEP_IDLE, 1, 1);
 		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Polymorph-Brawl§r§7 getroffen!");
 	}
@@ -49,7 +47,6 @@ public class BrawlPolymorph extends PlayerBrawl {
 	@Override
 	public void stop()
 	{
-		BlockEvents.brawlPolymorph = false;
 		if(BlockEvents.victimsPolymorph.contains(victim))
 		{
 			BlockEvents.victimsPolymorph.remove(victim);			

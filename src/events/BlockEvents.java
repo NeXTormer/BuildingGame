@@ -31,8 +31,8 @@ public class BlockEvents implements Listener {
 	private List<Integer> replaceBlocks = new ArrayList<>();
 	private List<Byte> replaceDatas = new ArrayList<>();
 	private int blockAmount = 1;
-	public static boolean brawlReplace;
-	public static boolean brawlPolymorph;
+	public static boolean brawlReplace = true;
+	public static boolean brawlPolymorph = true;
 	public static Player brawlStarter;
 	public static List<Player> victimsPolymorph = new ArrayList<>();
 	public static List<Player> victimsReplace = new ArrayList<>();

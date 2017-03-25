@@ -39,12 +39,10 @@ public class BrawlRotate extends PlayerBrawl {
 				{
 					ItemEvents.victimRotate.remove(victim);					
 				}
-				ItemEvents.brawlRotate = false;
 				victim.playSound(victim.getLocation(), Sound.CHEST_OPEN, 1, 1);
 			}
 		}, 20 * duration);
 		ItemEvents.victimRotate.add(victim);
-		ItemEvents.brawlRotate = true;
 		victim.playSound(victim.getLocation(), Sound.WOLF_HOWL, 1, 1);
 		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6Rotate-Brawl§r§7 getroffen!");
 		
@@ -57,6 +55,5 @@ public class BrawlRotate extends PlayerBrawl {
 		{
 			ItemEvents.victimRotate.remove(victim);					
 		}
-		ItemEvents.brawlRotate = false;
 	}
 }

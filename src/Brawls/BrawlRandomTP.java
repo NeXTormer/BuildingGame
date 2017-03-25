@@ -38,14 +38,12 @@ public class BrawlRandomTP extends PlayerBrawl {
 				{
 					ItemEvents.victimRandomTP.remove(victim);					
 				}
-				ItemEvents.brawlRandomTP = false;
 				victim.playSound(victim.getLocation(), Sound.ZOMBIE_PIG_ANGRY, 1, 1);
 
 			}
 		}, 20 * duration);
 		
 		ItemEvents.victimRandomTP.add(victim);
-		ItemEvents.brawlRandomTP = true;
 		victim.playSound(victim.getLocation(), Sound.ANVIL_BREAK, 1, 1);
 		victim.sendMessage(game.playerprefix+"Du wurdest von einem §l§6RandomTP-Brawl§r§7 getroffen!");
 		
@@ -58,6 +56,5 @@ public class BrawlRandomTP extends PlayerBrawl {
 		{
 			ItemEvents.victimRandomTP.remove(victim);					
 		}
-		ItemEvents.brawlRandomTP = false;
 	}
 }
