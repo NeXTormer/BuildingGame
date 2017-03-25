@@ -1,12 +1,16 @@
 package events;
 
+import static org.bukkit.Bukkit.getScheduler;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
@@ -33,6 +37,10 @@ public class ItemEvents implements Listener {
 	public static List<Player> victimRandomTP = new ArrayList<>();
 	public static List<Player> victimRotate = new ArrayList<>();
 	private Random random;
+	private World world = Bukkit.getWorld(game.locationCfg.getString("locations.lobby.world"));
+	public int brawlLookTime = game.configCfg.getInt("brawlLookTime");
+	public int brawlLookTimeTimer = game.configCfg.getInt("brawlLookTime");
+	private int brawlLookTimerTask = 0;
 	public ItemEvents(Game game)
 	{
 		random = new Random();
@@ -176,7 +184,44 @@ public class ItemEvents implements Listener {
 					if(game.gamestate == GameState.BUILDING)
 					{
 						Player p = e.getPlayer();
-						//TODO: Set Player in Save Mode & TP
+						game.addBrawlProtection(p);
+						p.teleport(new Location(world, 0, 100, -100));
+						p.setGameMode(GameMode.ADVENTURE);
+						p.setAllowFlight(true);
+						p.setFlying(true);
+						p.setExp(0);
+						
+						brawlLookTimerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(game.plugin, new Runnable() {
+							@Override
+							public void run()
+							{
+								if(game.gamestate==GameState.BUILDING)
+								{
+									p.setLevel(brawlLookTime);
+									brawlLookTimeTimer--;									
+								}
+								else
+								{
+									game.removeBrawlProtection(p);
+									p.setGameMode(GameMode.CREATIVE);
+									Bukkit.getScheduler().cancelTask(brawlLookTimerTask);
+								}
+							}
+						}, 0, 20);
+						
+						getScheduler().scheduleSyncDelayedTask(game.plugin, new Runnable() {
+							@Override
+							public void run()
+							{
+								if(game.gamestate==GameState.BUILDING)
+								{
+									game.removeBrawlProtection(p);
+									p.setGameMode(GameMode.CREATIVE);
+									p.teleport(game.getPlot(p).getSpawnLocation());
+									Bukkit.getScheduler().cancelTask(brawlLookTimerTask);									
+								}
+							}
+						}, 20 * brawlLookTime);
 					}
 				}
 				if(brawlRotate)
