@@ -168,7 +168,7 @@ public class Game {
 		
 		compassmeta.setDisplayName("§6Spieler beobachten");
 		compass.setItemMeta(compassmeta);
-		brawlIS = createItemStack(Material.NETHER_STAR, "§4§lBrawls anschauen","§7Teleportiere dich für 20 Sekunde zu dem Brawl-Raum");
+		brawlIS = createItemStack(Material.NETHER_STAR, "§6§lTeleport zum Brawl Raum","§7Teleportiere dich für 20 Sekunde zu dem Brawl-Raum");
 		
 		random = new Random();
 	}
@@ -321,7 +321,7 @@ public class Game {
 			p.sendMessage(prefix + "Das Thema ist §6" + finalTheme +"§r§7 ("+max+" Stimme(n))");
 			p.sendTitle("§7Thema: §6§l" + finalTheme, "§7Noch §6 "+(buildingTime / 60 + ":" + buildingTime % 60)+" §7Minuten verbleiben");
 			p.setFlying(true);
-			p.getInventory().setItem(4, compass);
+			p.getInventory().setItem(8, compass);
 		}
 
 		
@@ -364,7 +364,7 @@ public class Game {
 				Bukkit.getServer().broadcastMessage(prefix + "257"); //============debug
 			}
 			spectators.add(p.getUniqueId());
-			p.getInventory().setItem(4, compass);
+			p.getInventory().setItem(8, compass);
 			p.sendMessage(playerprefix + msg);
 			p.teleport(lobbyLocation);
 			p.setGameMode(GameMode.ADVENTURE);
@@ -909,7 +909,7 @@ public class Game {
 					{
 						//there are no plots availible, change to GameState.END
 						Bukkit.getServer().getScheduler().cancelAllTasks();
-						endGame(EndReason.NORMAL_END);
+						endGame();
 						return;
 					}
 				
@@ -929,7 +929,7 @@ public class Game {
 		
 	}
 
-	public void endGame(EndReason reason)
+	public void endGame()
 	{
 		Bukkit.getServer().getScheduler().cancelAllTasks();
 		gamestate = GameState.END;
