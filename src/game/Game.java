@@ -1366,374 +1366,493 @@ public class Game {
 		{
 		case "freeze":
 			//
-			for(UUID uuid : players)
+			if(getBrawlCooldown(starter)>0)
 			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.ICE, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFreeze(p, this), Material.ICE, this).prepare();											
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownFreeze"));
-				}
-			}
-			s.destroy();
-			break;
-		case "speed":
-			//
-			for(UUID uuid : players)
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.SUGAR_CANE_BLOCK, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlSpeed(p, this), Material.SUGAR_CANE_BLOCK, this).prepare();		
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownSpeed"));
-				}
-			}
-			s.destroy();
-			break;
-		case "invclear":
-			//
-			for(UUID uuid : players)
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.WORKBENCH, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClear(p, this), Material.WORKBENCH, this).prepare();					
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownInvclear"));
-				}
-			}
-			s.destroy();
-			break;
-		case "pumpkin":
-			//
-			for(UUID uuid : players)
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.PUMPKIN, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPumpkin(p, this), Material.PUMPKIN, this).prepare();											
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownPumpkin"));
-				}
-			}
-			s.destroy();
-			break;
-		case "blindness":
-			//
-			for(UUID uuid : players)
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.SOUL_SAND, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlBlindness(p, this), Material.SOUL_SAND, this).prepare();											
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownBlindness"));
-				}
-			}
-			s.destroy();
-			break;
-		case "fly":
-			//
-			for(UUID uuid : players)
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.STAINED_GLASS, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFly(p, this), Material.STAINED_GLASS, this).prepare();											
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownFly"));
-				}
-			}
-			s.destroy();
-			break;
-		case "replace":
-			//
-			for(UUID uuid : players)
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.PRISMARINE, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlReplace(p, this), Material.PRISMARINE, this).prepare();											
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownReplace"));
-				}
-			}
-			s.destroy();
-			break;
-		case "polymorph":
-			//
-			for(UUID uuid : players)
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.WOOL, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPolymorph(p, this), Material.WOOL, this).prepare();											
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownPolymorph"));
-				}
-			}
-			s.destroy();
-			break;
-		case "jump":
-			//
-			Player p1 = randomBrawlVictim(starter);
-			if(p1==null)
-			{
-				starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
-				break;
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
 			}
 			else
 			{
-				if(getPlot(p1).getShield()>0)
+				for(UUID uuid : players)
 				{
-					new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlNull(getPlot(p1), this), Material.QUARTZ_BLOCK, this).prepare();	
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.ICE, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFreeze(p, this), Material.ICE, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownFreeze"));
+					}
+				}
+				s.destroy();
+			}
+			break;
+		case "speed":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.SUGAR_CANE_BLOCK, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlSpeed(p, this), Material.SUGAR_CANE_BLOCK, this).prepare();		
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownSpeed"));
+					}
+				}
+				s.destroy();	
+			}
+			break;
+		case "invclear":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.WORKBENCH, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClear(p, this), Material.WORKBENCH, this).prepare();					
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownInvclear"));
+					}
+				}
+				s.destroy();	
+			}
+			break;
+		case "pumpkin":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.PUMPKIN, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPumpkin(p, this), Material.PUMPKIN, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownPumpkin"));
+					}
+				}
+				s.destroy();	
+			}
+			break;
+		case "blindness":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.SOUL_SAND, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlBlindness(p, this), Material.SOUL_SAND, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownBlindness"));
+					}
+				}
+				s.destroy();			
+			}
+			break;
+		case "fly":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.STAINED_GLASS, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlFly(p, this), Material.STAINED_GLASS, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownFly"));
+					}
+				}
+				s.destroy();		
+			}
+			break;
+		case "replace":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.PRISMARINE, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlReplace(p, this), Material.PRISMARINE, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownReplace"));
+					}
+				}
+				s.destroy();	
+			}
+			break;
+		case "polymorph":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.WOOL, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlPolymorph(p, this), Material.WOOL, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownPolymorph"));
+					}
+				}
+				s.destroy();
+			}
+			break;
+		case "jump":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				Player p1 = randomBrawlVictim(starter);
+				if(p1==null)
+				{
+					starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
+					break;
 				}
 				else
 				{
-					new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlJump(p1, this), Material.QUARTZ_BLOCK, this).prepare();									
-				}
-				addBrawlCooldown(starter, configCfg.getInt("brawlCooldownJump"));
-				s.destroy();
+					if(getPlot(p1).getShield()>0)
+					{
+						new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlNull(getPlot(p1), this), Material.QUARTZ_BLOCK, this).prepare();	
+					}
+					else
+					{
+						new Animation(startlocation, getPlot(p1).spawnLocation, new BrawlJump(p1, this), Material.QUARTZ_BLOCK, this).prepare();									
+					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownJump"));
+					s.destroy();
+			}
 				break;	
 			}
 		case "herobrine":
 			//
-			Player p0 = randomBrawlVictim(starter);
-			if(p0==null)
+			if(getBrawlCooldown(starter)>0)
 			{
-				starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
-				break;
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
 			}
 			else
 			{
-				if(getPlot(p0).getShield()>0)
+				Player p0 = randomBrawlVictim(starter);
+				if(p0==null)
 				{
-					new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlNull(getPlot(p0), this), Material.FIRE, this).prepare();	
+					starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
+					break;
 				}
 				else
 				{
-					new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlHerobrine(p0, this), Material.FIRE, this).prepare();									
-				}
-				addBrawlCooldown(starter, configCfg.getInt("brawlCooldownHerobrine"));
-				s.destroy();
+					if(getPlot(p0).getShield()>0)
+					{
+						new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlNull(getPlot(p0), this), Material.FIRE, this).prepare();	
+					}
+					else
+					{
+						new Animation(startlocation, getPlot(p0).spawnLocation, new BrawlHerobrine(p0, this), Material.FIRE, this).prepare();									
+					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownHerobrine"));
+					s.destroy();		
+			}
 				break;
 			}
 		case "randomtp":
 			//
-			for(UUID uuid : players)
+			if(getBrawlCooldown(starter)>0)
 			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.ENDER_STONE, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRandomTP(p, this), Material.ENDER_STONE, this).prepare();											
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownRandomTP"));
-				}
-			}
-			s.destroy();
-			break;
-		case "rotate":
-			//
-			for(UUID uuid : players)
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.LOG, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRotate(p, this), Material.LOG, this).prepare();											
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownRotate"));
-				}
-			}
-			s.destroy();
-			break;
-		case "entity":
-			//
-			for(UUID uuid : players)
-			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.GRASS, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlEntity(getPlot(p), this), Material.GRASS, this).prepare();										
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownEntity"));
-				}
-			}
-			s.destroy();
-			break;
-		case "underwater":
-			//
-			Player p2 = randomBrawlVictim(starter);
-			if(p2==null)
-			{
-				starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
-				break;
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
 			}
 			else
 			{
-				if(getPlot(p2).getShield()>0)
+				for(UUID uuid : players)
 				{
-					new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlNull(getPlot(p2), this), Material.STATIONARY_WATER, this).prepare();	
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.ENDER_STONE, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRandomTP(p, this), Material.ENDER_STONE, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownRandomTP"));
+					}
+				}
+				s.destroy();			
+			}
+			break;
+		case "rotate":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.LOG, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlRotate(p, this), Material.LOG, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownRotate"));
+					}
+				}
+				s.destroy();			
+			}
+			break;
+		case "entity":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.GRASS, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlEntity(getPlot(p), this), Material.GRASS, this).prepare();										
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownEntity"));
+					}
+				}
+				s.destroy();	
+			}
+			break;
+		case "underwater":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				Player p2 = randomBrawlVictim(starter);
+				if(p2==null)
+				{
+					starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
+					break;
 				}
 				else
 				{
-					new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlUnderwater(getPlot(p2), this), Material.STATIONARY_WATER, this).prepare();									
-				}
-				addBrawlCooldown(starter, configCfg.getInt("brawlCooldownUnderwater"));
-				s.destroy();
+					if(getPlot(p2).getShield()>0)
+					{
+						new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlNull(getPlot(p2), this), Material.STATIONARY_WATER, this).prepare();	
+					}
+					else
+					{
+						new Animation(startlocation, getPlot(p2).spawnLocation, new BrawlUnderwater(getPlot(p2), this), Material.STATIONARY_WATER, this).prepare();									
+					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownUnderwater"));
+					s.destroy();
+			}
 				break;
 			}
 		case "invclose":
 			//
-			for(UUID uuid : players)
+			if(getBrawlCooldown(starter)>0)
 			{
-				OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-				if(op.isOnline())
-				{
-					Player p = op.getPlayer();
-					if(uuid.equals(starter.getUniqueId())) continue;
-					if(isBrawlProtected(p)) continue;
-					if(getPlot(p).getShield()>0)
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.CHEST, this).prepare();	
-					}
-					else
-					{
-						new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClose(p, this), Material.CHEST, this).prepare();											
-					}
-					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownInvclose"));
-				}
-			}
-			s.destroy();
-			break;
-		case "sandstorm":
-			//
-			Player p3 = randomBrawlVictim(starter);
-			if(p3==null)
-			{
-				starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
-				break;
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
 			}
 			else
 			{
-				if(getPlot(p3).getShield()>0)
+				for(UUID uuid : players)
 				{
-					new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlNull(getPlot(p3), this), Material.SAND, this).prepare();	
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.CHEST, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlInventoryClose(p, this), Material.CHEST, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownInvclose"));
+					}
+				}
+				s.destroy();
+			}
+			break;
+		case "sandstorm":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				Player p3 = randomBrawlVictim(starter);
+				if(p3==null)
+				{
+					starter.sendMessage(playerprefix+"Es sind keine gültigen Ziele vorhanden!");
+					break;
 				}
 				else
 				{
-					new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlSandstorm(getPlot(p3), this), Material.SAND, this).prepare();									
+					if(getPlot(p3).getShield()>0)
+					{
+						new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlNull(getPlot(p3), this), Material.SAND, this).prepare();	
+					}
+					else
+					{
+						new Animation(startlocation, getPlot(p3).spawnLocation, new BrawlSandstorm(getPlot(p3), this), Material.SAND, this).prepare();									
+					}
+					addBrawlCooldown(starter, configCfg.getInt("brawlCooldownSandstorm"));
+					s.destroy();		
 				}
-				addBrawlCooldown(starter, configCfg.getInt("brawlCooldownSandstorm"));
-				s.destroy();
-				break;
 			}
+			break;
 			
 		case "protect":
 			//
-			new Animation(startlocation, getPlot(starter).spawnLocation, new BrawlProtect(getPlot(starter), this), Material.DIAMOND_BLOCK, this).prepare();		
-			addBrawlCooldown(starter, configCfg.getInt("brawlCooldownProtect"));
-			s.destroy();
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				new Animation(startlocation, getPlot(starter).spawnLocation, new BrawlProtect(getPlot(starter), this), Material.DIAMOND_BLOCK, this).prepare();		
+				addBrawlCooldown(starter, configCfg.getInt("brawlCooldownProtect"));
+				s.destroy();				
+			}
 			break;
 			
 		default:
