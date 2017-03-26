@@ -133,6 +133,10 @@ public class PlayerEvents implements Listener {
     		{
     			e.setCancelled(true);
     		}
+    		if(block.getType().equals(Material.CHEST) && game.isBrawlProtected(e.getPlayer()))
+    		{
+    			e.setCancelled(true);
+    		}
     	}
     	
     	if(e.getAction().equals(Action.PHYSICAL))

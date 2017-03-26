@@ -1428,7 +1428,8 @@ public class Game {
 	
 	public void startBrawl(String name, Player starter, Location startlocation, Structure s)
 	{
-		
+		if(gamestate == GameState.BUILDING)
+		{
 		switch (name)
 		{
 		case "freeze":
@@ -1924,6 +1925,7 @@ public class Game {
 			
 		default:
 			Bukkit.broadcastMessage(prefix + "Der Brawl " + name + " ist nicht verfuegbar");
+		}
 		}
 	}
 	
