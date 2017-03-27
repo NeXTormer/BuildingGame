@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 
 import game.Game;
+import game.GameState;
 import game.Plot;
 import net.minecraft.server.v1_8_R3.EntityLiving;
 
@@ -159,8 +160,11 @@ public class Animation {
 				{
 					ast.remove();
 					fallingBlock.remove();
-					brawl.start();	
-					game.brawlList.add(brawl);
+					if(game.gamestate == GameState.BUILDING )
+					{
+						brawl.start();	
+						game.brawlList.add(brawl);						
+					}
 					game.cancelScheduler(flySceduler);
 				}
 			}
