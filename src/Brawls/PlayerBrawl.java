@@ -1,4 +1,4 @@
-package Brawls;
+package brawls;
 
 public abstract class PlayerBrawl extends Brawl {
 	

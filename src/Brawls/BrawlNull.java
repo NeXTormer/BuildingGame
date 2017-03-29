@@ -1,4 +1,4 @@
-package Brawls;
+package brawls;
 
 import game.Game;
 import game.Plot;

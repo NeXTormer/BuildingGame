@@ -1,4 +1,4 @@
-package Brawls;
+package brawls;
 
 import java.util.UUID;
 

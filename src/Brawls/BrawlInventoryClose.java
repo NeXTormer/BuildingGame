@@ -1,4 +1,4 @@
-package Brawls;
+package brawls;
 
 import static org.bukkit.Bukkit.getScheduler;
 
