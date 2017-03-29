@@ -25,7 +25,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 
-import Brawls.Animation;
+import brawls.Animation;
 import game.Game;
 import game.GameState;
 import structures.Structure;

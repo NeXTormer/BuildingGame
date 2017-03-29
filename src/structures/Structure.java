@@ -1,3 +1,4 @@
+
 package structures;
 
 import org.bukkit.Bukkit;
