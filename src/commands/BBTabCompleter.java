@@ -46,7 +46,7 @@ public class BBTabCompleter implements TabCompleter {
 		arg1def.add("removetheme");
 		arg1def.add("spectate");
 		arg1def.add("savestructure");
-		arg1def.add("reload");
+		arg1def.add("damage");
 		arg1def.add("animation");
 
 		

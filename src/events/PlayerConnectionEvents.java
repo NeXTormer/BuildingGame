@@ -1,17 +1,18 @@
 package events;
 
-import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import game.Game;
 
-public class PlayerJoin implements Listener
+public class PlayerConnectionEvents implements Listener 
 {
+
 	private Game game;
 	
-	public PlayerJoin(Game game)
+	public PlayerConnectionEvents(Game game)
 	{
 		this.game = game;
 	}
@@ -21,9 +22,14 @@ public class PlayerJoin implements Listener
     {
     	game.addPlayer(e.getPlayer());
     }
+    
+	@EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e)
+    {
+        game.removePlayer(e.getPlayer());
+        game.removeSpectator(e.getPlayer());
+    }
 
 
-
-
-
+	
 }

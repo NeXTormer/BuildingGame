@@ -67,34 +67,37 @@ public class BBCommand implements CommandExecutor {
 		if(sender instanceof Player)
 		{
 			Player p = (Player) sender;
+			if(args.length == 0)
+			{
+				if(p.hasPermission("buildingbrawl.debug"))
+				{
+					game.addPlayer(p);
+					p.sendMessage(game.debugprefix + "Du wurdest dem Spiel hinzugefuegt");
+					return true;
+				}
+			}
 			if(args.length == 1)
 			{
 				if(p.hasPermission("buildingbrawl.debug"))
 				{
 					if(args[0].equalsIgnoreCase("debug"))
 					{
-						p.sendMessage(game.playerprefix + "Players: ");
+						p.sendMessage(game.debugprefix + "Players: ");
 						for(UUID uuid : game.players)
 						{
 							Player pl = Bukkit.getPlayer(uuid);
-							p.sendMessage(game.playerprefix + " - " + pl.getDisplayName());
+							p.sendMessage(game.debugprefix + " - §a" + pl.getDisplayName());
 						}
 						
-						p.sendMessage(game.playerprefix + "Spectators: ");
+						p.sendMessage(game.debugprefix + "Spectators: ");
 						for(UUID uuid : game.spectators)
 						{
 							Player pl = Bukkit.getPlayer(uuid);
-							p.sendMessage(game.playerprefix + " - §6" + pl.getDisplayName());
+							p.sendMessage(game.debugprefix + " - §a" + pl.getDisplayName());
 						}
 						
 						
-						p.sendMessage(game.playerprefix + "GameState: §6" + game.gamestate.toString());
-						return true;
-					}
-					
-					if(args[0].equalsIgnoreCase("reload"))
-					{
-						game.plugin.onEnable();
+						p.sendMessage(game.debugprefix + "GameState: §6" + game.gamestate.toString());
 						return true;
 					}
 					
@@ -394,6 +397,7 @@ public class BBCommand implements CommandExecutor {
 								game.themesCfg.save(game.themesFile);
 							} catch (IOException e) {
 								e.printStackTrace();
+								p.sendMessage(game.debugprefix + "Das Thema konnte nicht gespeichert Werden");
 							}
 						}
 						else
@@ -419,6 +423,7 @@ public class BBCommand implements CommandExecutor {
 					loc2.setZ(loc2.getZ()+17);
 					//Animation animation = new Animation(loc1, loc2, args[2], Material.PUMPKIN, game);
 					//animation.prepare();
+					return true;
 				}
 			}
 			sender.sendMessage(game.playerprefix + "Nicht vorhandener oder nicht vollstaendiger Befehl");

@@ -29,7 +29,7 @@ public class BlockEvents implements Listener {
 	private Game game;
 	private Random random;
 	private List<Integer> replaceBlocks = new ArrayList<>();
-	private List<Byte> replaceDatas = new ArrayList<>();
+	private List<Byte> replaceData = new ArrayList<>();
 	private int blockAmount = 1;
 	public static boolean brawlReplace = true;
 	public static boolean brawlPolymorph = true;
@@ -125,7 +125,7 @@ public class BlockEvents implements Listener {
 					else 
 					{
 						replaceBlocks.clear();
-						replaceDatas.clear();
+						replaceData.clear();
 						blockAmount = 1;
 						for(int i = 0; i<blockAmount;i++)
 						{
@@ -136,24 +136,24 @@ public class BlockEvents implements Listener {
 								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==102)
 								{
 									replaceBlocks.add(9);
-									replaceDatas.add((byte)0);
+									replaceData.add((byte)0);
 								}
 								
 								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==101)
 								{
 									replaceBlocks.add(11);
-									replaceDatas.add((byte)0);
+									replaceData.add((byte)0);
 								}
 								if(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId()==30)
 								{
 									replaceBlocks.add(0);
-									replaceDatas.add((byte)0);
+									replaceData.add((byte)0);
 								}
 							}
 							else
 							{
 								replaceBlocks.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getTypeId());
-								replaceDatas.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getData());
+								replaceData.add(Bukkit.getServer().getWorld("BuildingGame").getBlockAt(replaceMaterialLocation).getData());
 							}
 							blockAmount++;
 							replaceMaterialLocation.setY(blockAmount+4);
@@ -185,7 +185,7 @@ public class BlockEvents implements Listener {
 				    for (int x = edgeMin.getBlockX(); x > edgeMax.getBlockX(); x --) {
 				        for (int y = edgeMin.getBlockY(); y < edgeMax.getBlockY(); y ++) {
 				            for (int z = edgeMin.getBlockZ(); z < edgeMax.getBlockZ(); z ++) {
-				            		replaceMaterial(replaceBlocks, replaceDatas, world, x, y, z);
+				            		replaceMaterial(replaceBlocks, replaceData, world, x, y, z);
 				            		//new Location(world, x, y, z).getBlock().setTypeIdAndData(blockID, meta, false);
 				            		
 //				            	}

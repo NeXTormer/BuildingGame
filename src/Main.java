@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginManager;
@@ -14,12 +13,9 @@ import events.BlockEvents;
 import events.EnvironmentalEvents;
 import events.InventoryEvents;
 import events.ItemEvents;
+import events.PlayerConnectionEvents;
 import events.PlayerEvents;
-import events.PlayerJoin;
-import events.PlayerQuit;
 import game.Game;
-import structures.Structure;
-import structures.StructureParser;
 import utils.DeleteWorld;
 
 public class Main extends JavaPlugin {
@@ -27,8 +23,7 @@ public class Main extends JavaPlugin {
 	public PluginManager pluginmanager = Bukkit.getServer().getPluginManager();
 	public Game game;
 	
-	PlayerJoin playerjoinevent;
-	PlayerQuit playerquitevent;
+	PlayerConnectionEvents playerconnectionevents;
 	BlockEvents blockevents;
 	InventoryEvents chestevents;
 	EnvironmentalEvents environmentalevents;
@@ -43,8 +38,7 @@ public class Main extends JavaPlugin {
 		new WorldCreator("BuildingGame").createWorld();
 		
 		game = new Game(this);
-		playerjoinevent = new PlayerJoin(game);
-		playerquitevent = new PlayerQuit(game);
+		playerconnectionevents = new PlayerConnectionEvents(game);
 		blockevents = new BlockEvents(game);
 		chestevents = new InventoryEvents(game);
 		environmentalevents = new EnvironmentalEvents(game);
@@ -54,8 +48,7 @@ public class Main extends JavaPlugin {
 		bbcommand = new BBCommand(game);
 		bbtabcompleter = new BBTabCompleter(game);
 		
-		pluginmanager.registerEvents(playerjoinevent, this);
-		pluginmanager.registerEvents(playerquitevent, this);
+		pluginmanager.registerEvents(playerconnectionevents, this);
 		pluginmanager.registerEvents(blockevents, this);
 		pluginmanager.registerEvents(chestevents, this);
 

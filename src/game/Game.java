@@ -70,11 +70,13 @@ import structures.StructureParser;
 
 public class Game {
 	
-	public static String prefix = "§1§ll§r§9 BuildingBrawl§1§l>> §r§7";
-	public static String playerprefix = "§2§ll§r§a BuildingBrawl§2>> §r§7";
+	public static final String prefix = "§1§ll§r§9 BuildingBrawl§1§l>> §r§7";
+	public static final String playerprefix = "§2§ll§r§a BuildingBrawl§2>> §r§7";
+	public static final String debugprefix = "§5§ll§r§c BB Debug§2>> §r§7";
 	public static int secondsToGrade = 25;
 	public static int MAX_PLAYERS = 16;
 	
+	public static String worldname;
 	
 	
 	public static List<Material> forbiddenBlocks = new ArrayList<>();
@@ -99,7 +101,7 @@ public class Game {
 	public int[] votes; //theme votes
 	public List<String> themes;
 	public Map<OfflinePlayer, Score> buildingScoreboard = new HashMap<>();
-	public Map<Player, VotingInventory> gradingInventories = new HashMap<>();
+	public Map<Player, GradingInventory> gradingInventories = new HashMap<>();
 	public Map<String, ItemStack> skulls = new HashMap<>();
 	
 	public List<String> finalThemes = new ArrayList<>();
@@ -157,9 +159,10 @@ public class Game {
 		structures = StructureParser.loadStructures();
 		loadConfig();
 		lobbyLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
+		worldname = locationCfg.getString("locations.lobby.world");
 		jumpLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
-		Bukkit.getServer().getWorld(locationCfg.getString("locations.lobby.world")).setAnimalSpawnLimit(100);
-		Bukkit.getServer().getWorld(locationCfg.getString("locations.lobby.world")).setMonsterSpawnLimit(100);
+		Bukkit.getServer().getWorld(worldname).setAnimalSpawnLimit(100);
+		Bukkit.getServer().getWorld(worldname).setMonsterSpawnLimit(100);
 		loadLocations();
 		setConfigDefaults();
 		loadPlots();
@@ -778,7 +781,7 @@ public class Game {
 			{
 				Player p = Bukkit.getPlayer(uuid);
 				p.teleport(plotArray[id].getSpawnLocation());
-				VotingInventory vi = new VotingInventory();
+				GradingInventory vi = new GradingInventory();
 				vi.resetInventory();
 				vi.updateInventory();
 				gradingInventories.put(p, vi);

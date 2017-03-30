@@ -17,7 +17,7 @@ import net.minecraft.server.v1_8_R3.BlockMinecartTrackAbstract.MinecartTrackLogi
  * @author Iris
  *
  */
-public class VotingInventory {
+public class GradingInventory {
 
 	public Inventory inv;
 
@@ -53,7 +53,7 @@ public class VotingInventory {
 	private static ItemStack nichtBewertetCIS = createItemStackColor(Material.STAINED_CLAY, 1, (short) 0,
 			"§fNicht bewertet", "");
 
-	public VotingInventory() {
+	public GradingInventory() {
 		inv = Bukkit.createInventory(null, 54, "§6Plot bewerten");
 		voteBuffer[0] = 8;
 		voteBuffer[1] = 8;
