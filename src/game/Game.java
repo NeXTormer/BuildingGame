@@ -61,6 +61,7 @@ import brawls.BrawlRandomTP;
 import brawls.BrawlReplace;
 import brawls.BrawlRotate;
 import brawls.BrawlSandstorm;
+import brawls.BrawlSound;
 import brawls.BrawlSpeed;
 import brawls.BrawlUnderwater;
 import brawls.PlayerBrawl;
@@ -1928,6 +1929,36 @@ public class Game {
 			
 		default:
 			Bukkit.broadcastMessage(prefix + "Der Brawl " + name + " ist nicht verfuegbar");
+		case "sound":
+			//
+			if(getBrawlCooldown(starter)>0)
+			{
+				starter.sendMessage(playerprefix+"Du kannst dein nächstes Brawl erst in §6§l"+getBrawlCooldown(starter)+" Sekunden §r§7abschicken!");
+			}
+			else
+			{
+				for(UUID uuid : players)
+				{
+					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+					if(op.isOnline())
+					{
+						Player p = op.getPlayer();
+						if(uuid.equals(starter.getUniqueId())) continue;
+						if(isBrawlProtected(p)) continue;
+						if(getPlot(p).getShield()>0)
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlNull(getPlot(p), this), Material.NOTE_BLOCK, this).prepare();	
+						}
+						else
+						{
+							new Animation(startlocation, getPlot(p).spawnLocation, new BrawlSound(p, this), Material.NOTE_BLOCK, this).prepare();											
+						}
+						addBrawlCooldown(starter, configCfg.getInt("brawlCooldownSound"));
+					}
+				}
+				s.destroy();
+			}
+			break;
 		}
 		}
 	}
