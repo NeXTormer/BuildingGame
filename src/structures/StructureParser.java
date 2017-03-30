@@ -2,6 +2,7 @@ package structures;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -29,46 +30,24 @@ public class StructureParser {
 	public static Structure loadStructure(int index)
 	{
 		Structure s = new Structure(config.getString(index + ".name"));
-		s.blocks = new Material[3][3][3];
+		
+		s.blocks = new Material[s.size][s.size][s.size];
+		s.nbtTags = new byte[s.size][s.size][s.size];
+		
+		String values[];
 		for(int x = 0; x < s.size; x++)
 		{
 			for(int y = 0; y < s.size; y++)
 			{
 				for(int z = 0; z < s.size; z++)
 				{
-					s.blocks[x][y][z] = Material.getMaterial(config.getString(index + "." + s.name + "." + x + "." + y + "." + z));
+					values = config.getString(index + "." + s.name + "." + x + "." + y + "." + z).split(";");
+					s.blocks[x][y][z] = Material.getMaterial(values[0]);
+					s.nbtTags[x][y][z] = Byte.parseByte(values[1]);
 				}
 			}
 		}
 		return s;
-	}
-	
-	@Deprecated
-	public static void addStructures(Structure[] structures)
-	{
-		index = config.getInt("index");
-		for(Structure s : structures)
-		{
-			index++;
-			config.set("name", s.name);
-			for(int x = 0; x < s.size; x++)
-			{
-				for(int y = 0; y < s.size; y++)
-				{
-					for(int z = 0; z < s.size; z++)
-					{
-						config.set(String.valueOf(x) + "." + String.valueOf(y) + "." + String.valueOf(z), s.blocks[x][y][z].name());
-					}
-				}
-			}
-			try {
-				config.set("index", index);
-				config.save(configFile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		}
 	}
 	
 	public static void addStructure(Structure s)
@@ -82,7 +61,7 @@ public class StructureParser {
 			{
 				for(int z = 0; z < s.size; z++)
 				{
-					config.set(index + "." + s.name + "." + x + "." + y + "." + z, s.blocks[x][y][z].name().toString());
+					config.set(index + "." + s.name + "." + x + "." + y + "." + z, s.blocks[x][y][z].name().toString() + ";" + s.nbtTags[x][y][z]);
 				}
 			}
 		}
@@ -91,6 +70,7 @@ public class StructureParser {
 			config.save(configFile);
 		} catch (IOException e) {
 			e.printStackTrace();
+			Bukkit.getLogger().log(Level.WARNING, "Failed to save Structure!");
 		}
 	}
 
