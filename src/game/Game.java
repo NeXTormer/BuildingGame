@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import javax.sql.DataSource;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -157,6 +159,9 @@ public class Game {
 
 	public Game(Plugin plugin)
 	{
+		
+	
+		
 		structures = StructureParser.loadStructures();
 		loadConfig();
 		lobbyLocation = new Location(Bukkit.getWorlds().get(1), 1, 1, 1);
