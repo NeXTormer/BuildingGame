@@ -35,7 +35,7 @@ public class Animation {
 	private int i, prepCounter;
 	private ArmorStand ast;
 	private FallingBlock fallingBlock;
-	private double x, y, z, dx, dy, dz, aP, bP, aL, xS, yS, zS, xD, yD, zD, yOffset, startHeight, velocity, deltaz, deltay, deltax;
+	private double x, y, z, dx, dz, aP, bP, aL, xS, yS, zS, xD, zD, yD, yOffset, startHeight, velocity, deltaz;
 	private Game game;
 	private Brawl brawl;
 	
@@ -152,8 +152,6 @@ public class Animation {
 				currentLocation.setX(x+xS);
 				currentLocation.setY(y+yS);
 				currentLocation.setZ(z+zS);
-				//ast.teleport(currentLocation);
-				//p.teleport(currentLocation);
 				world.playEffect(currentLocation, Effect.FIREWORKS_SPARK, 1);
 				move(currentLocation);
 				if(i>=100)
@@ -178,6 +176,15 @@ public class Animation {
 		ast.eject();
 		ast.teleport(loc);
 		ast.setPassenger(fallingBlock);
+	}
+	
+	public void stop()
+	{
+		game.cancelScheduler(flySceduler);
+		game.cancelScheduler(startSceduler);
+		game.cancelScheduler(prepareSceduler);
+		fallingBlock.remove();
+		ast.remove();
 	}
 	
 	
