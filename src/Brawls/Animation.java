@@ -47,6 +47,8 @@ public class Animation {
 		this.brawl = brawl;
 		this.material = material;
 		this.game = game;
+		
+		game.animationList.add(this);
 	}
 	
 	
@@ -161,7 +163,8 @@ public class Animation {
 					if(game.gamestate == GameState.BUILDING )
 					{
 						brawl.start();	
-						game.brawlList.add(brawl);						
+						game.brawlList.add(brawl);	
+						game.animationList.remove(this);
 					}
 					game.cancelScheduler(flySceduler);
 				}

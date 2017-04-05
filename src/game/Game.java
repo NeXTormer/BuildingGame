@@ -89,6 +89,7 @@ public class Game {
 	public List<UUID> players = new ArrayList<>();
 	public List<UUID> spectators = new ArrayList<>();
 	public List<Brawl> brawlList = new ArrayList<>();
+	public List<Animation> animationList = new ArrayList<>();
 	
 	public Structure[] structures;
 	
@@ -739,6 +740,11 @@ public class Game {
 		{
 			b.stop();
 		}
+		for(Animation a : animationList)
+		{
+			a.stop();
+		}
+		animationList.clear();
 		brawlList.clear();
 		for(Plot plot : plotArray)
 		{
